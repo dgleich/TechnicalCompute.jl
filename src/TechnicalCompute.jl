@@ -1,6 +1,6 @@
 module TechnicalCompute
 
-using Reexport 
+using Reexport
 
 packages = [
 "SparseArrays",
@@ -38,15 +38,15 @@ packages = [
 "Arpack",
 "Flux",
 "NearestNeighbors",
-"QuadGK"
+"QuadGK",
 ]
 
-# todo wrote code to auto re-export from the list. 
+# todo wrote code to auto re-export from the list.
 
 
 #=
 
-This will write Project.toml 
+This will write Project.toml
 for p in packages
   id = Base.identify_package(p)
   println("$(id.name) = \"$(id.uuid)\"")
@@ -57,8 +57,8 @@ end
 
 @reexport using SparseArrays
 @reexport using Random
-@reexport using FFTW # need 
-@reexport using Combinatorics 
+@reexport using FFTW # need
+@reexport using Combinatorics
 @reexport using LinearAlgebra
 @reexport using DelimitedFiles
 @reexport using Printf
@@ -77,20 +77,21 @@ end
 @reexport using StaticArrays
 @reexport using JSON
 @reexport using DSP
-@reexport using Roots 
-@reexport using JuMP 
+@reexport using Roots
+@reexport using JuMP
 @reexport using Plots
 @reexport using MultivariateStats
 @reexport using DataFrames
 @reexport using CSV
-@reexport using DifferentialEquations 
+@reexport using DifferentialEquations
 @reexport using HDF5
 @reexport using Images
 @reexport using LightGraphs
 @reexport using SuiteSparse
 @reexport using Arpack
-@reexport using Flux 
+@reexport using Flux
 @reexport using NearestNeighbors
 @reexport using QuadGK
-
+@reexport using GLPK
+@reexport using Clp
 end # module

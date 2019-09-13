@@ -41,6 +41,8 @@ Arpack = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 NearestNeighbors = "b8a86587-4115-5ab1-83bc-aa920d37bbce"
 QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+Clp = "e2554f3b-3117-50c0-817c-e040a3ddf72d"
+GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
