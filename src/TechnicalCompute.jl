@@ -2,6 +2,59 @@ module TechnicalCompute
 
 using Reexport 
 
+packages = [
+"SparseArrays",
+"Random",
+"FFTW",
+"Combinatorics",
+"LinearAlgebra",
+"DelimitedFiles",
+"Printf",
+"Statistics",
+"StatsBase",
+"DataStructures",
+"KahanSummation",
+"BenchmarkTools",
+"SpecialFunctions",
+"FileIO",
+"IterTools",
+"Polynomials",
+"TaylorSeries",
+"TestImages",
+"StaticArrays",
+"JSON",
+"DSP",
+"Roots",
+"JuMP",
+"Plots",
+"MultivariateStats",
+"DataFrames",
+"CSV",
+"DifferentialEquations",
+"HDF5",
+"Images",
+"LightGraphs",
+"SuiteSparse",
+"Arpack",
+"Flux",
+"NearestNeighbors",
+"QuadGK"
+]
+
+# todo wrote code to auto re-export from the list. 
+
+
+#=
+
+This will write Project.toml 
+for p in packages
+  id = Base.identify_package(p)
+  println("$(id.name) = \"$(id.uuid)\"")
+end
+
+=#
+
+
 @reexport using SparseArrays
 @reexport using Random
 @reexport using FFTW # need 
