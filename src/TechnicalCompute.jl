@@ -38,7 +38,10 @@ packages = [
 "Arpack",
 "Flux",
 "NearestNeighbors",
+"GLPK",
+"Clp",
 "QuadGK",
+
 ]
 
 # todo wrote code to auto re-export from the list.
@@ -94,4 +97,5 @@ end
 @reexport using QuadGK
 @reexport using GLPK
 @reexport using Clp
+@reexport using Ipopt
 end # module

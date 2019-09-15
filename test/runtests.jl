@@ -4,7 +4,7 @@ using Test
 @testset "Random" begin
   Random.seed!(0)
   x = rand()
-  Rand.seed!(0)
+  Random.seed!(0)
   y = rand()
   @test x==y
 end
@@ -54,6 +54,22 @@ end
   optimize!(m)
 
   @test termination_status(m) != JuMP.MathOptInterface.TerminationStatusCode(1)
+  
+  # Ipopt
+  model = Model(with_optimizer(Ipopt.Optimizer))
+  
+  @variable(model, x, start = 0.0)
+  @variable(model, y, start = 0.0)
+
+  @NLobjective(model, Min, (1 - x)^2 + 100 * (y - x^2)^2)
+
+  optimize!(model)
+
+  # adding a (linear) constraint
+  @constraint(model, x + y == 10)
+  optimize!(model)
 
   @test true # just make sure we get here
+  
+  
 end
