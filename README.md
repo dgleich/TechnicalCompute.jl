@@ -1,6 +1,8 @@
 TechnicalCompute.jl
 ===================
 
+[![Travis](https://travis-ci.org/dgleich/TechnicalCompute.jl.svg?branch=master)](https://travis-ci.org/dgleich/TechnicalCompute.jl)
+
 This package is a meta-package for a wide variety of commonly used Julia packages. It is
 designed to make it easy to include one package that handles the diversity of technical
 computing requirements for an undergraduate degree.
@@ -34,7 +36,7 @@ And this also includes a variety of useful utility packages in the base Julia li
 * `BenchmarkTools`
 * `JSON.jl`
 * `HDF5.jl`
-* `Plots.jl' 
+* `Plots.jl` 
 * `CSV.jl`
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
