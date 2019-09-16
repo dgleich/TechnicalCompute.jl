@@ -34,7 +34,7 @@ And this also includes a variety of useful utility packages in the base Julia li
 * `BenchmarkTools`
 * `JSON.jl`
 * `HDF5.jl`
-* `Plots.jl' 
+* `Plots.jl` 
 * `CSV.jl`
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
