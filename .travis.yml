@@ -9,5 +9,5 @@ julia:
 notifications:
   email: false
 script:
- - julia -e 'using Pkg; Pkg.clone(pwd())'
- - travis_wait julia -e 'using Pkg; Pkg.test("TechnicalCompute")'
+ - julia --color=yes -e 'using Pkg; Pkg.build()'
+ - travis_wait julia --check-bounds=no --color=yes -e 'using Pkg; Pkg.test()'
