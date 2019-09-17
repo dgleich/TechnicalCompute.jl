@@ -8,3 +8,6 @@ julia:
   - 1.0
 notifications:
   email: false
+script:
+ - julia -e 'Pkg.clone(pwd())'
+ - travis_wait julia -e 'Pkg.test("TechnicalCompute")'
