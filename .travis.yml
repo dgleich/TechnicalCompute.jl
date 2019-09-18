@@ -6,8 +6,12 @@ os:
   - windows
 julia:
   - 1.0
+  - 1.3
 notifications:
   email: false
+matrix:
+  allow_failures:
+  - os: windows
 script:
  - julia --color=yes -e 'using Pkg; Pkg.build()'
- - travis_wait 40 julia --check-bounds=no --color=yes -e 'using Pkg; Pkg.test()'
+ - travis_wait 30 julia --check-bounds=no --color=yes -e 'using Pkg; Pkg.test()'
