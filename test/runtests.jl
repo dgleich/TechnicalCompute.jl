@@ -1,6 +1,10 @@
 using TechnicalCompute
 using Test
 
+# check for method duplicates in the libraries of Technical compute and 
+# make sure we export a method from Technical compute with the same name
+
+
 @testset "Random" begin
   Random.seed!(0)
   x = rand()
@@ -22,7 +26,7 @@ end
 @testset "Optimization" begin
 
   # https://discourse.julialang.org/t/writing-a-simple-production-scheduling-optimal-control-problem-in-jump/17748
-  m = Model(with_optimizer(GLPK.Optimizer))
+  m = Model(GLPK.Optimizer)
   T = 4 # 4 weeks horizon
 
   @expression(m, g[t=0:T], -t+5)
@@ -36,10 +40,10 @@ end
 
   optimize!(m)
 
-  @test termination_status(m) != JuMP.MathOptInterface.TerminationStatusCode(1)
+  @test termination_status(m) != JuMP.MOI.TerminationStatusCode(1)
 
   # Try Clp
-  m = Model(with_optimizer(Clp.Optimizer))
+  m = Model(Clp.Optimizer)
   T = 4 # 4 weeks horizon
 
   @expression(m, g[t=0:T], -t+5)
@@ -53,10 +57,10 @@ end
 
   optimize!(m)
 
-  @test termination_status(m) != JuMP.MathOptInterface.TerminationStatusCode(1)
+  @test termination_status(m) != JuMP.MOI.TerminationStatusCode(1)
   
   # Ipopt
-  model = Model(with_optimizer(Ipopt.Optimizer))
+  model = Model(Ipopt.Optimizer)
   
   @variable(model, x, start = 0.0)
   @variable(model, y, start = 0.0)

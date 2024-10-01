@@ -2,100 +2,119 @@ module TechnicalCompute
 
 using Reexport
 
-packages = [
-"SparseArrays",
-"Random",
-"FFTW",
-"Combinatorics",
-"LinearAlgebra",
-"DelimitedFiles",
-"Printf",
-"Statistics",
-"StatsBase",
-"DataStructures",
-"KahanSummation",
-"BenchmarkTools",
-"SpecialFunctions",
-"FileIO",
-"IterTools",
-"Polynomials",
-"TaylorSeries",
-"TestImages",
-"StaticArrays",
-"JSON",
-"DSP",
-"Roots",
-"JuMP",
-"Plots",
-"MultivariateStats",
-"DataFrames",
-"CSV",
-"DifferentialEquations",
-"HDF5",
-"Images",
-"LightGraphs",
-"SuiteSparse",
-"Arpack",
-"Flux",
-"NearestNeighbors",
-"GLPK",
-"Clp",
-"QuadGK",
-
-]
-
-# todo wrote code to auto re-export from the list.
-
-
 #=
-
-This will write Project.toml
-for p in packages
-  id = Base.identify_package(p)
-  println("$(id.name) = \"$(id.uuid)\"")
-end
-
+# Simple stuff 
+# Stats
+# Clustering
+# Plotting
+# Data / IO / Mre
+# Images/Signals
+# Files
+# Tools
+# Extra
+# SparseArrays
+# Linear Algebra
+# applied math
+# Graphs
+# Optimization
+# Differential Equations
 =#
 
+packages = [
+# base ... 
+"SparseArrays",
+"Random",
+"LinearAlgebra",
+# Data structures
+"DataStructures",
+"OrderedCollections",
+#"TaylorSeries",
+#"SuiteSparse",
+"GeometryBasics",
+# Machine Learning / Stats
+"Distributions",
+"StatsBase",
+"KernelDensity",
+"Statistics",
+"MultivariateStats",
+"Flux", 
+# Clustering
+"Clustering",
+"Distances",
+"NearestNeighbors",
+# Images
+"Images",
+"FFTW",
+"TestImages",
+# Text Data
+"DataFrames", 
+"Tables",
+"JSON",
+"CSV",
+"TOML",
+"YAML",
+"DelimitedFiles",
+# Files
+"FileIO",
+"JLD2",
+"HDF5",
+"MAT",
+"BSON",
+# Extra
+"BenchmarkTools",
+"StableRNGs",
+"ProgressMeter",
+"Printf",
+"Measures",
+"Colors",
+"Dates",
+# Iteration tools
+"Transducers",
+"ThreadsX",
+"IterTools",
+# Array tools 
+"StaticArrays",
+"IndirectArrays",
+"OffsetArrays",
+"KahanSummation",
+"FillArrays",
+"TiledIteration",
+# Signals
+"DSP", 
+# Plot Tools
+"CairoMakie",
+"Observables",
+"LaTeXStrings", 
+# Linear Algebra
+"Arpack",
+"LinearMaps",
+"Krylov",
+# Meshes, MeshIO
+"Meshes",
+"MeshIO", 
+# Applied math
+"DoubleFloats",
+"MultiFloats",  
+"Polynomials",
+"SpecialFunctions",
+"Roots", 
+"TaylorSeries",
+# Graphs and combinatorics 
+"Graphs",
+"SimpleWeightedGraphs",
+"Metis",
+"Combinatorics",
+# Optimization
+"JuMP",
+"Ipopt",
+"GLPK",
+"Clp",
+# diff Equations
+"DifferentialEquations"
+]
 
-@reexport using SparseArrays
-@reexport using Random
-@reexport using FFTW # need
-@reexport using Combinatorics
-@reexport using LinearAlgebra
-@reexport using DelimitedFiles
-@reexport using Printf
-@reexport using Statistics
-@reexport using StatsBase
-@reexport using DataStructures
-@reexport using KahanSummation
-@reexport using BenchmarkTools
-@reexport using SpecialFunctions
-@reexport using FileIO
-@reexport using IterTools
-@reexport using Polynomials
-@reexport using TaylorSeries
-@reexport using TestImages
+for pkg in packages
+  eval(Meta.parse("@reexport using $pkg"))
+end 
 
-@reexport using StaticArrays
-@reexport using JSON
-@reexport using DSP
-@reexport using Roots
-@reexport using JuMP
-@reexport using Plots
-@reexport using MultivariateStats
-@reexport using DataFrames
-@reexport using CSV
-@reexport using DifferentialEquations
-@reexport using HDF5
-@reexport using Images
-@reexport using LightGraphs
-@reexport using SuiteSparse
-@reexport using Arpack
-@reexport using Flux
-@reexport using NearestNeighbors
-@reexport using QuadGK
-@reexport using GLPK
-@reexport using Clp
-@reexport using Ipopt
 end # module
