@@ -26,6 +26,12 @@ end
   @test abs.(vals) ≈ abs.(sort(Avals, by=abs,rev=true)[1:k])
 end 
 
+# This is exported by Meshes... 
+@testset "DelaunayTriangulation" begin
+  points = rand(StableRNG(1), 2, 100)
+  tri = triangulate(points)
+  @test true
+end
 
 @testset "Combinatorics" begin
   @test String(nthperm(Vector{Char}("abc"), 2)) == "acb"

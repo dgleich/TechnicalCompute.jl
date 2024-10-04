@@ -20,6 +20,11 @@ using Reexport
 # Differential Equations
 =#
 
+# need to reexport DelaunayTriangulation first...
+@reexport using DelaunayTriangulation
+#DelaunayTriangulation = typeof(triangulate).name.module
+#export DelaunayTriangulation
+
 packages = [
 # base ... 
 "SparseArrays",
@@ -92,6 +97,7 @@ packages = [
 # Meshes, MeshIO
 "Meshes",
 "MeshIO", 
+# "DelaunayTriangulation", # This is reexported above
 # Applied math
 "DoubleFloats",
 "MultiFloats",  
@@ -154,7 +160,7 @@ push!(overrides, :partition)
 # Name degree is not equal in packages Meshes and Graphs and not in overrides
 # Name degree is not equal in packages Polynomials and Graphs and not in overrides
 @doc (@doc Meshes.degree)
-degree(b::BezierCurve) = Meshes.degree(b)
+degree(b::Meshes.BezierCurve) = Meshes.degree(b)
 @doc (@doc Graphs.degree)
 degree(g::Graphs.AbstractGraph, i) = Graphs.degree(g, i)
 degree(g::Graphs.AbstractGraph) = Graphs.degree(g)
@@ -180,6 +186,14 @@ height(prim::HyperRectangle) = GeometryBasics.height(prim)
 @doc (@doc Measures.height)
 height(x::BoundingBox) = Measures.height(x)
 push!(overrides, :height)
+
+# this one is bizarre, since Meshes exports a type with the same name as
+# DelaunayTriangulation, we need to get a function from the module to get 
+# the module, 
+# I found this here: https://stackoverflow.com/questions/38819327/given-a-function-object-how-do-i-find-its-name-and-module
+
+# DelaunayTriangulation = typeof(triangulate).name.module
+# export DelaunayTriangulation
 
 # stuff to fix...
 # Name Fixed is not equal in packages Images and CairoMakie and not in overrides
