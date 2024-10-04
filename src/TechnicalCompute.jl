@@ -20,11 +20,6 @@ using Reexport
 # Differential Equations
 =#
 
-# need to reexport DelaunayTriangulation first...
-@reexport using DelaunayTriangulation
-#DelaunayTriangulation = typeof(triangulate).name.module
-#export DelaunayTriangulation
-
 packages = [
 # base ... 
 "SparseArrays",
@@ -95,9 +90,9 @@ packages = [
 "LinearMaps",
 "Krylov",
 # Meshes, MeshIO
-"Meshes",
+#"Meshes",
 "MeshIO", 
-# "DelaunayTriangulation", # This is reexported above
+"DelaunayTriangulation", # This is reexported above
 # Applied math
 "DoubleFloats",
 "MultiFloats",  
@@ -119,6 +114,9 @@ packages = [
 # diff Equations
 "DifferentialEquations"
 ]
+
+# Meshes has too many overlapping names, so we'll just import it here
+@reexport import Meshes 
 
 # handle Clp failures
 if Sys.ARCH == :aarch64 && Sys.isapple() 
