@@ -165,6 +165,7 @@ degree(g::Graphs.AbstractGraph) = Graphs.degree(g)
 @doc (@doc Polynomials.degree)
 degree(p::AbstractPolynomial) = Polynomials.degree(p)
 degree(p::Polynomials.AbstractRationalFunction) = Polynomials.degree(p)
+export degree 
 push!(overrides, :degree)
 
 # width from CairoMakie == width from GeometryBasics
@@ -174,6 +175,7 @@ push!(overrides, :degree)
 width(prim::HyperRectangle) = GeometryBasics.width(prim)
 @doc (@doc Measures.width)
 width(x::BoundingBox) = Measures.width(x)
+export width 
 push!(overrides, :width)
 
 # width from CairoMakie == width from GeometryBasics
@@ -183,7 +185,51 @@ push!(overrides, :width)
 height(prim::HyperRectangle) = GeometryBasics.height(prim)
 @doc (@doc Measures.height)
 height(x::BoundingBox) = Measures.height(x)
+export height
 push!(overrides, :height)
+
+# Name nan is not equal in packages Images and DoubleFloats and not in overrides
+@doc (@doc Images.nan)
+nan(::Type{C}) where {T<:AbstractFloat, C<:(Colorant{T})} = Images.nan(C)
+@doc (@doc DoubleFloats.nan)
+nan(::Type{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64} = DoubleFloats.nan(T)
+export nan
+push!(overrides, :nan)
+
+# Name Normal is not equal in packages GeometryBasics and Distributions and not in overrides
+@doc (@doc Distributions.Normal)
+Normal = Distributions.Normal
+push!(overrides, :Normal)
+NormalVector = GeometryBasics.Normal
+export Normal, NormalVector 
+
+# Name complement is not equal in packages DataStructures and Images and not in overrides
+# Name complement is not equal in packages DataStructures and Graphs and not in overrides
+# Name complement is not equal in packages Images and Graphs and not in overrides
+@doc (@doc DataStructures.complement)
+complement(s::DataStructures.IntSet) = DataStructures.complement(s)
+@doc (@doc Images.complement)
+complement(x::TransparentColor) = Images.complement(x)
+complement(x::Union{Number, Colorant}) = Images.complement(x)
+@doc (@doc Graphs.complement)
+complement(g::SimpleDiGraph) = Graphs.complement(g)
+complement(g::SimpleGraph) = Graphs.complement(g)
+export complement # Export the combined complement function
+push!(overrides, :complement)
+
+# Name Vec is not equal in packages GeometryBasics and Measures and not in overrides
+# Name Vec is not equal in packages Measures and CairoMakie and not in overrides
+# Name Vec2 is not equal in packages GeometryBasics and Measures and not in overrides
+# Name Vec2 is not equal in packages Measures and CairoMakie and not in overrides
+@doc (@doc GeometryBasics.Vec)
+Vec = GeometryBasics.Vec
+@doc (@doc GeometryBasics.Vec2)
+Vec2 = GeometryBasics.Vec2
+export Vec, Vec2
+push!(overrides, :Vec)
+push!(overrides, :Vec2)
+# Measures Vec is ignored here.. 
+
 
 # this one is bizarre, since Meshes exports a type with the same name as
 # DelaunayTriangulation, we need to get a function from the module to get 
@@ -217,8 +263,6 @@ push!(overrides, :height)
 # Name right is not equal in packages Transducers and CairoMakie and not in overrides
 # Name ⊕ is not equal in packages LinearMaps and DoubleFloats and not in overrides
 # Name Zeros is not equal in packages FillArrays and JuMP and not in overrides
-# Name Vec2 is not equal in packages GeometryBasics and Measures and not in overrides
-# Name Vec2 is not equal in packages Measures and CairoMakie and not in overrides
 # Name entropy is not equal in packages Distributions and Images and not in overrides
 # Name entropy is not equal in packages StatsBase and Images and not in overrides
 # Name Bisection is not equal in packages Roots and DifferentialEquations and not in overrides
@@ -233,7 +277,6 @@ push!(overrides, :height)
 # Name transform is not equal in packages MultivariateStats and DataFrames and not in overrides
 # Name direction is not equal in packages GeometryBasics and Meshes and not in overrides
 # Name issquare is not equal in packages DoubleFloats and DifferentialEquations and not in overrides
-# Name nan is not equal in packages Images and DoubleFloats and not in overrides
 # Name Polygon is not equal in packages GeometryBasics and Meshes and not in overrides
 # Name radius is not equal in packages GeometryBasics and Meshes and not in overrides
 # Name radius is not equal in packages GeometryBasics and Graphs and not in overrides
@@ -294,14 +337,6 @@ push!(overrides, :height)
 # Name order is not equal in packages DataFrames and Polynomials and not in overrides
 # Name meanad is not equal in packages StatsBase and Distances and not in overrides
 # Name groupby is not equal in packages DataFrames and IterTools and not in overrides
-# Name complement is not equal in packages DataStructures and Images and not in overrides
-# Name complement is not equal in packages DataStructures and Graphs and not in overrides
-# Name complement is not equal in packages Images and Graphs and not in overrides
-# Name Vec is not equal in packages GeometryBasics and Measures and not in overrides
-# Name Vec is not equal in packages GeometryBasics and Meshes and not in overrides
-# Name Vec is not equal in packages Measures and CairoMakie and not in overrides
-# Name Vec is not equal in packages Measures and Meshes and not in overrides
-# Name Vec is not equal in packages CairoMakie and Meshes and not in overrides
 # Name top is not equal in packages DataStructures and CairoMakie and not in overrides
 # Name top is not equal in packages DataStructures and Meshes and not in overrides
 # Name top is not equal in packages CairoMakie and Meshes and not in overrides
@@ -312,7 +347,6 @@ push!(overrides, :height)
 # Name derivative is not equal in packages Polynomials and TaylorSeries and not in overrides
 # Name MultiPolygon is not equal in packages GeometryBasics and Meshes and not in overrides
 # Name shape is not equal in packages Distributions and JuMP and not in overrides
-# Name Normal is not equal in packages GeometryBasics and Distributions and not in overrides
 # Name Fill is not equal in packages Images and FillArrays and not in overrides
 # Name centered is not equal in packages GeometryBasics and Images and not in overrides
 # Name bottom is not equal in packages CairoMakie and Meshes and not in overrides
