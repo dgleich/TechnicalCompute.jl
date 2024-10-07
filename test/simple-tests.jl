@@ -37,6 +37,16 @@ end
   @test String(nthperm(Vector{Char}("abc"), 2)) == "acb"
 end
 
+@testset "Graphs" begin 
+  @test degree(path_graph(5)) == [1, 2, 2, 2, 1]
+  @test degree(path_graph(5), 4:5) == [2, 1]
+  @test degree(path_graph(5), 1) == 1
+end 
+
+@testset "Polynomials" begin 
+  @test degree(Polynomial([1, 0, 3, 4])) == 3
+end 
+
 @testset "ProgressMeter" begin 
   p = Progress(100)
   for i in 1:100
