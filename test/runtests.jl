@@ -2,7 +2,8 @@ using TechnicalCompute
 using Test
 
 @testset "duplicate names and overrides" begin 
-  include("test_names_and_methods.jl") 
+  include("test_names_and_methods.jl")
+  test_names_in_packages_for_override(TechnicalCompute.packages)
 end
 @testset "simple tests" begin 
   include("simple-tests.jl")
