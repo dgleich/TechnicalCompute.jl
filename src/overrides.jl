@@ -6,8 +6,10 @@ const overrides = Set{Symbol}()
 # Makie.Axis(parent::Union{Nothing, Figure, Scene}, layoutobservables::LayoutObservables{GridLayout}, blockscene::Scene) @ Makie ~/.julia/packages/Makie/eERNK/src/makielayout/blocks.jl:50
 # (::Type{T})(args...; kwargs...) where T<:Block @ Makie ~/.julia/packages/Makie/eERNK/src/makielayout/blocks.jl:236
 @doc (@doc Makie.Axis) 
-Axis = Makie.Axis
-export Axis 
+PlotAxis = Makie.Axis
+@doc (@doc Images.Axis)
+ArrayAxis = Images.Axis
+export PlotAxis, ArrayAxis 
 push!(overrides, :Axis)
 
 # Showing duplicate methods for Bisection in packages Module[Roots, DifferentialEquations]
@@ -124,6 +126,8 @@ push!(overrides, :FunctionMap)
 # StaticArrays.Length(::Size{S}) where S @ StaticArrays ~/.julia/packages/StaticArrays/MSJcA/src/traits.jl:40
 # StaticArrays.Length(x::StaticArrays.Args) @ StaticArrays ~/.julia/packages/StaticArrays/MSJcA/src/convert.jl:9
 
+# Neither of these seems to be the right one...
+
 # Showing duplicate methods for Mesh in packages Module[GeometryBasics, CairoMakie]
 # Methods for GeometryBasics.Mesh in package Core
 # GeometryBasics.Mesh(simplices::V) where {Dim, T<:Number, Element<:Polytope{Dim, T}, V<:AbstractVector{Element}} @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/basic_types.jl:375
@@ -134,6 +138,9 @@ push!(overrides, :FunctionMap)
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:Integer}, facetype, skip) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/basic_types.jl:417
 # Methods for MakieCore.Mesh in package Core
 # (Plot{Func})(user_args::Tuple, user_attributes::Dict) where Func @ Makie ~/.julia/packages/Makie/eERNK/src/interfaces.jl:260
+Mesh = GeometryBasics.Mesh 
+export Mesh
+push!(overrides, :Mesh)
 
 # Showing duplicate methods for Normal in packages Module[GeometryBasics, Distributions]
 # Methods for GeometryBasics.Normal in package Core
@@ -160,6 +167,10 @@ export Normal, NormalVector
 # Methods for Combinatorics.Partition in package Core
 # Combinatorics.Partition(x::Vector{Int64}) @ Combinatorics ~/.julia/packages/Combinatorics/Udg6X/src/youngdiagrams.jl:6
 # Combinatorics.Partition(x) @ Combinatorics ~/.julia/packages/Combinatorics/Udg6X/src/youngdiagrams.jl:6
+Partition = Transducers.Partition
+export Partition
+push!(overrides, :Partition)
+
 
 # Showing duplicate methods for Vec in packages Module[GeometryBasics, Measures, CairoMakie]
 # Methods for GeometryBasics.Vec in package Core
@@ -197,19 +208,17 @@ export Normal, NormalVector
 # Tuple{Vararg{T, N}}(v::SIMD.Vec{N}) where {T, N} @ SIMD ~/.julia/packages/SIMD/0q83J/src/simdvec.jl:68
 # (::Type{T})(itr) where T<:Tuple @ Base tuple.jl:391
 
-# Justi ignore the Measures vectors... 
+# We are just ignoring the Measures vectors... 
 @doc (@doc GeometryBasics.Vec)
 Vec = GeometryBasics.Vec
 @doc (@doc GeometryBasics.Vec2)
 Vec2 = GeometryBasics.Vec2
 @doc (@doc GeometryBasics.Vec3)
-Vec2 = GeometryBasics.Vec3
-export Vec, Vec2
+Vec3 = GeometryBasics.Vec3
+export Vec, Vec2, Vec3
 push!(overrides, :Vec)
 push!(overrides, :Vec2)
 push!(overrides, :Vec3)
-
-
 
 # Showing duplicate methods for Zeros in packages Module[FillArrays, JuMP]
 # Methods for FillArrays.Zeros in package Core
@@ -220,6 +229,10 @@ push!(overrides, :Vec3)
 # FillArrays.Zeros(sz::Vararg{Any, N}) where N @ FillArrays ~/.julia/packages/FillArrays/lVl4c/src/FillArrays.jl:308
 # Methods for JuMP.Zeros in package Core
 # JuMP.Zeros() @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/macros/@constraint.jl:704
+@doc (@doc FillArrays.Zeros)
+Zeros = FillArrays.Zeros
+export Zeros
+
 
 # Showing duplicate methods for attributes in packages Module[HDF5, CairoMakie]
 # Methods for attributes in package HDF5
@@ -227,6 +240,13 @@ push!(overrides, :Vec3)
 # Methods for attributes in package MakieCore
 # attributes(x::Attributes) @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/attributes.jl:34
 # attributes(x::AbstractPlot) @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/attributes.jl:35
+@doc (@doc HDF5.attributes)
+attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) = HDF5.attributes(p)
+@doc (@doc Makie.attributes)
+attributes(x::Attributes) = MakieCore.attributes(x)
+attributes(x::AbstractPlot) = MakieCore.attributes(x)
+export attributes
+push!(overrides, :attributes)
 
 # Showing duplicate methods for center in packages Module[Images, Graphs]
 # Methods for center in package ImageTransformations
@@ -235,6 +255,15 @@ push!(overrides, :Vec3)
 # center(g::AbstractGraph, distmx::AbstractMatrix) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/distance.jl:198
 # center(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/distance.jl:198
 # center(eccentricities::Vector) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/distance.jl:193
+@doc (@doc Images.center)
+center(img::AbstractArray{T, N}) where {T, N} = Images.center(img)
+@doc (@doc Graphs.center)
+center(g::AbstractGraph, distmx::AbstractMatrix) = Graphs.center(g, distmx)
+center(g::AbstractGraph) = Graphs.center(g)
+center(eccentricities::Vector) = Graphs.center(eccentricities)
+export center
+push!(overrides, :center)
+
 
 # Showing duplicate methods for centered in packages Module[GeometryBasics, Images]
 # Methods for centered in package GeometryBasics
@@ -328,6 +357,13 @@ push!(overrides, :degree)
 # density(::Type{SimpleTraits.Not{IsDirected{var"##228"}}}, g::var"##228") where var"##228" @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:393
 # density(::Type{IsDirected{var"##227"}}, g::var"##227") where var"##227" @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:392
 # density(g::var"##227") where var"##227" @ Graphs ~/.julia/packages/SimpleTraits/l1ZsK/src/SimpleTraits.jl:331
+@doc (@doc Makie.density)
+density() = Makie.density()
+density(args...; kw...) = Makie.density(args...; kw...)
+@doc (@doc Graphs.density)
+density(g::AbstractGraph) = Graphs.density(g)
+export density
+push!(overrides, :density)
 
 # Showing duplicate methods for derivative in packages Module[Polynomials, TaylorSeries]
 # Methods for derivative in package Polynomials
@@ -353,6 +389,15 @@ push!(overrides, :degree)
 # differentiate(a::TaylorN, r) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:168
 # differentiate(a::HomogeneousPolynomial, r::Int64) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:136
 # differentiate(a::HomogeneousPolynomial, s::Symbol) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:159
+@doc (@doc Polynomials.derivative)
+derivative(p::AbstractPolynomial) = Polynomials.derivative(p)
+derivative(p::AbstractPolynomial, n::Integer) = Polynomials.derivative(p, n)
+derivative(pq::Polynomials.AbstractRationalFunction) = Polynomials.derivative(pq)
+derivative(pq::Polynomials.AbstractRationalFunction, n::Integer) = Polynomials.derivative(pq, n)
+@doc (@doc TaylorSeries.differentiate)
+derivative(a::AbstractSeries) = TaylorSeries.differentiate(a)
+derivative(a::AbstractSeries, r) = TaylorSeries.differentiate(a, r)
+
 
 # Showing duplicate methods for entropy in packages Module[Distributions, StatsBase, Images]
 # Methods for entropy in package StatsBase
@@ -633,6 +678,7 @@ push!(overrides, :height)
 # islinear(::SciMLOperators.AbstractSciMLOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:309
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:311
 # islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/operators/operators.jl:7
+islinear = DifferentialEquations.islinear
 
 # Showing duplicate methods for issquare in packages Module[DoubleFloats, DifferentialEquations]
 # Methods for issquare in package DoubleFloats
@@ -644,6 +690,7 @@ push!(overrides, :height)
 # issquare(::AbstractVector) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:360
 # issquare(L) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:359
 # issquare(A...) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:366
+issquare = DifferentialEquations.issquare
 
 # Showing duplicate methods for meanad in packages Module[StatsBase, Distances]
 # Methods for meanad in package StatsBase
@@ -1157,6 +1204,12 @@ push!(overrides, :params)
 # trim!(x::AbstractVector; prop, count) @ StatsBase ~/.julia/packages/StatsBase/ebrT3/src/robust.jl:63
 # Methods for trim! in package GridLayoutBase
 # trim!(gl::GridLayout) @ GridLayoutBase ~/.julia/packages/GridLayoutBase/TSvez/src/gridlayout.jl:574
+@doc (@doc StatsBase.trim!)
+trim!(x::AbstractVector; kwargs...) = StatsBase.trim!(x; kwargs...)
+@doc (@doc Makie.trim!)
+trim!(gl::Makie.GridLayout) = Makie.trim!(gl)
+export trim!
+push!(overrides, :trim!)
 
 # Showing duplicate methods for update! in packages Module[DataStructures, ProgressMeter, TaylorSeries]
 # Methods for update! in package DataStructures
@@ -1197,6 +1250,13 @@ push!(overrides, :update!)
 # Methods for volume in package MakieCore
 # volume() @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/recipes.jl:432
 # volume(args...; kw...) @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/recipes.jl:447
+@doc (@doc GeometryBasics.volume)
+volume(mesh::GeometryBasics.Mesh) = GeometryBasics.volume(mesh)
+volume(triangle::GeometryBasics.Triangle) = GeometryBasics.volume(triangle)
+volume(prim::GeometryBasics.HyperRectangle) = GeometryBasics.volume(prim)
+@doc (@doc Makie.volume)
+volume() = Makie.volume()
+volume(args...; kw...) = Makie.volume(args...; kw...)
 
 # Showing duplicate methods for weights in packages Module[StatsBase, Graphs]
 # Methods for weights in package StatsAPI
@@ -1208,6 +1268,15 @@ push!(overrides, :update!)
 # weights(g::SimpleWeightedGraph) @ SimpleWeightedGraphs ~/.julia/packages/SimpleWeightedGraphs/byp3k/src/simpleweightedgraph.jl:166
 # weights(g::MetaGraphs.AbstractMetaGraph) @ MetaGraphs ~/.julia/packages/MetaGraphs/qq8oz/src/MetaGraphs.jl:236
 # weights(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:431
+@doc (@doc StatsBase.weights)
+weights(vs::AbstractVector) = StatsBase.weights(vs)
+weights(vs::AbstractArray) = StatsBase.weights(vs)
+weights(f::MultivariateStats.LinearDiscriminant) = MultivariateStats.weights(f)
+@doc (@doc Graphs.weights)
+weights(g::Graphs.AbstractGraph) = Graphs.weights(g)
+export weights
+push!(overrides, :weights)
+
 
 # Showing duplicate methods for width in packages Module[GeometryBasics, Measures, CairoMakie]
 # Methods for width in package GeometryBasics
