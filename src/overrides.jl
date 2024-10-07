@@ -1198,6 +1198,14 @@ push!(overrides, :params)
 # Methods for trim in package BenchmarkTools
 # trim(t::BenchmarkTools.Trial) @ BenchmarkTools ~/.julia/packages/BenchmarkTools/QNsku/src/trials.jl:87
 # trim(t::BenchmarkTools.Trial, percentage) @ BenchmarkTools ~/.julia/packages/BenchmarkTools/QNsku/src/trials.jl:87
+@doc (@doc StatsBase.trim)
+trim(x::AbstractVector; kwargs...) = StatsBase.trim(x; kwargs...)
+@doc (@doc BenchmarkTools.trim)
+trim(t::BenchmarkTools.Trial) = BenchmarkTools.trim(t)
+trim(t::BenchmarkTools.Trial, percentage) = BenchmarkTools.trim(t, percentage)
+export trim
+push!(overrides, :trim)
+
 
 # Showing duplicate methods for trim! in packages Module[StatsBase, CairoMakie]
 # Methods for trim! in package StatsBase
