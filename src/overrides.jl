@@ -264,8 +264,8 @@ export Zeros
 @doc (@doc HDF5.attributes)
 attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) = HDF5.attributes(p)
 @doc (@doc Makie.attributes)
-attributes(x::Attributes) = MakieCore.attributes(x)
-attributes(x::AbstractPlot) = MakieCore.attributes(x)
+attributes(x::Attributes) = Makie.attributes(x)
+attributes(x::AbstractPlot) = Makie.attributes(x)
 export attributes
 push!(overrides, :attributes)
 
@@ -354,6 +354,9 @@ push!(overrides, :complement)
 # conv(u::AbstractArray{<:Union{AbstractFloat, Complex{T} where T<:AbstractFloat}, N}, v::AbstractArray{<:Number, N}) where N @ DSP ~/.julia/packages/DSP/eKP6r/src/dspbase.jl:717
 # conv(u::AbstractArray{<:Number, N}, v::AbstractArray{<:Number, N}) where N @ DSP ~/.julia/packages/DSP/eKP6r/src/dspbase.jl:709
 # conv(A::AbstractArray{<:Number, M}, B::AbstractArray{<:Number, N}) where {M, N} @ DSP ~/.julia/packages/DSP/eKP6r/src/dspbase.jl:722
+conv = DSP.conv # the ML folks will have to specialize in their modules... 
+export conv
+push!(overrides, :conv)
 
 ## :degree
 # Showing duplicate methods for degree in packages Module[Polynomials, Graphs]
@@ -512,7 +515,7 @@ derivative(a::AbstractSeries, r) = TaylorSeries.differentiate(a, r)
 # entropy(logᵦ::Log, img; nbins) where Log<:Function @ ImageQualityIndexes ~/.julia/packages/ImageQualityIndexes/dLuqZ/src/entropy.jl:54
 # entropy(img::AbstractArray; kind, nbins) @ ImageQualityIndexes ~/.julia/packages/ImageQualityIndexes/dLuqZ/src/entropy.jl:53
 @doc (@doc Distributions.entropy)
-entropy(d::Distributions.UnivariateDistribution) = Distributions.entropy(d)
+entropy(d::Distributions.Distribution) = Distributions.entropy(d)
 @doc (@doc Images.entropy)
 entropy(logᵦ::Function, img::AbstractArray{Bool}) = Images.entropy(logᵦ, img)
 entropy(logᵦ::Function, img; nbins) = Images.entropy(logᵦ, img; nbins)
@@ -665,6 +668,14 @@ push!(overrides, :fit)
 # get_weight(weights, i) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/JBYjR/src/data_structures/triangulation/methods/weights.jl:17
 # Methods for get_weight in package SimpleWeightedGraphs
 # get_weight(g::AbstractSimpleWeightedGraph, u::Integer, v::Integer) @ SimpleWeightedGraphs ~/.julia/packages/SimpleWeightedGraphs/byp3k/src/abstractsimpleweightedgraph.jl:34
+@doc (@doc DelaunayTriangulation.get_weight)
+get_weight(tri::DelaunayTriangulation.Triangulation, i::Integer) = DelaunayTriangulation.get_weight(tri, i)
+get_weight(tri::DelaunayTriangulation.ZeroWeight, i::Integer) = DelaunayTriangulation.get_weight(tri, i)
+@doc (@doc SimpleWeightedGraphs.get_weight)
+get_weight(g::SimpleWeightedGraphs.AbstractSimpleWeightedGraph, u::Integer, v::Integer) = SimpleWeightedGraphs.get_weight(g, u, v)
+export get_weight
+push!(overrides, :get_weight)
+
 
 ## :groupby
 # Showing duplicate methods for groupby in packages Module[DataFrames, IterTools]
@@ -672,6 +683,12 @@ push!(overrides, :fit)
 # groupby(df::AbstractDataFrame, cols; sort, skipmissing) @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/groupeddataframe/groupeddataframe.jl:218
 # Methods for groupby in package IterTools
 # groupby(keyfunc::F, xs::I) where {F<:Union{Function, Type}, I} @ IterTools ~/.julia/packages/IterTools/cLYFo/src/IterTools.jl:396
+@doc (@doc DataFrames.groupby)
+groupby(df::DataFrames.AbstractDataFrame, cols; sort, skipmissing) = DataFrames.groupby(df, cols; sort, skipmissing)
+@doc (@doc IterTools.groupby)
+groupby(keyfunc::F, xs::I) where {F <: Union{Function, Type}, I} = IterTools.groupby(keyfunc, xs)
+export groupby
+push!(overrides, :groupby)
 
 ## :hamming
 # Showing duplicate methods for hamming in packages Module[Distances, Images, DSP]
@@ -680,6 +697,13 @@ push!(overrides, :fit)
 # Methods for hamming in package DSP.Windows
 # hamming(dims::Tuple; padding, zerophase) @ DSP.Windows ~/.julia/packages/DSP/eKP6r/src/windows.jl:645
 # hamming(n::Integer; padding, zerophase) @ DSP.Windows ~/.julia/packages/DSP/eKP6r/src/windows.jl:200
+@doc (@doc Distances.hamming)
+hamming(a, b) = Distances.hamming(a, b)
+@doc (@doc DSP.Windows.hamming)
+hamming(dims::Tuple; padding, zerophase) = DSP.Windows.hamming(dims; padding, zerophase)
+hamming(n::Integer; padding, zerophase) = DSP.Windows.hamming(n; padding, zerophase)
+export hamming
+push!(overrides, :hamming)
 
 ## :height
 # Showing duplicate methods for height in packages Module[GeometryBasics, Measures, CairoMakie]
@@ -711,6 +735,9 @@ push!(overrides, :height)
 # imrotate(img::AbstractArray, θ::Real, inds, method::Union{Interpolations.InterpolationType, Interpolations.Degree}, fillvalue::Union{Number, Colorant, Interpolations.Flat, Interpolations.Periodic, Interpolations.Reflect}) @ ImageTransformations deprecated.jl:103
 # imrotate(img::AbstractArray, θ::Real, inds, fillvalue::Union{Number, Colorant, Interpolations.Flat, Interpolations.Periodic, Interpolations.Reflect}) @ ImageTransformations deprecated.jl:103
 # imrotate(img::AbstractArray, θ::Real, inds, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
+imrotate = ImageTransformations.imrotate
+export imrotate
+push!(overrides, :imrotate)
 
 ## :integrate
 # Showing duplicate methods for integrate in packages Module[Polynomials, TaylorSeries]
@@ -738,6 +765,15 @@ push!(overrides, :height)
 # integrate(a::TaylorN, r::Int64, x0) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:419
 # integrate(a::HomogeneousPolynomial, r::Int64) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:362
 # integrate(a::HomogeneousPolynomial, s::Symbol) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:389
+@doc (@doc Polynomials.integrate)
+integrate(p::AbstractPolynomial) = Polynomials.integrate(p)
+integrate(p::AbstractPolynomial, a, b) = Polynomials.integrate(p, a, b)
+integrate(p::AbstractPolynomial, C) = Polynomials.integrate(p, C)
+integrate(pq::Polynomials.AbstractRationalFunction) = Polynomials.integrate(pq)
+@doc (@doc TaylorSeries.integrate)
+integrate(a::AbstractSeries) = TaylorSeries.integrate(a)
+integrate(a::AbstractSeries, r) = TaylorSeries.integrate(a, r)
+integrate(a::AbstractSeries, r, x0) = TaylorSeries.integrate(a, r, x0)
 
 ## :islinear
 # Showing duplicate methods for islinear in packages Module[StatsBase, DifferentialEquations]
@@ -786,6 +822,9 @@ issquare = DifferentialEquations.issquare
 # meanad(a::AbstractArray{T}, b::AbstractArray{T}) where T<:Number @ StatsBase ~/.julia/packages/StatsBase/ebrT3/src/deviation.jl:140
 # Methods for MeanAbsDeviation() in package Distances
 # (::MeanAbsDeviation)(a, b) @ Distances ~/.julia/packages/Distances/n9q0L/src/metrics.jl:590
+meanad = Distances.MeanAbsDeviation()
+export meanad
+push!(overrides, :meanad)
 
 ## :metadata
 # Showing duplicate methods for metadata in packages Module[DataFrames, FileIO]
@@ -800,6 +839,14 @@ issquare = DifferentialEquations.issquare
 # Methods for metadata in package FileIO
 # metadata(file::Formatted, args...; options...) @ FileIO ~/.julia/packages/FileIO/xOKyx/src/loadsave.jl:116
 # metadata(file, args...; options...) @ FileIO ~/.julia/packages/FileIO/xOKyx/src/loadsave.jl:109
+@doc (@doc DataFrames.metadata)
+#metadata(x; style) = DataFrames.metadata(x; style)
+metadata(df::Union{DataFrame, DataFrames.DataFrameColumns, DataFrames.DataFrameRows, DataFrameRow, SubDataFrame}, key::AbstractString; kwargs...) = DataFrames.metadata(df, key; kwargs...)
+metadata(df::Union{DataFrame, DataFrames.DataFrameColumns, DataFrames.DataFrameRows, DataFrameRow, SubDataFrame}, key::AbstractString, default; style) = DataFrames.metadata(df, key, default; style)
+@doc (@doc FileIO.metadata)
+metadata(file::FileIO.Formatted, args...; options...) = FileIO.metadata(file, args...; options...)
+export metadata
+push!(overrides, :metadata)
 
 ## :mode
 # Showing duplicate methods for mode in packages Module[Distributions, StatsBase, JuMP]
@@ -880,6 +927,17 @@ issquare = DifferentialEquations.issquare
 # mode(a) @ StatsBase ~/.julia/packages/StatsBase/ebrT3/src/scalarstats.jl:111
 # Methods for mode in package JuMP
 # mode(model::GenericModel) @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/JuMP.jl:599
+@doc (@doc Distributions.mode)
+mode(x::Distribution) = Distributions.mode(x)
+mode(a::AbstractArray{T}, r::UnitRange{T}) where T = StatsBase.mode(a, r)
+mode(a::AbstractVector, wv::AbstractWeights) = StatsBase.mode(a, wv)
+mode(a::AbstractArray) = StatsBase.mode(a)
+#mode(x::MultivariateDistribution) = Distributions.mode(x)
+#mode(x::MatrixDistribution) = Distributions.mode(x)
+@doc (@doc JuMP.mode)
+mode(model::JuMP.GenericModel) = JuMP.mode(model)
+export mode
+push!(overrides, :mode)
 
 ## :msd
 # Showing duplicate methods for msd in packages Module[StatsBase, Distances]
@@ -887,6 +945,9 @@ issquare = DifferentialEquations.issquare
 # msd(a::AbstractArray{T}, b::AbstractArray{T}) where T<:Number @ StatsBase ~/.julia/packages/StatsBase/ebrT3/src/deviation.jl:159
 # Methods for MeanSqDeviation() in package Distances
 # (::MeanSqDeviation)(a, b) @ Distances ~/.julia/packages/Distances/n9q0L/src/metrics.jl:593
+msd = Distances.MeanSqDeviation()
+export msd
+push!(overrides, :msd)
 
 ## :nan
 # Showing duplicate methods for nan in packages Module[Images, DoubleFloats]
@@ -1005,7 +1066,7 @@ push!(overrides, :nan)
 # params(t::BenchmarkTools.TrialEstimate) @ BenchmarkTools ~/.julia/packages/BenchmarkTools/QNsku/src/trials.jl:142
 # params(t::BenchmarkTools.Trial) @ BenchmarkTools ~/.julia/packages/BenchmarkTools/QNsku/src/trials.jl:61
 @doc (@doc Distributions.params)
-params(x::UnivariateDistribution) = Distributions.params(x, :μ, :σ)
+params(x::Distribution) = Distributions.params(x)
 @doc (@doc BenchmarkTools.params)
 params(x::BenchmarkTools.Benchmark) = BenchmarkTools.params(x)
 params(x::BenchmarkGroup) = BenchmarkTools.params(x)
@@ -1038,6 +1099,14 @@ push!(overrides, :properties)
 # radius(g::AbstractGraph, distmx::AbstractMatrix) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/distance.jl:168
 # radius(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/distance.jl:168
 # radius(eccentricities::Vector) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/distance.jl:167
+@doc (@doc GeometryBasics.radius)
+radius(x::Cylinder) = GeometryBasics.radius(x)
+radius(x::HyperSphere) = GeometryBasics.radius(x)
+@doc (@doc Graphs.radius)
+radius(x::AbstractGraph) = Graphs.radius(x)
+radius(x::AbstractGraph, y) = Graphs.radius(x, y)
+export radius
+push!(overrides, :radius)
 
 ## :reset!
 # Showing duplicate methods for reset! in packages Module[DataStructures, DSP]
@@ -1050,6 +1119,13 @@ push!(overrides, :properties)
 # reset!(kernel::DSP.Filters.FIRDecimator) @ DSP.Filters ~/.julia/packages/DSP/eKP6r/src/Filters/stream_filt.jl:255
 # reset!(kernel::DSP.Filters.FIRRational) @ DSP.Filters ~/.julia/packages/DSP/eKP6r/src/Filters/stream_filt.jl:249
 # reset!(kernel::DSP.Filters.FIRKernel) @ DSP.Filters ~/.julia/packages/DSP/eKP6r/src/Filters/stream_filt.jl:245
+@doc (@doc DataStructures.reset!)
+reset!(x::Accumulator, y) = DataStructures.reset!(x, y)
+reset!(x::DataStructures.DequeBlock, y) = DataStructures.reset!(x, y)
+@doc (@doc DSP.Filters.reset!)
+reset!(x::Union{FIRFilter, DSP.Filters.FIRKernel, DSP.Filters.FIRArbitrary, DSP.Filters.FIRRational, DSP.Filters.FIRDecimator}) = DSP.reset!(x)
+export reset!
+push!(overrides, :reset!)
 
 ## :right
 # Showing duplicate methods for right in packages Module[Transducers, CairoMakie]
@@ -1061,6 +1137,11 @@ push!(overrides, :properties)
 # right(l, r) @ Transducers ~/.julia/packages/Transducers/txnl6/src/core.jl:868
 # Methods for right in package Makie
 # right(rect::Rect2) @ Makie ~/.julia/packages/Makie/YkotL/src/makielayout/geometrybasics_extension.jl:3
+@doc (@doc Transducers.right)
+right(x) = Transducers.right(x)
+right(l,r) = Transducers.right(l,r)
+@doc (@doc Makie.right)
+right(x::Rect2) = Makie.right(x)
 
 ## :rmsd
 # Showing duplicate methods for rmsd in packages Module[StatsBase, Distances]
@@ -1068,6 +1149,9 @@ push!(overrides, :properties)
 # rmsd(a::AbstractArray{T}, b::AbstractArray{T}; normalize) where T<:Number @ StatsBase ~/.julia/packages/StatsBase/ebrT3/src/deviation.jl:171
 # Methods for RMSDeviation() in package Distances
 # (::RMSDeviation)(a, b) @ Distances ~/.julia/packages/Distances/n9q0L/src/metrics.jl:596
+rmsd = Distances.RMSDeviation()
+export rmsd
+push!(overrides, :rmsd)
 
 ## :rotate!
 # Showing duplicate methods for rotate! in packages Module[LinearAlgebra, CairoMakie]
@@ -1080,6 +1164,14 @@ push!(overrides, :properties)
 # rotate!(t::MakieCore.Transformable, axis_rot...) @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:124
 # rotate!(::Type{T}, t::MakieCore.Transformable, q) where T @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:98
 # rotate!(::Type{T}, t::MakieCore.Transformable, axis_rot...) where T @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:115
+@doc (@doc LinearAlgebra.rotate!)
+rotate!(x::AbstractVector, y::AbstractVector, c, s) = LinearAlgebra.rotate!(x, y, c, s)
+@doc (@doc Makie.rotate!)
+rotate!(x::RectLight, y...) = Makie.rotate!(x, y...)
+rotate!(x::Makie.Transformable, y) = Makie.rotate!(x, y)
+rotate!(::Type{T}, t::Makie.Transformable, y...) where T = Makie.rotate!(T, t, y...)
+export rotate!
+push!(overrides, :rotate!)
 
 ## :scale!
 # Showing duplicate methods for scale! in packages Module[Distributions, CairoMakie]
@@ -1091,6 +1183,15 @@ push!(overrides, :properties)
 # scale!(l::RectLight, xy::Union{Tuple{Vararg{T, N}}, StaticArray{Tuple{N}, T, 1}} where {N, T}) @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:214
 # scale!(l::RectLight, x::Real, y::Real) @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:213
 # scale!(::Type{T}, l::RectLight, s) where T @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:201
+@doc (@doc Distributions.scale!)
+scale!(::Type{D}, s::Symbol, m::AbstractVector, S::AbstractMatrix, Σ::AbstractMatrix) where D = Distributions.scale!(D, s, m, S, Σ)
+@doc (@doc Makie.scale!)
+scale!(x::Makie.Transformable, y...) = Makie.scale!(x, y...)
+scale!(t::RectLight, xy) = Makie.scale!(t, xy)
+scale!(t::RectLight, x, y) = Makie.scale!(t, x, y)
+scale!(::Type{T}, t::RectLight, s) where T = Makie.scale!(T, t, )
+export scale!
+push!(overrides, :scale!)
 
 ## :shape
 # Showing duplicate methods for shape in packages Module[Distributions, JuMP]
@@ -1112,6 +1213,13 @@ push!(overrides, :properties)
 # Methods for shape in package JuMP
 # shape(con::VectorConstraint) @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/constraints.jl:978
 # shape(::ScalarConstraint) @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/constraints.jl:881
+@doc (@doc Distributions.shape)
+shape(x) = Distributions.shape(x) # they get the generic function... 
+@doc (@doc JuMP.shape)
+shape(con::VectorConstraint) = JuMP.shape(con)
+shape(x::ScalarConstraint) = JuMP.shape(x)
+export shape
+push!(overrides, :shape)
 
 ## :solve!
 # Showing duplicate methods for solve! in packages Module[Krylov, Roots, DifferentialEquations]
@@ -1224,6 +1332,11 @@ push!(overrides, :properties)
 # solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/xs5DA/src/solve.jl:545
 # solve!(cache::Union{BoundaryValueDiffEq.FIRKCacheNested, BoundaryValueDiffEq.MIRKCache}) @ BoundaryValueDiffEq ~/.julia/packages/BoundaryValueDiffEq/YN0of/src/solve/mirk.jl:146
 
+@doc (@doc DifferentialEquations.solve!)
+solve!(args...;kwargs...) = DifferentialEquations.solve!(args...;kwargs...)
+@doc (@doc Krylov.solve!)
+solve!(solver::KrylovSolver, args...; kwargs...) = Krylov.solve!(solver, args...; kwargs...)
+
 ## :spectrogram
 # Showing duplicate methods for spectrogram in packages Module[Flux, DSP]
 # Methods for spectrogram in package NNlib
@@ -1232,6 +1345,7 @@ push!(overrides, :properties)
 # spectrogram(s::AbstractVector{T}, n::Int64, noverlap::Int64; onesided, nfft, fs, window) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:420
 # spectrogram(s::AbstractVector{T}, n::Int64; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:420
 # spectrogram(s::AbstractVector{T}; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:420
+spectrogram = DSP.spectrogram # Method for spectrogram in package DSP
 
 ## :statistics
 # Showing duplicate methods for statistics in packages Module[Krylov, DelaunayTriangulation]
@@ -1274,6 +1388,12 @@ push!(overrides, :properties)
 # statistics(solver::LnlqSolver) @ Krylov ~/.julia/packages/Krylov/fwLT6/src/krylov_solvers.jl:1930
 # Methods for statistics in package DelaunayTriangulation
 # statistics(tri::Triangulation) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/JBYjR/src/data_structures/statistics/triangulation_statistics.jl:84
+@doc (@doc Krylov.statistics)
+statistics(solver::KrylovSolver) = Krylov.statistics(solver)
+@doc (@doc DelaunayTriangulation.statistics)
+statistics(tri::DelaunayTriangulation.Triangulation) = DelaunayTriangulation.statistics(tri)
+export statistics
+push!(overrides, :statistics)
 
 ## :stft
 # Showing duplicate methods for stft in packages Module[Flux, DSP]
@@ -1284,6 +1404,7 @@ push!(overrides, :properties)
 # stft(s::AbstractVector{T}, n::Int64, noverlap::Int64; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
 # stft(s::AbstractVector{T}, n::Int64; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
 # stft(s::AbstractVector{T}; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
+stft = DSP.stft # Method for stft in package DSP
 
 ## :top
 # Showing duplicate methods for top in packages Module[DataStructures, CairoMakie]
@@ -1306,6 +1427,9 @@ push!(overrides, :top)
 # transform(f::Union{Function, Type}, gd::GroupedDataFrame; copycols, keepkeys, ungroup, renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/groupeddataframe/splitapplycombine.jl:902
 # transform(arg::Union{Function, Type}, df::AbstractDataFrame; renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/abstractdataframe/selection.jl:1388
 # transform(df::AbstractDataFrame, args...; copycols, renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/abstractdataframe/selection.jl:1383
+transform = DataFrames.transform  # the stuff in MultivariateStats seems deprecated
+export transform
+push!(overrides, :transform)
 
 ## :trim
 # Showing duplicate methods for trim in packages Module[StatsBase, BenchmarkTools]
@@ -1422,6 +1546,15 @@ push!(overrides, :width)
 # ⊕(k::Integer) @ LinearMaps ~/.julia/packages/LinearMaps/GRDXH/src/kronecker.jl:418
 # Methods for ⊕ in package DoubleFloats
 # ⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} @ DoubleFloats ~/.julia/packages/DoubleFloats/iU3tv/src/math/ops/arith.jl:47
+
+@doc (@doc getfield(LinearMaps, :⊕))
+⊕(k::Integer) = LinearMaps.⊕(k)
+⊕(A,B,Cs...) = LinearMaps.⊕(A,B,Cs...)
+@doc (@doc getfield(DoubleFloats, :⊕))
+⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊕(x, y)
+export ⊕
+push!(overrides, :⊕)
+
 
 ## :⊗
 # Showing duplicate methods for ⊗ in packages Module[Images, LinearMaps, DoubleFloats]

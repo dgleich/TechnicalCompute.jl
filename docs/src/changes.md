@@ -2,6 +2,7 @@ Notes on duplicate resolution
 -----------------------------
 
 **All methods can be called by fully qualifying their names!** 
+
 This is merely to establish a dialect that allows one to avoid that,
 where it can be resolved with more refinement over the namespace. 
 
@@ -23,3 +24,8 @@ but the use in Combinatorics seems to be restricted to young diagrams, which is 
 
 Zeros is duplicated between FillArrays and JuMP
 We keep the meaning of the Zeros from FillArrays here as Jump is a very specialized use. 
+
+Where there were duplicates, we gave preference to the DSP functions vs. the NNLib functions included by Flux. 
+- conv
+- spectrogram
+- stft
