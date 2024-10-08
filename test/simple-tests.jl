@@ -18,6 +18,32 @@ end
   vals,vecs = eigen(A)
 end
 
+@testset "DataStructures" begin
+  q = Queue{Int}()
+  enqueue!(q, 1)
+  @test dequeue!(q) == 1
+end
+
+@testset "OrderedCollections" begin
+  d = OrderedDict{Int,Int}()
+  d[1] = 2
+  @test d[1] == 2
+end
+
+@testset "GeometryBasics" begin
+  p = Point2f(1,2)
+  @test p[1] == 1.0 
+end
+
+@testset "Distributions" begin
+  d = Normal(0,1)
+  @test pdf(d, 0) ≈ 1/sqrt(2*pi)
+end
+
+@testset "Statistics" begin
+  @test isapprox(std(randn(StableRNG(100), 10000)), 1; atol=1e-2)
+end
+
 @testset "Arpack" begin 
   A = sprand(StableRNG(1), 50,50,10/50)
   Avals,Avecs = eigen(Matrix(A))
@@ -37,6 +63,10 @@ end
   @test String(nthperm(Vector{Char}("abc"), 2)) == "acb"
 end
 
+@testset "Makie" begin 
+  @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
+end 
+
 @testset "Graphs" begin 
   @test degree(path_graph(5)) == [1, 2, 2, 2, 1]
   @test degree(path_graph(5), 4:5) == [2, 1]
@@ -45,7 +75,7 @@ end
 
 @testset "MultivariateStats"  begin 
   @test begin; pca = fit(PCA, rand(10,4)); return true; end 
-  
+
 end 
 
 @testset "Polynomials" begin 

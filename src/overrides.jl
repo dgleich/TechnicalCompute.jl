@@ -1,7 +1,7 @@
 const overrides = Set{Symbol}()
 
 ## :Axis
-# Showing duplicate methods for Axis in packages Module[Images, CairoMakie]
+# Showing duplicate methods for Axis in packages Module[Images, AxisArrays, CairoMakie]
 # Methods for AxisArrays.Axis in package Core
 # Methods for Makie.Axis in package Core
 # Makie.Axis(parent::Union{Nothing, Figure, Scene}, layoutobservables::LayoutObservables{GridLayout}, blockscene::Scene) @ Makie ~/.julia/packages/Makie/YkotL/src/makielayout/blocks.jl:50

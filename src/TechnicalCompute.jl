@@ -60,6 +60,7 @@ packages = [
 "HDF5",
 "MAT",
 "BSON",
+"NIfTI", # used in Makie demos... 
 # Extra
 "BenchmarkTools",
 "StableRNGs",
@@ -79,6 +80,7 @@ packages = [
 "KahanSummation",
 "FillArrays",
 "TiledIteration",
+"AxisArrays", # this is reexported from Images anyway...
 # Signals
 "DSP", 
 # Plot Tools

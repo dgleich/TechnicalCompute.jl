@@ -219,6 +219,8 @@ function _write_overrides(;io=stdout, namesused, overrides)
   end
 end
 
+# Often I use this as follows... 
+# include("test/test_names_and_methods.jl"); merge_overrides_file()
 function merge_overrides_file(;filename="src/overrides.jl", packages = TechnicalCompute.packages)
   # first, make a copy of overrides file with the current timestamp and a backup
   # copy of the original file
