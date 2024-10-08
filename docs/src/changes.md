@@ -3,6 +3,10 @@ Notes on duplicate resolution
 
 **All methods can be called by fully qualifying their names!** 
 
+both JuMP and Symbolics.jl export a macro @variables to help declare variables. 
+I decided to give this one to Symbolics as it was more prominently featured in 
+their documenation. 
+
 This is merely to establish a dialect that allows one to avoid that,
 where it can be resolved with more refinement over the namespace. 
 
@@ -20,7 +24,6 @@ but in GeometryBasics, this is used to indicate a normal vector, so we change it
 
 Partition is duplicated between Transducers.jl and Combinatorics.jl 
 but the use in Combinatorics seems to be restricted to young diagrams, which is fairly specialized.
-
 
 Zeros is duplicated between FillArrays and JuMP
 We keep the meaning of the Zeros from FillArrays here as Jump is a very specialized use. 

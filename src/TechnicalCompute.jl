@@ -118,6 +118,7 @@ packages = [
 "HiGHS",
 # Symbolic
 "ForwardDiff", 
+"Symbolics",
 # diff Equations
 "DifferentialEquations"
 ]

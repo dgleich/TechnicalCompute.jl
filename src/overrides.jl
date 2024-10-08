@@ -1,5 +1,21 @@
 const overrides = Set{Symbol}()
 
+## :@variables
+# Showing duplicate methods for @variables in packages Module[JuMP, Symbolics]
+# Methods for @variables in package JuMP
+# var"@variables"(__source__::LineNumberNode, __module__::Module, model, block) @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/macros/@variable.jl:354
+# Methods for @variables in package Symbolics
+# var"@variables"(__source__::LineNumberNode, __module__::Module, xs...) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/variable.jl:464
+
+# Most demos for JuMP use @variable whereas most for Symbolics use @variables, so we'll go with that.
+# This is just a copy-paste of @variables from Symbolics.jl ... need to figure out how to actaully call it... 
+@doc (@doc Symbolics.var"@variables")
+macro variables(expr...)
+  #:(Symbolics.@variables $(esc.(expr...)))
+  esc(Symbolics._parse_vars(:variables, Real, expr))
+  #:(Symbolics.@variables expr...)
+end
+
 ## :Axis
 # Showing duplicate methods for Axis in packages Module[Images, AxisArrays, CairoMakie]
 # Methods for AxisArrays.Axis in package Core
@@ -101,6 +117,7 @@ push!(overrides, :Filters)
 # (::Type{<:FixedPoint})(x::AbstractChar) @ FixedPointNumbers ~/.julia/packages/FixedPointNumbers/Dn4hv/src/FixedPointNumbers.jl:60
 # (::Type{X})(x::Base.TwicePrecision) where X<:FixedPoint @ FixedPointNumbers ~/.julia/packages/FixedPointNumbers/Dn4hv/src/FixedPointNumbers.jl:64
 # (::Type{T})(x::AbstractGray) where T<:Real @ ColorTypes ~/.julia/packages/ColorTypes/vpFgh/src/conversions.jl:115
+# (::Type{T})(p::DomainSets.Point{<:Number}) where T<:Number @ DomainSets ~/.julia/packages/DomainSets/MWosI/src/domains/point.jl:13
 # (::Type{T})(x::Base.TwicePrecision) where T<:Number @ Base twiceprecision.jl:265
 # (::Type{T})(x::T) where T<:Number @ Core boot.jl:792
 # (::Type{T})(x::AbstractChar) where T<:Union{AbstractChar, Number} @ Base char.jl:50
@@ -158,11 +175,19 @@ push!(overrides, :Mesh)
 # GeometryBasics.Normal() @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/interfaces.jl:100
 # GeometryBasics.Normal(::Type{T}) where T @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/interfaces.jl:99
 # Methods for Distributions.Normal in package Core
-# Distributions.Normal() @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
+# Distributions.Normal(mu::Num, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal(mu::Num, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal(mu::Real, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal(mu::Num, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
 # Distributions.Normal(μ::Integer, σ::Integer; check_args) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:43
+# Distributions.Normal(mu::Real, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal(μ::Real) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
 # Distributions.Normal(μ::T, σ::T; check_args) where T<:Real @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:36
 # Distributions.Normal(μ::Real, σ::Real; check_args) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:42
-# Distributions.Normal(μ::Real) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rtkf9/src/wrapper-types.jl:158
+# Distributions.Normal() @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
 @doc (@doc Distributions.Normal)
 Normal = Distributions.Normal
 push!(overrides, :Normal)

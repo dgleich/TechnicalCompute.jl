@@ -95,3 +95,12 @@ end
   obs = [0.5, 1.5, 1.5, 2.5]
   @test begin; fit(Histogram, obs, bins); return true; end 
 end 
+
+@testset "Symbolics" begin 
+  @test begin 
+    @variables x y 
+    f = x^2 + y^2
+    dfdx = (Differential(x))(f) 
+    return simplify(expand_derivatives(dfdx) == 2x)
+  end 
+end 
