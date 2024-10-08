@@ -46,6 +46,7 @@ packages = [
 "Images",
 "FFTW",
 "TestImages",
+"ImageShow", 
 # Text Data
 "DataFrames", 
 "Tables",
@@ -68,6 +69,8 @@ packages = [
 "Printf",
 "Measures",
 "Colors",
+"ColorVectorSpace",
+"ColorSchemes",
 "Dates",
 # Iteration tools
 "Transducers",
@@ -113,6 +116,8 @@ packages = [
 "GLPK",
 "Clp",
 "HiGHS",
+# Symbolic
+"ForwardDiff", 
 # diff Equations
 "DifferentialEquations"
 ]

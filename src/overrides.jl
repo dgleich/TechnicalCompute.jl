@@ -317,7 +317,7 @@ export centered
 push!(overrides, :centered)
 
 ## :complement
-# Showing duplicate methods for complement in packages Module[DataStructures, Images, Graphs]
+# Showing duplicate methods for complement in packages Module[DataStructures, Images, ColorVectorSpace, Graphs]
 # Methods for complement in package DataStructures
 # complement(s::DataStructures.IntSet) @ DataStructures ~/.julia/packages/DataStructures/95DJa/src/int_set.jl:193
 # Methods for complement in package ColorVectorSpace
@@ -950,7 +950,7 @@ export msd
 push!(overrides, :msd)
 
 ## :nan
-# Showing duplicate methods for nan in packages Module[Images, DoubleFloats]
+# Showing duplicate methods for nan in packages Module[Images, ColorVectorSpace, DoubleFloats]
 # Methods for nan in package ColorTypes
 # nan(::Type{C}) where {T<:AbstractFloat, C<:(Colorant{T})} @ ColorTypes ~/.julia/packages/ColorTypes/vpFgh/src/traits.jl:470
 # nan(::Type{T}) where T<:AbstractFloat @ ColorTypes ~/.julia/packages/ColorTypes/vpFgh/src/traits.jl:469
@@ -1557,7 +1557,7 @@ push!(overrides, :⊕)
 
 
 ## :⊗
-# Showing duplicate methods for ⊗ in packages Module[Images, LinearMaps, DoubleFloats]
+# Showing duplicate methods for ⊗ in packages Module[Images, ColorVectorSpace, LinearMaps, DoubleFloats]
 # Methods for tensor in package TensorCore
 # tensor(x::C, y::C) where C<:(AbstractGray) @ ColorVectorSpace ~/.julia/packages/ColorVectorSpace/tLy1N/src/ColorVectorSpace.jl:332
 # tensor(u::Union{Adjoint{T, <:AbstractVector}, Transpose{T, <:AbstractVector}} where T, v::Union{Adjoint{T, <:AbstractVector}, Transpose{T, <:AbstractVector}} where T) @ TensorCore ~/.julia/packages/TensorCore/77QBu/src/TensorCore.jl:96
@@ -1577,6 +1577,10 @@ push!(overrides, :⊕)
 @doc (@doc getfield(LinearMaps, :⊗))
 ⊗(k::Integer) = LinearMaps.⊗(k)
 ⊗(A,B,Cs...) = LinearMaps.⊗(A,B,Cs...)
+@doc (@doc getfield(DoubleFloats, :⊗))
+⊗(a::AbstractRGB, b::AbstractRGB) = ColorVectorSpace.tensor(a,b)
+⊗(a::AbstractGray, b::AbstractGray) = ColorVectorSpace.tensor(a,b)
+⊗(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) = ColorVectorSpace.tensor(a,b)
 @doc (@doc getfield(DoubleFloats, :⊗))
 ⊗(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊗(x, y)
 export ⊗
