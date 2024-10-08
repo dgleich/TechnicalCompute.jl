@@ -68,10 +68,12 @@ packages = [
 "ProgressMeter",
 "Printf",
 "Measures",
+"Unitful", 
 "Colors",
 "ColorVectorSpace",
 "ColorSchemes",
 "Dates",
+"HypertextLiteral", 
 # Iteration tools
 "Transducers",
 "ThreadsX",

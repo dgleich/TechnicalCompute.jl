@@ -149,7 +149,12 @@ function _read_overrides(filename)
           overrides[name] = copy(overrides_lines)
         end
         # parse a symbol from a string 
-        name = Meta.parse(line[4:end]).value 
+        expr = Meta.parse(line[4:end])
+        if expr isa QuoteNode
+          name = expr.value
+        else
+          name = expr.args[1].args[1]
+        end 
         empty!(overrides_lines)
         aftername = true 
       elseif startswith(line, "##-")

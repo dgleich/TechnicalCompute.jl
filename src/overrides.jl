@@ -1484,6 +1484,36 @@ trim!(gl::Makie.GridLayout) = Makie.trim!(gl)
 export trim!
 push!(overrides, :trim!)
 
+## :unit
+# Showing duplicate methods for unit in packages Module[GeometryBasics, Unitful]
+# Methods for unit in package GeometryBasics
+# unit(::Type{T}, i::Integer) where T<:(StaticArray{Tuple{N}, T, 1} where {N, T}) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/fixed_arrays.jl:2
+# Methods for unit in package Unitful
+# unit(::Type{Day}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(::Type{Millisecond}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(::Type{Second}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(::Type{Nanosecond}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(x::Type{Missing}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:143
+# unit(::Type{Hour}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(::Type{Minute}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(::Type{Microsecond}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(::Type{Week}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:8
+# unit(x::Missing) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:144
+# unit(::Type{<:Unitful.AbstractQuantity{T, D, U}}) where {T, D, U} @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:119
+# unit(x::Type{T}) where T<:Number @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:141
+# unit(x::Type{Union{Missing, T}}) where T @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:142
+# unit(x::Unitful.AbstractQuantity{T, D, U}) where {T, D, U} @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:118
+# unit(x::Number) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/utils.jl:140
+# unit(x::Base.TwicePrecision{Q}) where Q<:Quantity @ Unitful ~/.julia/packages/Unitful/GYzMo/src/units.jl:288
+# unit(a::Unitful.MixedUnits{L, U}) where {L, U} @ Unitful ~/.julia/packages/Unitful/GYzMo/src/logarithm.jl:98
+# unit(p::Union{Day, Hour, Microsecond, Millisecond, Minute, Nanosecond, Second, Week}) @ Unitful ~/.julia/packages/Unitful/GYzMo/src/dates.jl:31
+
+# Unit in GeometryBasics is just used to create a column of the identity matrix. 
+@doc Unitful.unit 
+unit = Unitful.unit 
+export unit
+push!(overrides, :unit)
+
 ## :update!
 # Showing duplicate methods for update! in packages Module[DataStructures, ProgressMeter, TaylorSeries]
 # Methods for update! in package DataStructures
