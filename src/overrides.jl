@@ -307,7 +307,7 @@ push!(overrides, :center)
 centered(R::Union{HyperRectangle, HyperRectangle{N}, HyperSphere{N, T}, HyperRectangle{N, T}}) where {N, T} = GeometryBasics.centered(R)
 centered(::Type{T}) where T<:HyperSphere = GeometryBasics.centered(T)
 @doc (@doc OffsetArrays.centered)
-centered(ax::AxisArrays.Axis) where name = OffsetArrays.centered(ax)
+centered(ax::Images.Axis) = OffsetArrays.centered(ax)
 centered(a::ImageMeta) = OffsetArrays.centered(a)
 centered(a::AxisArray) = OffsetArrays.centered(a)
 centered(A::ImageMorphology.StructuringElements.MorphologySEArray) = OffsetArrays.centered(A)
@@ -638,18 +638,18 @@ evaluate(A::AbstractArray{TaylorN{T}, N}, δx::Vector{S}) where {T, S, N} = Tayl
 # fit(x::AbstractVector, y::AbstractVector; ...) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:134
 # fit(x::AbstractVector, y::AbstractVector, deg::Integer; weights, var) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:134
 @doc (@doc Distributions.fit)
-fit(::Type{Distributions.UnivariateDistribution}, data::Tuple{Int64, AbstractArray}) = Distributions.fit(::Type{Distributions.UnivariateDistribution}, data)
+fit(::Type{Distributions.UnivariateDistribution}, data::Tuple{Int64, AbstractArray}) = Distributions.fit(Distributions.UnivariateDistribution, data)
 @doc (@doc MultivariateStats.fit)
 fit(::Type{T}, args...;kwargs...) where T <: Union{
   AbstractHistogram,
   AbstractDataTransform,
   StatisticalModel
-} = MultivariateStats.fit(::Type{T}, args...; kwargs...)
+} = MultivariateStats.fit(T, args...; kwargs...)
 @doc (@doc Polynomials.fit)
 fit(::Type{T}, args...;kwargs...) where T <: Union{
   AbstractPolynomial,
   Polynomials.AbstractRationalFunction,
-} = MultivariateStats.fit(::Type{T}, args...; kwargs...)
+} = MultivariateStats.fit(T, args...; kwargs...)
 # This skips the x, y form for the fit method for Polynomials, but that shouldn't exist...
 export fit
 push!(overrides, :fit)

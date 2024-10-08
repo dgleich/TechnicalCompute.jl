@@ -43,6 +43,11 @@ end
   @test degree(path_graph(5), 1) == 1
 end 
 
+@testset "MultivariateStats"  begin 
+  @test begin; pca = fit(PCA, rand(10,4)); return true; end 
+  
+end 
+
 @testset "Polynomials" begin 
   @test degree(Polynomial([1, 0, 3, 4])) == 3
 end 
@@ -55,3 +60,8 @@ end
   @test true
 end 
 
+@testset "StatsBase" begin 
+  bins = [0,1,7]
+  obs = [0.5, 1.5, 1.5, 2.5]
+  @test begin; fit(Histogram, obs, bins); return true; end 
+end 
