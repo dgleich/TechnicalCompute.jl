@@ -4,8 +4,8 @@ const overrides = Set{Symbol}()
 # Showing duplicate methods for Axis in packages Module[Images, CairoMakie]
 # Methods for AxisArrays.Axis in package Core
 # Methods for Makie.Axis in package Core
-# Makie.Axis(parent::Union{Nothing, Figure, Scene}, layoutobservables::LayoutObservables{GridLayout}, blockscene::Scene) @ Makie ~/.julia/packages/Makie/eERNK/src/makielayout/blocks.jl:50
-# (::Type{T})(args...; kwargs...) where T<:Block @ Makie ~/.julia/packages/Makie/eERNK/src/makielayout/blocks.jl:236
+# Makie.Axis(parent::Union{Nothing, Figure, Scene}, layoutobservables::LayoutObservables{GridLayout}, blockscene::Scene) @ Makie ~/.julia/packages/Makie/YkotL/src/makielayout/blocks.jl:50
+# (::Type{T})(args...; kwargs...) where T<:Block @ Makie ~/.julia/packages/Makie/YkotL/src/makielayout/blocks.jl:236
 @doc (@doc Makie.Axis) 
 Axis = Makie.Axis
 @doc (@doc Images.Axis)
@@ -36,7 +36,7 @@ push!(overrides, :Bisection)
 # (Distributions.Categorical{P} where P<:Real)(probabilities::Real...; check_args) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/discrete/categorical.jl:42
 # (Distributions.Categorical{P} where P<:Real)(p::AbstractVector{P}; check_args) where P<:Real @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/discrete/categorical.jl:34
 # Methods for Makie.Categorical in package Core
-# Makie.Categorical(values) @ Makie ~/.julia/packages/Makie/eERNK/src/colorsampler.jl:229
+# Makie.Categorical(values) @ Makie ~/.julia/packages/Makie/YkotL/src/colorsampler.jl:229
 @doc (@doc Distributions.Categorical)
 Categorical = Distributions.Categorical
 @doc (@doc Makie.Categorical)
@@ -47,10 +47,10 @@ push!(overrides, :Categorical)
 ## :EllipticalArc
 # Showing duplicate methods for EllipticalArc in packages Module[CairoMakie, DelaunayTriangulation]
 # Methods for Makie.EllipticalArc in package Core
-# Makie.EllipticalArc(c::Point{2, Float64}, r1::Float64, r2::Float64, angle::Float64, a1::Float64, a2::Float64) @ Makie ~/.julia/packages/Makie/eERNK/src/bezier.jl:75
-# Makie.EllipticalArc(c, r1, r2, angle, a1, a2) @ Makie ~/.julia/packages/Makie/eERNK/src/bezier.jl:75
-# Makie.EllipticalArc(cx, cy, r1, r2, angle, a1, a2) @ Makie ~/.julia/packages/Makie/eERNK/src/bezier.jl:83
-# Makie.EllipticalArc(x1, y1, x2, y2, rx, ry, ϕ, largearc::Bool, sweepflag::Bool) @ Makie ~/.julia/packages/Makie/eERNK/src/bezier.jl:546
+# Makie.EllipticalArc(c::Point{2, Float64}, r1::Float64, r2::Float64, angle::Float64, a1::Float64, a2::Float64) @ Makie ~/.julia/packages/Makie/YkotL/src/bezier.jl:75
+# Makie.EllipticalArc(c, r1, r2, angle, a1, a2) @ Makie ~/.julia/packages/Makie/YkotL/src/bezier.jl:75
+# Makie.EllipticalArc(cx, cy, r1, r2, angle, a1, a2) @ Makie ~/.julia/packages/Makie/YkotL/src/bezier.jl:83
+# Makie.EllipticalArc(x1, y1, x2, y2, rx, ry, ϕ, largearc::Bool, sweepflag::Bool) @ Makie ~/.julia/packages/Makie/YkotL/src/bezier.jl:546
 # Methods for DelaunayTriangulation.EllipticalArc in package Core
 # DelaunayTriangulation.EllipticalArc(center::Tuple{Float64, Float64}, horz_radius::Float64, vert_radius::Float64, rotation_scales::Tuple{Float64, Float64}, start_angle::Float64, sector_angle::Float64, first::Tuple{Float64, Float64}, last::Tuple{Float64, Float64}) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/JBYjR/src/data_structures/mesh_refinement/curves/ellipticalarc.jl:26
 # DelaunayTriangulation.EllipticalArc(center, horz_radius, vert_radius, rotation_scales, start_angle, sector_angle, first, last) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/JBYjR/src/data_structures/mesh_refinement/curves/ellipticalarc.jl:26
@@ -147,7 +147,7 @@ push!(overrides, :FunctionMap)
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:Integer}, facetype) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/basic_types.jl:417
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:Integer}, facetype, skip) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/basic_types.jl:417
 # Methods for MakieCore.Mesh in package Core
-# (Plot{Func})(user_args::Tuple, user_attributes::Dict) where Func @ Makie ~/.julia/packages/Makie/eERNK/src/interfaces.jl:260
+# (Plot{Func})(user_args::Tuple, user_attributes::Dict) where Func @ Makie ~/.julia/packages/Makie/YkotL/src/interfaces.jl:260
 Mesh = GeometryBasics.Mesh 
 export Mesh
 push!(overrides, :Mesh)
@@ -163,7 +163,6 @@ push!(overrides, :Mesh)
 # Distributions.Normal(μ::T, σ::T; check_args) where T<:Real @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:36
 # Distributions.Normal(μ::Real, σ::Real; check_args) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:42
 # Distributions.Normal(μ::Real) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
-# Name Normal is not equal in packages GeometryBasics and Distributions and not in overrides
 @doc (@doc Distributions.Normal)
 Normal = Distributions.Normal
 push!(overrides, :Normal)
@@ -222,7 +221,7 @@ Vec2 = GeometryBasics.Vec2
 export Vec2
 push!(overrides, :Vec2)
 
-## :Vec3 
+## :Vec3
 # Showing duplicate methods for Vec3 in packages Module[GeometryBasics, Measures, CairoMakie]
 # Methods for GeometryBasics.Vec3 in package Core
 # (GeometryBasics.Vec{S})(x::T) where {S, T<:Tuple} @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/fixed_arrays.jl:57
@@ -240,7 +239,7 @@ Vec3 = GeometryBasics.Vec3
 export Vec3
 push!(overrides, :Vec3)
 
-## :Zeros 
+## :Zeros
 # Showing duplicate methods for Zeros in packages Module[FillArrays, JuMP]
 # Methods for FillArrays.Zeros in package Core
 # FillArrays.Zeros(::Type{T}, m...) where T @ FillArrays ~/.julia/packages/FillArrays/lVl4c/src/FillArrays.jl:317
@@ -260,8 +259,8 @@ export Zeros
 # Methods for attributes in package HDF5
 # attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) @ HDF5 ~/.julia/packages/HDF5/Z859u/src/attributes.jl:374
 # Methods for attributes in package MakieCore
-# attributes(x::Attributes) @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/attributes.jl:34
-# attributes(x::AbstractPlot) @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/attributes.jl:35
+# attributes(x::Attributes) @ MakieCore ~/.julia/packages/MakieCore/NeQjl/src/attributes.jl:34
+# attributes(x::AbstractPlot) @ MakieCore ~/.julia/packages/MakieCore/NeQjl/src/attributes.jl:35
 @doc (@doc HDF5.attributes)
 attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) = HDF5.attributes(p)
 @doc (@doc Makie.attributes)
@@ -287,7 +286,7 @@ center(eccentricities::Vector) = Graphs.center(eccentricities)
 export center
 push!(overrides, :center)
 
-## :centered 
+## :centered
 # Showing duplicate methods for centered in packages Module[GeometryBasics, Images]
 # Methods for centered in package GeometryBasics
 # centered(R::Type{HyperRectangle}) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/primitives/rectangles.jl:537
@@ -317,7 +316,7 @@ centered(A::AbstractArray, r) = OffsetArrays.centered(A, r)
 export centered
 push!(overrides, :centered)
 
-## :complement 
+## :complement
 # Showing duplicate methods for complement in packages Module[DataStructures, Images, Graphs]
 # Methods for complement in package DataStructures
 # complement(s::DataStructures.IntSet) @ DataStructures ~/.julia/packages/DataStructures/95DJa/src/int_set.jl:193
@@ -338,12 +337,12 @@ complement(g::SimpleGraph) = Graphs.complement(g)
 export complement # Export the combined complement function
 push!(overrides, :complement)
 
-## :conv 
+## :conv
 # Showing duplicate methods for conv in packages Module[Flux, DSP]
 # Methods for conv in package NNlib
-# conv(a::AbstractArray{Flux.NilNumber.Nil}, b::AbstractArray{Flux.NilNumber.Nil}, dims::DenseConvDims) @ Flux ~/.julia/packages/Flux/MtsAN/src/outputsize.jl:148
-# conv(a::AbstractArray{<:Real}, b::AbstractArray{Flux.NilNumber.Nil}, dims::DenseConvDims) @ Flux ~/.julia/packages/Flux/MtsAN/src/outputsize.jl:152
-# conv(a::AbstractArray{Flux.NilNumber.Nil}, b::AbstractArray{<:Real}, dims::DenseConvDims) @ Flux ~/.julia/packages/Flux/MtsAN/src/outputsize.jl:156
+# conv(a::AbstractArray{Flux.NilNumber.Nil}, b::AbstractArray{Flux.NilNumber.Nil}, dims::DenseConvDims) @ Flux ~/.julia/packages/Flux/hiqg1/src/outputsize.jl:148
+# conv(a::AbstractArray{<:Real}, b::AbstractArray{Flux.NilNumber.Nil}, dims::DenseConvDims) @ Flux ~/.julia/packages/Flux/hiqg1/src/outputsize.jl:152
+# conv(a::AbstractArray{Flux.NilNumber.Nil}, b::AbstractArray{<:Real}, dims::DenseConvDims) @ Flux ~/.julia/packages/Flux/hiqg1/src/outputsize.jl:156
 # conv(x::AbstractArray{xT, N}, w::AbstractArray{wT, N}, cdims::ConvDims; kwargs...) where {xT, wT, N} @ NNlib ~/.julia/packages/NNlib/CkJqS/src/conv.jl:83
 # conv(x, w::AbstractArray{T, N}; stride, pad, dilation, flipped, groups) where {T, N} @ NNlib ~/.julia/packages/NNlib/CkJqS/src/conv.jl:50
 # Methods for conv in package DSP
@@ -356,23 +355,25 @@ push!(overrides, :complement)
 # conv(u::AbstractArray{<:Number, N}, v::AbstractArray{<:Number, N}) where N @ DSP ~/.julia/packages/DSP/eKP6r/src/dspbase.jl:709
 # conv(A::AbstractArray{<:Number, M}, B::AbstractArray{<:Number, N}) where {M, N} @ DSP ~/.julia/packages/DSP/eKP6r/src/dspbase.jl:722
 
-## :degree 
+## :degree
 # Showing duplicate methods for degree in packages Module[Polynomials, Graphs]
 # Methods for degree in package Polynomials
-# degree(pq::Polynomials.AbstractRationalFunction) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/rational-functions/common.jl:238
-# degree(p::P) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/factored_polynomial.jl:226
-# degree(p::Polynomials.PnPolynomial) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/pi_n_polynomial.jl:37
-# degree(p::LaurentPolynomial) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/LaurentPolynomial.jl:220
-# degree(p::SparsePolynomial) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/SparsePolynomial.jl:81
-# degree(p::ImmutablePolynomial{T, X, N}) where {T, X, N} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/ImmutablePolynomial.jl:115
-# degree(p::AbstractPolynomial) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:635
+# degree(p::Polynomials.MutableDensePolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/mutable-dense-polynomial.jl:103
+# degree(p::Polynomials.ImmutableDensePolynomial{B, T, X, 0}) where {B, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/immutable-dense-polynomial.jl:262
+# degree(p::Polynomials.ImmutableDensePolynomial{B, T, X, N}) where {B, T, X, N} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/immutable-dense-polynomial.jl:263
+# degree(p::Polynomials.MutableDenseViewPolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/mutable-dense-view-polynomial.jl:64
+# degree(p::Polynomials.AbstractDenseUnivariatePolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/abstract-polynomial.jl:123
+# degree(p::Polynomials.MutableDenseLaurentPolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/mutable-dense-laurent-polynomial.jl:106
+# degree(p::Polynomials.MutableSparsePolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/mutable-sparse-polynomial.jl:93
+# degree(p::Polynomials.AbstractLaurentUnivariatePolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/abstract-polynomial.jl:124
+# degree(pq::Polynomials.AbstractRationalFunction) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/rational-functions/common.jl:222
+# degree(p::P) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/factored_polynomial.jl:232
+# degree(p::Polynomials.MutableSparseVectorPolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomial-container-types/mutable-sparse-vector-polynomial.jl:96
+# degree(p::AbstractPolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:702
 # Methods for degree in package Graphs
 # degree(g::AbstractGraph, v::Integer) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:130
 # degree(g::AbstractGraph, vs) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:137
 # degree(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:137
-# Name degree is not equal in packages Meshes and Polynomials and not in overrides
-# Name degree is not equal in packages Meshes and Graphs and not in overrides
-# Name degree is not equal in packages Polynomials and Graphs and not in overrides
 @doc (@doc Graphs.degree)
 degree(g::Graphs.AbstractGraph, i) = Graphs.degree(g, i)
 degree(g::Graphs.AbstractGraph) = Graphs.degree(g)
@@ -384,11 +385,11 @@ degree(p::Polynomials.AbstractRationalFunction) = Polynomials.degree(p)
 export degree 
 push!(overrides, :degree)
 
-## :density 
+## :density
 # Showing duplicate methods for density in packages Module[CairoMakie, Graphs]
 # Methods for density in package Makie
-# density() @ Makie ~/.julia/packages/MakieCore/rTINf/src/recipes.jl:432
-# density(args...; kw...) @ Makie ~/.julia/packages/MakieCore/rTINf/src/recipes.jl:447
+# density() @ Makie ~/.julia/packages/MakieCore/NeQjl/src/recipes.jl:432
+# density(args...; kw...) @ Makie ~/.julia/packages/MakieCore/NeQjl/src/recipes.jl:447
 # Methods for density in package Graphs
 # density(::Type{SimpleTraits.Not{IsDirected{var"##228"}}}, g::var"##228") where var"##228" @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:393
 # density(::Type{IsDirected{var"##227"}}, g::var"##227") where var"##227" @ Graphs ~/.julia/packages/Graphs/1ALGD/src/core.jl:392
@@ -404,17 +405,20 @@ push!(overrides, :density)
 ## :derivative
 # Showing duplicate methods for derivative in packages Module[Polynomials, TaylorSeries]
 # Methods for derivative in package Polynomials
-# derivative(p::SparsePolynomial{T, X}) where {T, X} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/SparsePolynomial.jl:233
-# derivative(p::P) where {T, X, P<:LaurentPolynomial{T, X}} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/LaurentPolynomial.jl:508
-# derivative(p::P) where {T, X, P<:StandardBasisPolynomial{T, X}} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:168
-# derivative(p::SparsePolynomial{T, X}, order::Integer) where {T, X} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/SparsePolynomial.jl:233
-# derivative(p::P, order::Integer) where {T, X, P<:LaurentPolynomial{T, X}} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/LaurentPolynomial.jl:508
-# derivative(p::P, n::Int64) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/factored_polynomial.jl:352
-# derivative(p::P, order::Integer) where {T, X, P<:StandardBasisPolynomial{T, X}} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:168
-# derivative(p::ChebyshevT{T}, order::Integer) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/ChebyshevT.jl:179
-# derivative(p::ChebyshevT{T}) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/ChebyshevT.jl:179
-# derivative(pq::P, n::Int64) where P<:AbstractRationalFunction @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/rational-functions/common.jl:384
-# derivative(pq::P) where P<:AbstractRationalFunction @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/rational-functions/common.jl:384
+# derivative(p::Polynomials.ImmutableDensePolynomial{B, T, X, 0}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/immutable-polynomial.jl:142
+# derivative(p::Polynomials.ImmutableDensePolynomial{B, T, X, N}) where {B<:StandardBasis, T, X, N} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/immutable-polynomial.jl:143
+# derivative(p::P) where {B<:ChebyshevTBasis, T, X, P<:MutableDensePolynomial{B, T, X}} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/chebyshev.jl:182
+# derivative(p::P) where {B<:StandardBasis, T, X, P<:AbstractDenseUnivariatePolynomial{B, T, X}} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:126
+# derivative(p::Polynomials.MutableSparsePolynomial{B, T, X}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/sparse-polynomial.jl:89
+# derivative(p::LaurentPolynomial{T, X}) where {T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/laurent-polynomial.jl:155
+# derivative(p::P) where {B<:StandardBasis, T, X, P<:AbstractLaurentUnivariatePolynomial{B, T, X}} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:140
+# derivative(pq::P, n::Int64) where P<:AbstractRationalFunction @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/rational-functions/common.jl:368
+# derivative(pq::P) where P<:AbstractRationalFunction @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/rational-functions/common.jl:368
+# derivative(p::P, n::Int64) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/factored_polynomial.jl:372
+# derivative(p::P) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/factored_polynomial.jl:372
+# derivative(p::Polynomials.MutableSparseVectorPolynomial{B, T, X}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/sparse-vector-polynomial.jl:55
+# derivative(p::AbstractUnivariatePolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/abstract-polynomial.jl:231
+# derivative(p::AbstractUnivariatePolynomial, n::Int64) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/abstract-polynomial.jl:231
 # Methods for differentiate in package TaylorSeries
 # differentiate(n::Int64, a::Taylor1{T}) where T<:Number @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:99
 # differentiate(a::Taylor1) @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:18
@@ -435,7 +439,7 @@ derivative(pq::Polynomials.AbstractRationalFunction, n::Integer) = Polynomials.d
 derivative(a::AbstractSeries) = TaylorSeries.differentiate(a)
 derivative(a::AbstractSeries, r) = TaylorSeries.differentiate(a, r)
 
-## :entropy 
+## :entropy
 # Showing duplicate methods for entropy in packages Module[Distributions, StatsBase, Images]
 # Methods for entropy in package StatsBase
 # entropy(d::Chernoff) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/chernoff.jl:213
@@ -522,12 +526,12 @@ push!(overrides, :entropy)
 # evaluate(f::LinearDiscriminant, X::AbstractMatrix) @ MultivariateStats ~/.julia/packages/MultivariateStats/u1yuF/src/lda.jl:71
 # evaluate(f::LinearDiscriminant, x::AbstractVector) @ MultivariateStats ~/.julia/packages/MultivariateStats/u1yuF/src/lda.jl:64
 # Methods for evaluate in package Distances
-# evaluate(d::Haversine, p₁::Meshes.Point, p₂::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/odiuw/src/distances.jl:56
-# evaluate(d::SphericalAngle, p₁::Meshes.Point, p₂::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/odiuw/src/distances.jl:69
-# evaluate(d::PreMetric, p₁::Meshes.Point, p₂::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/odiuw/src/distances.jl:43
-# evaluate(d::PreMetric, g::Meshes.Geometry, p::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/odiuw/src/distances.jl:6
-# evaluate(::Euclidean, p::Meshes.Point, l::Meshes.Line) @ Meshes ~/.julia/packages/Meshes/odiuw/src/distances.jl:13
-# evaluate(d::Euclidean, l₁::Meshes.Line, l₂::Meshes.Line) @ Meshes ~/.julia/packages/Meshes/odiuw/src/distances.jl:26
+# evaluate(d::Haversine, p₁::Meshes.Point, p₂::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/1tCoG/src/distances.jl:56
+# evaluate(d::SphericalAngle, p₁::Meshes.Point, p₂::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/1tCoG/src/distances.jl:69
+# evaluate(d::PreMetric, p₁::Meshes.Point, p₂::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/1tCoG/src/distances.jl:43
+# evaluate(d::PreMetric, g::Meshes.Geometry, p::Meshes.Point) @ Meshes ~/.julia/packages/Meshes/1tCoG/src/distances.jl:6
+# evaluate(::Euclidean, p::Meshes.Point, l::Meshes.Line) @ Meshes ~/.julia/packages/Meshes/1tCoG/src/distances.jl:13
+# evaluate(d::Euclidean, l₁::Meshes.Line, l₂::Meshes.Line) @ Meshes ~/.julia/packages/Meshes/1tCoG/src/distances.jl:26
 # evaluate(dist::PreMetric, a, b) @ Distances ~/.julia/packages/Distances/n9q0L/src/generic.jl:24
 # Methods for evaluate in package TaylorSeries
 # evaluate(A::Array{TaylorN{T}}, δx::Vector{T}) where T<:Number @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/evaluate.jl:449
@@ -617,18 +621,22 @@ evaluate(A::AbstractArray{TaylorN{T}, N}, δx::Vector{S}) where {T, S, N} = Tayl
 # fit(::Type{MetricMDS}, X::AbstractMatrix{T}; maxoutdim, metric, tol, maxiter, initial, weights, distances) where T<:Real @ MultivariateStats ~/.julia/packages/MultivariateStats/u1yuF/src/mmds.jl:125
 # fit(::Type{LinearDiscriminant}, Xp::DenseMatrix{T}, Xn::DenseMatrix{T}; covestimator) where T<:Real @ MultivariateStats ~/.julia/packages/MultivariateStats/u1yuF/src/lda.jl:142
 # Methods for fit in package Polynomials
-# fit(P::Type{<:Polynomials.StandardBasisPolynomial}, x::AbstractVector{T}, y::AbstractVector{T}, deg::Integer; weights, var) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:520
-# fit(P::Type{<:Polynomials.StandardBasisPolynomial}, x::AbstractVector{T}, y::AbstractVector{T}; ...) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:520
-# fit(::Type{ArnoldiFit}, x::AbstractVector{T}, y::AbstractVector{T}, deg::Int64; var, kwargs...) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:645
-# fit(::Type{ArnoldiFit}, x::AbstractVector{T}, y::AbstractVector{T}; ...) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:645
-# fit(P::Type{<:AbstractPolynomial}, x::AbstractVector{T}, y::AbstractVector{T}; ...) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:110
-# fit(P::Type{<:AbstractPolynomial}, x::AbstractVector{T}, y::AbstractVector{T}, deg::Integer; weights, var) where T @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:110
-# fit(P::Type{<:AbstractPolynomial}, x, y; ...) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:119
-# fit(P::Type{<:AbstractPolynomial}, x, y, deg::Integer; weights, var) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:119
-# fit(::Type{RationalFunction}, r::Polynomial, m::Integer, n::Integer; var) @ Polynomials.RationalFunctionFit ~/.julia/packages/Polynomials/UpyN2/src/rational-functions/fit.jl:112
-# fit(::Type{PQ}, xs::AbstractVector{S}, ys::AbstractVector{T}, m, n; var) where {T, S, PQ<:RationalFunction} @ Polynomials.RationalFunctionFit ~/.julia/packages/Polynomials/UpyN2/src/rational-functions/fit.jl:69
-# fit(x::AbstractVector, y::AbstractVector; ...) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:134
-# fit(x::AbstractVector, y::AbstractVector, deg::Integer; weights, var) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:134
+# fit(::Type{ArnoldiFit}, x::AbstractVector{T}, y::AbstractVector{T}; ...) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:764
+# fit(P::Type{<:AbstractUnivariatePolynomial{<:Polynomials.StandardBasis, T, X} where {T, X}}, x::AbstractVector{T}, y::AbstractVector{T}; ...) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:554
+# fit(P::Type{<:AbstractPolynomial}, x::AbstractVector{T}, y::AbstractVector{T}; ...) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:110
+# fit(::Type{ArnoldiFit}, x::AbstractVector{T}, y::AbstractVector{T}, deg::Int64; var, kwargs...) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:764
+# fit(P::Type{<:AbstractUnivariatePolynomial{<:Polynomials.StandardBasis, T, X} where {T, X}}, x::AbstractVector{T}, y::AbstractVector{T}, deg::Integer; weights, var) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:554
+# fit(P::Type{<:AbstractPolynomial}, x::AbstractVector{T}, y::AbstractVector{T}, deg::Integer; weights, var) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:110
+# fit(P::Type{<:AbstractUnivariatePolynomial{<:Polynomials.StandardBasis, T, X} where {T, X}}, x::AbstractVector{T}, y::AbstractVector{T}, J; ...) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:591
+# fit(P::Type{<:AbstractPolynomial}, x, y, deg::Integer; weights, var) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:119
+# fit(P::Type{<:AbstractPolynomial}, x, y; ...) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:119
+# fit(::Type{RationalFunction}, r::Polynomial, m::Integer, n::Integer; var) @ Polynomials.RationalFunctionFit ~/.julia/packages/Polynomials/6i39P/src/rational-functions/fit.jl:114
+# fit(::Type{PQ}, xs::AbstractVector{S}, ys::AbstractVector{T}, m, n; var) where {T, S, PQ<:RationalFunction} @ Polynomials.RationalFunctionFit ~/.julia/packages/Polynomials/6i39P/src/rational-functions/fit.jl:71
+# fit(P::Type{<:AbstractUnivariatePolynomial{<:Polynomials.StandardBasis, T, X} where {T, X}}, x::AbstractVector{T}, y::AbstractVector{T}, J, cs::Dict; weights, var) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:602
+# fit(P::Type{<:AbstractUnivariatePolynomial{<:Polynomials.StandardBasis, T, X} where {T, X}}, x::AbstractVector{T}, y::AbstractVector{T}, J, cs; weights, var) where T @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:591
+# fit(::Type{P}, x::AbstractVector{T}, y::AbstractVector{T}, deg, cs::Dict; kwargs...) where {T, P<:AbstractUnivariatePolynomial} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/abstract-polynomial.jl:243
+# fit(x::AbstractVector, y::AbstractVector; ...) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:134
+# fit(x::AbstractVector, y::AbstractVector, deg::Integer; weights, var) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:134
 @doc (@doc Distributions.fit)
 fit(::Type{Distributions.UnivariateDistribution}, data::Tuple{Int64, AbstractArray}) = Distributions.fit(::Type{Distributions.UnivariateDistribution}, data)
 @doc (@doc MultivariateStats.fit)
@@ -707,15 +715,18 @@ push!(overrides, :height)
 ## :integrate
 # Showing duplicate methods for integrate in packages Module[Polynomials, TaylorSeries]
 # Methods for integrate in package Polynomials
-# integrate(p::P) where {T, X, P<:LaurentBasisPolynomial{T, X}} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:208
-# integrate(p::P) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/factored_polynomial.jl:345
-# integrate(p::P) where {T, X, P<:StandardBasisPolynomial{T, X}} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/standard-basis.jl:190
-# integrate(p::ChebyshevT{T, X}) where {T, X} @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/polynomials/ChebyshevT.jl:156
-# integrate(P::AbstractPolynomial) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:262
-# integrate(p::P, k::S) where {T, X, P<:Poly{T, X}, S<:Number} @ Polynomials.PolyCompat ~/.julia/packages/Polynomials/UpyN2/src/polynomials/Poly.jl:117
-# integrate(p::P, C) where P<:AbstractPolynomial @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:269
-# integrate(p::AbstractPolynomial, a, b) @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/common.jl:280
-# integrate(pq::P) where P<:AbstractRationalFunction @ Polynomials ~/.julia/packages/Polynomials/UpyN2/src/rational-functions/common.jl:394
+# integrate(p::P) where {B<:ChebyshevTBasis, T, X, P<:MutableDensePolynomial{B, T, X}} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/chebyshev.jl:206
+# integrate(p::Polynomials.ImmutableDensePolynomial{B, T, X, 0}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/immutable-polynomial.jl:151
+# integrate(p::Polynomials.ImmutableDensePolynomial{B, T, X, N}) where {B<:StandardBasis, T, X, N} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/immutable-polynomial.jl:153
+# integrate(p::P) where {B<:StandardBasis, T, X, P<:AbstractDenseUnivariatePolynomial{B, T, X}} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:144
+# integrate(p::Polynomials.MutableSparsePolynomial{B, T, X}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/sparse-polynomial.jl:104
+# integrate(p::Polynomials.AbstractLaurentUnivariatePolynomial{B, T, X}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/standard-basis.jl:162
+# integrate(pq::P) where P<:AbstractRationalFunction @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/rational-functions/common.jl:378
+# integrate(p::P) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/factored_polynomial.jl:365
+# integrate(p::Polynomials.MutableSparseVectorPolynomial{B, T, X}) where {B<:StandardBasis, T, X} @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/polynomials/standard-basis/sparse-vector-polynomial.jl:73
+# integrate(P::AbstractPolynomial) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:228
+# integrate(p::P, C) where P<:AbstractPolynomial @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:236
+# integrate(p::AbstractPolynomial, a, b) @ Polynomials ~/.julia/packages/Polynomials/6i39P/src/common.jl:248
 # Methods for integrate in package TaylorSeries
 # integrate(a::Taylor1{T}, x::S) where {T<:Number, S<:Number} @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:113
 # integrate(a::Taylor1{T}) where T<:Number @ TaylorSeries ~/.julia/packages/TaylorSeries/XsXwM/src/calculus.jl:125
@@ -735,16 +746,16 @@ push!(overrides, :height)
 # islinear(::IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:33
 # islinear(::NullOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:126
 # islinear(::MatrixOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/matrix.jl:102
-# islinear(f::SplitFunction) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/scimlfunctions.jl:4434
-# islinear(f::ODEFunction) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/scimlfunctions.jl:4433
-# islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/scimlfunctions.jl:4432
+# islinear(f::ODEFunction) @ SciMLBase ~/.julia/packages/SciMLBase/PTTHz/src/scimlfunctions.jl:4469
+# islinear(f::SplitFunction) @ SciMLBase ~/.julia/packages/SciMLBase/PTTHz/src/scimlfunctions.jl:4470
+# islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/PTTHz/src/scimlfunctions.jl:4468
 # islinear(L::FunctionOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/func.jl:579
-# islinear(o::SciMLBase.AbstractDiffEqLinearOperator) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/operators/operators.jl:4
 # islinear(L::SciMLOperators.ScaledOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:250
 # islinear(L::SciMLOperators.TransposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/left.jl:78
 # islinear(L::SciMLOperators.AddedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:418
 # islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/matrix.jl:536
 # islinear(::SciMLOperators.AbstractSciMLScalarOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/scalar.jl:32
+# islinear(o::SciMLBase.AbstractDiffEqLinearOperator) @ SciMLBase ~/.julia/packages/SciMLBase/PTTHz/src/operators/operators.jl:4
 # islinear(L::SciMLOperators.ComposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:583
 # islinear(::SciMLOperators.BatchedDiagonalOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/batch.jl:98
 # islinear(L::SciMLOperators.InvertedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:766
@@ -753,7 +764,7 @@ push!(overrides, :height)
 # islinear(L::InvertibleOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/matrix.jl:343
 # islinear(::SciMLOperators.AbstractSciMLOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:309
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:311
-# islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/operators/operators.jl:7
+# islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/PTTHz/src/operators/operators.jl:7
 islinear = DifferentialEquations.islinear
 
 ## :issquare
@@ -890,14 +901,6 @@ nan(::Type{C}) where {T<:AbstractFloat, C<:(Colorant{T})} = Images.nan(C)
 nan(::Type{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64} = DoubleFloats.nan(T)
 export nan
 push!(overrides, :nan)
-
-## :order
-# Showing duplicate methods for order in packages Module[DataFrames, Polynomials]
-# Methods for order in package DataFrames
-# order(col::T; kwargs...) where T<:Union{AbstractString, Signed, Symbol, Unsigned} @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/abstractdataframe/sort.jl:70
-# Methods for order in package Polynomials
-# order(args...; kwargs...) @ Polynomials deprecated.jl:113
-order = DataFrames.order 
 
 ## :params
 # Showing duplicate methods for params in packages Module[Distributions, BenchmarkTools]
@@ -1057,7 +1060,7 @@ push!(overrides, :properties)
 # right(x, ::Union{InitialValues.NonspecificInitialValue, InitialValues.SpecificInitialValue{typeof(Transducers.right)}}) @ Transducers ~/.julia/packages/InitialValues/OWP8V/src/InitialValues.jl:161
 # right(l, r) @ Transducers ~/.julia/packages/Transducers/txnl6/src/core.jl:868
 # Methods for right in package Makie
-# right(rect::Rect2) @ Makie ~/.julia/packages/Makie/eERNK/src/makielayout/geometrybasics_extension.jl:3
+# right(rect::Rect2) @ Makie ~/.julia/packages/Makie/YkotL/src/makielayout/geometrybasics_extension.jl:3
 
 ## :rmsd
 # Showing duplicate methods for rmsd in packages Module[StatsBase, Distances]
@@ -1071,23 +1074,23 @@ push!(overrides, :properties)
 # Methods for rotate! in package LinearAlgebra
 # rotate!(x::AbstractVector, y::AbstractVector, c, s) @ LinearAlgebra /Applications/Julia-1.10.app/Contents/Resources/julia/share/julia/stdlib/v1.10/LinearAlgebra/src/generic.jl:1535
 # Methods for rotate! in package Makie
-# rotate!(l::RectLight, q...) @ Makie ~/.julia/packages/Makie/eERNK/src/lighting.jl:194
-# rotate!(t::MakieCore.Transformable, axis_rot::AbstractFloat) @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:126
-# rotate!(t::MakieCore.Transformable, axis_rot::Quaternion) @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:125
-# rotate!(t::MakieCore.Transformable, axis_rot...) @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:124
-# rotate!(::Type{T}, t::MakieCore.Transformable, q) where T @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:98
-# rotate!(::Type{T}, t::MakieCore.Transformable, axis_rot...) where T @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:115
+# rotate!(l::RectLight, q...) @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:194
+# rotate!(t::MakieCore.Transformable, axis_rot::AbstractFloat) @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:126
+# rotate!(t::MakieCore.Transformable, axis_rot::Quaternion) @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:125
+# rotate!(t::MakieCore.Transformable, axis_rot...) @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:124
+# rotate!(::Type{T}, t::MakieCore.Transformable, q) where T @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:98
+# rotate!(::Type{T}, t::MakieCore.Transformable, axis_rot...) where T @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:115
 
 ## :scale!
 # Showing duplicate methods for scale! in packages Module[Distributions, CairoMakie]
 # Methods for scale! in package Distributions
 # scale!(::Type{D}, s::Symbol, m::AbstractVector, S::AbstractMatrix, Σ::AbstractMatrix) where D<:AbstractMvLogNormal @ Distributions ~/.julia/packages/Distributions/uuqsE/src/multivariate/mvlognormal.jl:112
 # Methods for scale! in package Makie
-# scale!(t::MakieCore.Transformable, s) @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:82
-# scale!(t::MakieCore.Transformable, xyz...) @ Makie ~/.julia/packages/Makie/eERNK/src/layouting/transformation.jl:94
-# scale!(l::RectLight, xy::Union{Tuple{Vararg{T, N}}, StaticArray{Tuple{N}, T, 1}} where {N, T}) @ Makie ~/.julia/packages/Makie/eERNK/src/lighting.jl:214
-# scale!(l::RectLight, x::Real, y::Real) @ Makie ~/.julia/packages/Makie/eERNK/src/lighting.jl:213
-# scale!(::Type{T}, l::RectLight, s) where T @ Makie ~/.julia/packages/Makie/eERNK/src/lighting.jl:201
+# scale!(t::MakieCore.Transformable, s) @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:82
+# scale!(t::MakieCore.Transformable, xyz...) @ Makie ~/.julia/packages/Makie/YkotL/src/layouting/transformation.jl:94
+# scale!(l::RectLight, xy::Union{Tuple{Vararg{T, N}}, StaticArray{Tuple{N}, T, 1}} where {N, T}) @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:214
+# scale!(l::RectLight, x::Real, y::Real) @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:213
+# scale!(::Type{T}, l::RectLight, s) where T @ Makie ~/.julia/packages/Makie/YkotL/src/lighting.jl:201
 
 ## :shape
 # Showing duplicate methods for shape in packages Module[Distributions, JuMP]
@@ -1110,7 +1113,7 @@ push!(overrides, :properties)
 # shape(con::VectorConstraint) @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/constraints.jl:978
 # shape(::ScalarConstraint) @ JuMP ~/.julia/packages/JuMP/6RAQ9/src/constraints.jl:881
 
-## :solve! 
+## :solve!
 # Showing duplicate methods for solve! in packages Module[Krylov, Roots, DifferentialEquations]
 # Methods for solve! in package Krylov
 # solve!(solver::TrimrSolver{T, FC, S}, A, b::AbstractVector{FC}, c::AbstractVector{FC}, x0::AbstractVector, y0::AbstractVector; M, N, ldiv, spd, snd, flip, sp, τ, ν, atol, rtol, itmax, timemax, verbose, history, callback, iostream) where {T<:AbstractFloat, FC<:Union{Complex{T}, T}, S<:AbstractVector{FC}} @ Krylov ~/.julia/packages/Krylov/fwLT6/src/krylov_solve.jl:59
@@ -1175,48 +1178,53 @@ push!(overrides, :properties)
 # solve!(solver::TricgSolver{T, FC, S}, A, b::AbstractVector{FC}, c::AbstractVector{FC}; M, N, ldiv, spd, snd, flip, τ, ν, atol, rtol, itmax, timemax, verbose, history, callback, iostream) where {T<:AbstractFloat, FC<:Union{Complex{T}, T}, S<:AbstractVector{FC}} @ Krylov ~/.julia/packages/Krylov/fwLT6/src/krylov_solve.jl:46
 # solve!(solver::LnlqSolver{T, FC, S}, A, b::AbstractVector{FC}; M, N, ldiv, transfer_to_craig, sqd, λ, σ, utolx, utoly, atol, rtol, itmax, timemax, verbose, history, callback, iostream) where {T<:AbstractFloat, FC<:Union{Complex{T}, T}, S<:AbstractVector{FC}} @ Krylov ~/.julia/packages/Krylov/fwLT6/src/krylov_solve.jl:46
 # Methods for solve! in package CommonSolve
-# solve!(cache::NonlinearSolve.NonlinearSolvePolyAlgorithmCache{iip, N}) where {iip, N} @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sETeN/src/default.jl:141
-# solve!(cache::NonlinearSolve.NonlinearSolveNoInitCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sETeN/src/core/noinit.jl:35
-# solve!(cache::NonlinearSolve.AbstractNonlinearSolveCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sETeN/src/core/generic.jl:11
-# solve!(cache::SciMLBase.AbstractOptimizationCache) @ SciMLBase ~/.julia/packages/SciMLBase/M57fR/src/solve.jl:185
-# solve!(cache::LinearSolve.SimpleGMRESCache{true}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:450
-# solve!(cache::LinearSolve.SimpleGMRESCache{false}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:220
-# solve!(integ::DiffEqBase.NullODEIntegrator) @ DiffEqBase ~/.julia/packages/DiffEqBase/vscDj/src/solve.jl:640
-# solve!(integrator::StochasticDiffEq.SDEIntegrator) @ StochasticDiffEq ~/.julia/packages/StochasticDiffEq/t06NJ/src/solve.jl:611
-# solve!(cache::NonlinearSolve.NonlinearSolveForwardDiffCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sETeN/src/internal/forward_diff.jl:51
-# solve!(cache::BoundaryValueDiffEq.FIRKCacheExpand) @ BoundaryValueDiffEq ~/.julia/packages/BoundaryValueDiffEq/YN0of/src/solve/firk.jl:289
-# solve!(integrator::Sundials.AbstractSundialsIntegrator; early_free, calculate_error) @ Sundials ~/.julia/packages/Sundials/KMu6U/src/common_interface/solve.jl:1402
-# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/55UVY/src/solve.jl:544
-# solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/xs5DA/src/solve.jl:545
-# solve!(P::Roots.ZeroProblemIterator{𝑴, 𝑵, 𝑭, 𝑺, 𝑶, 𝑳}; verbose) where {𝑴<:Bisection, 𝑵, 𝑭, 𝑺, 𝑶<:ExactOptions, 𝑳} @ Roots ~/.julia/packages/Roots/KNVCY/src/Bracketing/bisection.jl:172
-# solve!(𝐙::Roots.ZeroProblemIterator{𝐌, 𝐍}; verbose) where {𝐌, 𝐍<:AbstractBracketingMethod} @ Roots ~/.julia/packages/Roots/KNVCY/src/hybrid.jl:30
-# solve!(P::Roots.ZeroProblemIterator; verbose) @ Roots ~/.julia/packages/Roots/KNVCY/src/find_zero.jl:443
+# solve!(cache::NonlinearSolve.NonlinearSolvePolyAlgorithmCache{iip, N}) where {iip, N} @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/default.jl:141
+# solve!(cache::LineSearch.NoLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/no_search.jl:19
+# solve!(cache::LineSearch.RobustNonMonotoneLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/robust_non_monotone.jl:90
+# solve!(cache::LineSearch.LineSearchesJLCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/line_searches_ext.jl:128
 # solve!(integrator::JumpProcesses.SSAIntegrator) @ JumpProcesses ~/.julia/packages/JumpProcesses/3mbsw/src/SSA_stepper.jl:120
-# solve!(cache::LinearSolve.LinearCache, alg::UMFPACKFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:816
-# solve!(cache::LinearSolve.LinearCache, alg::KLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:895
-# solve!(cache::LinearSolve.LinearCache, alg::MKLLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/mkl.jl:213
-# solve!(cache::LinearSolve.LinearCache, alg::SparspakFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1373
-# solve!(cache::LinearSolve.LinearCache, alg::FastLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1237
-# solve!(cache::LinearSolve.LinearCache, alg::SimpleLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplelu.jl:133
-# solve!(cache::LinearSolve.LinearCache, alg::NormalBunchKaufmanFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1172
-# solve!(cache::LinearSolve.LinearCache, alg::DirectLdiv!, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/solve_function.jl:17
-# solve!(cache::LinearSolve.LinearCache, alg::Nothing, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/default.jl:298
+# solve!(cache::LineSearch.StaticLiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/li_fukushima.jl:136
+# solve!(cache::LineSearch.LiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/li_fukushima.jl:96
+# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/55UVY/src/solve.jl:544
+# solve!(cache::SciMLBase.AbstractOptimizationCache) @ SciMLBase ~/.julia/packages/SciMLBase/PTTHz/src/solve.jl:185
+# solve!(cache::LinearSolve.SimpleGMRESCache{false}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:220
+# solve!(cache::LinearSolve.SimpleGMRESCache{true}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:450
+# solve!(cache::BoundaryValueDiffEq.FIRKCacheExpand) @ BoundaryValueDiffEq ~/.julia/packages/BoundaryValueDiffEq/YN0of/src/solve/firk.jl:289
+# solve!(integrator::StochasticDiffEq.SDEIntegrator) @ StochasticDiffEq ~/.julia/packages/StochasticDiffEq/t06NJ/src/solve.jl:611
+# solve!(integ::DiffEqBase.NullODEIntegrator) @ DiffEqBase ~/.julia/packages/DiffEqBase/uqSeD/src/solve.jl:643
+# solve!(cache::NonlinearSolve.NonlinearSolveNoInitCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/core/noinit.jl:35
+# solve!(cache::NonlinearSolve.NonlinearSolveForwardDiffCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/internal/forward_diff.jl:51
+# solve!(cache::NonlinearSolve.AbstractNonlinearSolveCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/core/generic.jl:11
 # solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.DefaultLinearSolver, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/default.jl:356
+# solve!(cache::LinearSolve.LinearCache, alg::SimpleLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplelu.jl:133
+# solve!(cache::LinearSolve.LinearCache, alg::UMFPACKFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:816
+# solve!(cache::LinearSolve.LinearCache, alg::DirectLdiv!, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/solve_function.jl:17
 # solve!(cache::LinearSolve.LinearCache, alg::DiagonalFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1199
+# solve!(cache::LinearSolve.LinearCache, alg::SparspakFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1373
+# solve!(cache::LinearSolve.LinearCache, alg::KLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:895
+# solve!(cache::LinearSolve.LinearCache, alg::NormalBunchKaufmanFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1172
+# solve!(cache::LinearSolve.LinearCache, alg::Nothing, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/default.jl:298
 # solve!(cache::LinearSolve.LinearCache, alg::AppleAccelerateLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/appleaccelerate.jl:237
+# solve!(cache::LinearSolve.LinearCache, alg::MKLLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/mkl.jl:213
+# solve!(cache::LinearSolve.LinearCache, alg::FastLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1237
 # solve!(cache::LinearSolve.LinearCache, alg::RFLUFactorization{P, T}; kwargs...) where {P, T} @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1031
-# solve!(cache::LinearSolve.LinearCache, alg::LUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:79
-# solve!(cache::LinearSolve.LinearCache, alg::SimpleGMRES; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:148
-# solve!(cache::LinearSolve.LinearCache, alg::CHOLMODFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:967
-# solve!(cache::LinearSolve.LinearCache, alg::NormalCholeskyFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1118
-# solve!(cache::LinearSolve.LinearCache, alg::FastQRFactorization{P}; kwargs...) where P @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1290
 # solve!(cache::LinearSolve.LinearCache, alg::KrylovJL; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/iterative_wrappers.jl:227
+# solve!(cache::LinearSolve.LinearCache, alg::SimpleGMRES; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:148
+# solve!(cache::LinearSolve.LinearCache, alg::NormalCholeskyFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1118
+# solve!(cache::LinearSolve.LinearCache, alg::CHOLMODFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:967
+# solve!(cache::LinearSolve.LinearCache, alg::FastQRFactorization{P}; kwargs...) where P @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1290
+# solve!(cache::LinearSolve.LinearCache, alg::LUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:79
 # solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.AbstractFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/LinearSolve.jl:151
 # solve!(cache::LinearSolve.LinearCache, alg::LinearSolveFunction, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/solve_function.jl:6
 # solve!(cache::LinearSolve.LinearCache, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/common.jl:273
+# solve!(P::Roots.ZeroProblemIterator{𝑴, 𝑵, 𝑭, 𝑺, 𝑶, 𝑳}; verbose) where {𝑴<:Bisection, 𝑵, 𝑭, 𝑺, 𝑶<:ExactOptions, 𝑳} @ Roots ~/.julia/packages/Roots/KNVCY/src/Bracketing/bisection.jl:172
+# solve!(𝐙::Roots.ZeroProblemIterator{𝐌, 𝐍}; verbose) where {𝐌, 𝐍<:AbstractBracketingMethod} @ Roots ~/.julia/packages/Roots/KNVCY/src/hybrid.jl:30
+# solve!(P::Roots.ZeroProblemIterator; verbose) @ Roots ~/.julia/packages/Roots/KNVCY/src/find_zero.jl:443
+# solve!(integrator::Sundials.AbstractSundialsIntegrator; early_free, calculate_error) @ Sundials ~/.julia/packages/Sundials/KMu6U/src/common_interface/solve.jl:1402
+# solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/xs5DA/src/solve.jl:545
 # solve!(cache::Union{BoundaryValueDiffEq.FIRKCacheNested, BoundaryValueDiffEq.MIRKCache}) @ BoundaryValueDiffEq ~/.julia/packages/BoundaryValueDiffEq/YN0of/src/solve/mirk.jl:146
 
-## :spectrogram 
+## :spectrogram
 # Showing duplicate methods for spectrogram in packages Module[Flux, DSP]
 # Methods for spectrogram in package NNlib
 # spectrogram(waveform; pad, n_fft, hop_length, window, center, power, normalized, window_normalized) @ NNlib ~/.julia/packages/NNlib/CkJqS/src/audio/spectrogram.jl:28
@@ -1277,12 +1285,12 @@ push!(overrides, :properties)
 # stft(s::AbstractVector{T}, n::Int64; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
 # stft(s::AbstractVector{T}; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
 
-## :top 
+## :top
 # Showing duplicate methods for top in packages Module[DataStructures, CairoMakie]
 # Methods for top in package DataStructures
 # top(args...; kwargs...) @ DataStructures deprecated.jl:113
 # Methods for top in package Makie
-# top(rect::Rect2) @ Makie ~/.julia/packages/Makie/eERNK/src/makielayout/geometrybasics_extension.jl:5
+# top(rect::Rect2) @ Makie ~/.julia/packages/Makie/YkotL/src/makielayout/geometrybasics_extension.jl:5
 top = Makie.top 
 export top
 push!(overrides, :top)
@@ -1299,7 +1307,7 @@ push!(overrides, :top)
 # transform(arg::Union{Function, Type}, df::AbstractDataFrame; renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/abstractdataframe/selection.jl:1388
 # transform(df::AbstractDataFrame, args...; copycols, renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/kcA9R/src/abstractdataframe/selection.jl:1383
 
-## :trim 
+## :trim
 # Showing duplicate methods for trim in packages Module[StatsBase, BenchmarkTools]
 # Methods for trim in package StatsBase
 # trim(x::AbstractVector; prop, count) @ StatsBase ~/.julia/packages/StatsBase/ebrT3/src/robust.jl:52
@@ -1327,7 +1335,7 @@ trim!(gl::Makie.GridLayout) = Makie.trim!(gl)
 export trim!
 push!(overrides, :trim!)
 
-## :update! 
+## :update!
 # Showing duplicate methods for update! in packages Module[DataStructures, ProgressMeter, TaylorSeries]
 # Methods for update! in package DataStructures
 # update!(pt::JumpProcesses.PriorityTable, pid, oldpriority, newpriority) @ JumpProcesses ~/.julia/packages/JumpProcesses/3mbsw/src/aggregators/prioritytable.jl:186
@@ -1357,15 +1365,15 @@ update!(a::TaylorSeries.TaylorN, vals::Vector) = TaylorSeries.update!(a, vals)
 export update!
 push!(overrides, :update!)
 
-## :volume 
+## :volume
 # Showing duplicate methods for volume in packages Module[GeometryBasics, CairoMakie]
 # Methods for volume in package GeometryBasics
 # volume(mesh::GeometryBasics.Mesh) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/meshes.jl:233
 # volume(triangle::Triangle) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/meshes.jl:221
 # volume(prim::HyperRectangle) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/primitives/rectangles.jl:189
 # Methods for volume in package MakieCore
-# volume() @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/recipes.jl:432
-# volume(args...; kw...) @ MakieCore ~/.julia/packages/MakieCore/rTINf/src/recipes.jl:447
+# volume() @ MakieCore ~/.julia/packages/MakieCore/NeQjl/src/recipes.jl:432
+# volume(args...; kw...) @ MakieCore ~/.julia/packages/MakieCore/NeQjl/src/recipes.jl:447
 @doc (@doc GeometryBasics.volume)
 volume(mesh::GeometryBasics.Mesh) = GeometryBasics.volume(mesh)
 volume(triangle::GeometryBasics.Triangle) = GeometryBasics.volume(triangle)
@@ -1399,6 +1407,7 @@ push!(overrides, :weights)
 # Methods for width in package GeometryBasics
 # width(prim::HyperRectangle) @ GeometryBasics ~/.julia/packages/GeometryBasics/ebXl0/src/primitives/rectangles.jl:186
 # Methods for width in package Measures
+# width(x::BoundingBox) @ Measures ~/.julia/packages/Measures/PKOxJ/src/boundingbox.jl:43
 @doc (@doc GeometryBasics.width)
 width(prim::HyperRectangle) = GeometryBasics.width(prim)
 @doc (@doc Measures.width)
@@ -1430,6 +1439,7 @@ push!(overrides, :width)
 # ⊗(k::Integer) @ LinearMaps ~/.julia/packages/LinearMaps/GRDXH/src/kronecker.jl:134
 # Methods for ⊗ in package DoubleFloats
 # ⊗(x::T, y::T) where T<:Union{Float16, Float32, Float64} @ DoubleFloats ~/.julia/packages/DoubleFloats/iU3tv/src/math/ops/arith.jl:82
+
 # This ignores images, which also exports it's function under tensor. 
 @doc (@doc getfield(LinearMaps, :⊗))
 ⊗(k::Integer) = LinearMaps.⊗(k)
@@ -1438,3 +1448,9 @@ push!(overrides, :width)
 ⊗(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊗(x, y)
 export ⊗
 push!(overrides, :⊗)
+##-Unused overrides
+#=
+## :order
+order = DataFrames.order 
+
+=#

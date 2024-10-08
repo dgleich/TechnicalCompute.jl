@@ -133,3 +133,106 @@ function report_on_all_methods_for_all_duplicate_names(;packages=TechnicalComput
     end
   end
 end 
+
+
+function _read_overrides(filename)
+  overrides = Dict{Symbol, Vector{String}}()
+  name = nothing 
+  overrides_lines = String[] 
+  aftername = false 
+  open(filename, "r") do io 
+    lines = readlines(io)
+    for line in lines 
+      if startswith(line, "## :")
+        # we start a new symbol 
+        if name !== nothing
+          overrides[name] = copy(overrides_lines)
+        end
+        # parse a symbol from a string 
+        name = Meta.parse(line[4:end]).value 
+        empty!(overrides_lines)
+        aftername = true 
+      elseif startswith(line, "##-")
+        continue # this is just an extra comment we use for structural pieces... 
+      elseif startswith(line, "#=")
+        continue # this is just an extra comment we use for structural pieces... 
+      elseif startswith(line, "=#")
+        continue # this is just an extra comment we use for structural pieces... 
+      elseif aftername && startswith(line, "#")
+        continue 
+      else
+        aftername = false 
+        push!(overrides_lines, line)
+      end
+    end
+  end 
+  # handle the last item
+  if name !== nothing
+    overrides[name] = copy(overrides_lines)
+  end
+  return overrides 
+end 
+
+function _write_overrides(;io=stdout, namesused, overrides)
+  namesused = sort(collect(namesused), by = x -> x[1])
+  println(io, "const overrides = Set{Symbol}()")
+  println(io, "") 
+  usedoverrides = Set{Symbol}()
+  
+  for (name, pkgs) in namesused
+    if length(pkgs) > 1
+      handles = map(pkgs) do pkg
+        getfield(pkg, name)
+      end
+      handles = unique(handles)
+      # Filter out empty methods
+      # TODO, add a note to flag any empty methods... 
+      allmethods = methods.(handles)
+      #filter!(ms -> !isempty(ms), allmethods)
+      if length(allmethods) > 1
+        println(io, "## :$name")
+        println(io, "# Showing duplicate methods for $name in packages $(pkgs)")
+        for h in unique(handles) 
+          println(io, "# Methods for $(h) in package $(typeof(h).name.module)")
+          for method in methods(h)
+            println(io, "# ", method)
+          end
+        end
+        if name in keys(overrides)
+          println.(io, overrides[name]) # add the previous overrides... 
+          # remove the name from the list of names used...
+          push!(usedoverrides, name)
+        end
+      end
+    end
+  end
+
+  # Now print out any remaining overrides...
+  println(io, "##-Unused overrides")
+  remaining_overrides = setdiff(keys(overrides), usedoverrides)
+  sort!(collect(remaining_overrides))
+  for name in remaining_overrides
+    println(io, "#=")
+    println(io, "## :$name")
+    println.(io, overrides[name])
+    println(io, "=#")
+  end
+end
+
+function merge_overrides_file(;filename="src/overrides.jl", packages = TechnicalCompute.packages)
+  # first, make a copy of overrides file with the current timestamp and a backup
+  # copy of the original file
+  timestamp = Dates.format(now(), "yyyy-mm-dd-HHMMSS")
+  backupfilename = replace(filename, ".jl" => "-$timestamp.backup")  
+  cp(filename, backupfilename) # TODO, how to tell if this failed? 
+
+  # Now we need to read in the the file and the list of overrides... 
+  overrides = _read_overrides(filename)
+
+  # Now write out any changes... 
+  namesused = _names_in_packages(map(pkg->eval(Meta.parse("$pkg")), packages))
+  open(filename, "w") do io 
+    _write_overrides(;io=io, namesused, overrides)
+  end
+end 
+  
