@@ -59,18 +59,9 @@ end
   @test true
 end
 
-@testset "Combinatorics" begin
-  @test String(nthperm(Vector{Char}("abc"), 2)) == "acb"
-end
 
 @testset "Makie" begin 
   @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
-end 
-
-@testset "Graphs" begin 
-  @test degree(path_graph(5)) == [1, 2, 2, 2, 1]
-  @test degree(path_graph(5), 4:5) == [2, 1]
-  @test degree(path_graph(5), 1) == 1
 end 
 
 @testset "MultivariateStats"  begin 
@@ -103,4 +94,76 @@ end
     dfdx = (Differential(x))(f) 
     return simplify(expand_derivatives(dfdx) == 2x)
   end 
+end
+
+
+@testset "Graphs" begin 
+  @test degree(path_graph(5)) == [1, 2, 2, 2, 1]
+  @test degree(path_graph(5), 4:5) == [2, 1]
+  @test degree(path_graph(5), 1) == 1
 end 
+
+@testset "SimpleWeightedGraphs" begin 
+  g = SimpleWeightedGraph(3)
+  add_edge!(g, 1, 2, 0.5)
+  add_edge!(g, 2, 3, 0.8)
+  add_edge!(g, 1, 3, 2.0)
+  @test  get_weight(g, 1, 2) == 0.5
+  @test enumerate_paths(dijkstra_shortest_paths(g, 1), 3) == [1,2,3]
+  add_edge!(g, 1, 2, 1.6)
+  @test  enumerate_paths(dijkstra_shortest_paths(g, 1), 3) == [1,3] 
+end 
+
+@testset "Metis" begin 
+  # TODO, improve this test. 
+  T = smallgraph(:tutte)
+  p = Metis.partition(T, 3)
+  @test extrema(p) == (1, 3)
+end
+
+@testset "Combinatorics" begin
+  @test String(nthperm(Vector{Char}("abc"), 2)) == "acb"
+end
+
+## Optimization Methods tested in optimization.jl
+
+@testset "ForwardDiff" begin 
+  f(x::Vector) = sin(x[1]) + prod(x[2:end]);  # returns a scalar
+  x = vcat(pi/4, 2:4)
+  @test ForwardDiff.gradient(f, x) == [  0.7071067811865476
+    12.0
+    8.0
+    6.0]
+  @test ForwardDiff.hessian(f, x) ≈ [ -0.7071067811865476  0.0  0.0  0.0
+  0.0       0.0  4.0  3.0
+  0.0       4.0  0.0  2.0
+  0.0       3.0  2.0  0.0]
+end 
+
+@testset "DifferentialEquations" begin 
+  # https://docs.sciml.ai/DiffEqDocs/stable/examples/classical_physics/
+  C₁ = 5.730
+
+  #Setup
+  u₀ = 1.0
+  tspan = (0.0, 1.0)
+
+  #Define the problem
+  radioactivedecay(u, p, t) = -C₁ * u
+
+  #Pass to solver
+  prob = ODEProblem(radioactivedecay, u₀, tspan)
+  sol = solve(prob, Tsit5())
+
+  #Plot
+  # p = plot(sol, linewidth = 2, 
+  #     axis=(title = "Carbon-14 half-life", xlabel = "Time in thousands of years", ylabel = "Percentage left"),
+  #     label = "Numerical Solution")
+  # lines!(p.axis, sol.t, t -> exp(-C₁ * t), linewidth = 3, linestyle = :dash, label = "Analytical Solution")
+
+  @test map(t -> exp(-C₁ * t), sol.t) ≈ sol.u rtol=1e-3 
+
+  p = plot(sol, linewidth = 2, 
+      axis=(title = "Carbon-14 half-life", xlabel = "Time in thousands of years", ylabel = "Percentage left"),
+      label = "Numerical Solution")
+end
