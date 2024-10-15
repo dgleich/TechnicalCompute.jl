@@ -1622,9 +1622,9 @@ spectrogram = DSP.spectrogram # Method for spectrogram in package DSP
 # state(env::PendulumNonInteractiveEnv, ::Observation, ::DefaultPlayer) @ ReinforcementLearningEnvironments ~/.julia/packages/ReinforcementLearningEnvironments/giFTe/src/environments/non_interactive/pendulum.jl:71
 # state(env::PendulumEnv, ::Observation, ::DefaultPlayer) @ ReinforcementLearningEnvironments ~/.julia/packages/ReinforcementLearningEnvironments/giFTe/src/environments/examples/PendulumEnv.jl:82
 
-state! = ReinforcementLearningBase.state! # Method for state in package ReinforcementLearningBase
-export state!
-push!(overrides: state!)
+state = ReinforcementLearning.state # Method for state in package ReinforcementLearningBase
+export state
+push!(overrides, :state)
 
 ## :statistics
 # Showing duplicate methods for statistics in packages Module[Krylov, DelaunayTriangulation]
