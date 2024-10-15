@@ -685,6 +685,9 @@ evaluate(a::TaylorSeries.AbstractSeries) = TaylorSeries.evaluate(a)
 evaluate(a::TaylorSeries.AbstractSeries, x) = TaylorSeries.evaluate(a, x)
 evaluate(a::TaylorSeries.AbstractSeries, x, y) = TaylorSeries.evaluate(a, x, y)
 
+export evaluate
+push!(overrides, :evaluate)
+
 ## :fit
 # Showing duplicate methods for fit in packages Module[Distributions, StatsBase, MultivariateStats, Polynomials]
 # Methods for fit in package StatsAPI
@@ -899,6 +902,9 @@ integrate(a::AbstractSeries) = TaylorSeries.integrate(a)
 integrate(a::AbstractSeries, r) = TaylorSeries.integrate(a, r)
 integrate(a::AbstractSeries, r, x0) = TaylorSeries.integrate(a, r, x0)
 
+export integrate
+push!(overrides, :integrate)
+
 ## :islinear
 # Showing duplicate methods for islinear in packages Module[StatsBase, DifferentialEquations]
 # Methods for islinear in package StatsAPI
@@ -926,6 +932,8 @@ integrate(a::AbstractSeries, r, x0) = TaylorSeries.integrate(a, r, x0)
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:311
 # islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/operators/operators.jl:7
 islinear = DifferentialEquations.islinear
+export islinear
+push!(overrides, :islinear)
 
 ## :issquare
 # Showing duplicate methods for issquare in packages Module[DoubleFloats, DifferentialEquations]
@@ -939,6 +947,8 @@ islinear = DifferentialEquations.islinear
 # issquare(L) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:359
 # issquare(A...) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:366
 issquare = DifferentialEquations.issquare
+export issquare
+push!(overrides, :issquare)
 
 ## :kldivergence
 # Showing duplicate methods for kldivergence in packages Module[Distributions, StatsBase, Flux]
@@ -1373,6 +1383,9 @@ right(l,r) = Transducers.right(l,r)
 @doc (@doc Makie.right)
 right(x::Rect2) = Makie.right(x)
 
+export right
+push!(overrides, :right)
+
 ## :rmsd
 # Showing duplicate methods for rmsd in packages Module[StatsBase, Distances]
 # Methods for rmsd in package StatsBase
@@ -1568,6 +1581,8 @@ push!(overrides, :shape)
 solve!(args...;kwargs...) = DifferentialEquations.solve!(args...;kwargs...)
 @doc (@doc Krylov.solve!)
 solve!(solver::KrylovSolver, args...; kwargs...) = Krylov.solve!(solver, args...; kwargs...)
+export solve!
+push!(overrides, :solve!)
 
 ## :spectrogram
 # Showing duplicate methods for spectrogram in packages Module[Flux, DSP]
@@ -1832,6 +1847,9 @@ volume(prim::GeometryBasics.HyperRectangle) = GeometryBasics.volume(prim)
 @doc (@doc Makie.volume)
 volume() = Makie.volume()
 volume(args...; kw...) = Makie.volume(args...; kw...)
+
+export volume
+push!(overrides, :volume)
 
 ## :weights
 # Showing duplicate methods for weights in packages Module[StatsBase, Graphs]
