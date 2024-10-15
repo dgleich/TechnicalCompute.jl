@@ -15,6 +15,8 @@ macro variables(expr...)
   esc(Symbolics._parse_vars(:variables, Real, expr))
   #:(Symbolics.@variables expr...)
 end
+export @variables 
+push!(overrides, :@variables)
 
 ## :Axis
 # Showing duplicate methods for Axis in packages Module[Images, AxisArrays, CairoMakie]
@@ -502,6 +504,8 @@ derivative(pq::Polynomials.AbstractRationalFunction, n::Integer) = Polynomials.d
 @doc (@doc TaylorSeries.differentiate)
 derivative(a::AbstractSeries) = TaylorSeries.differentiate(a)
 derivative(a::AbstractSeries, r) = TaylorSeries.differentiate(a, r)
+export derivative
+push!(overrides, :derivative)
 
 ## :differentiate
 # Showing duplicate methods for differentiate in packages Module[DelaunayTriangulation, TaylorSeries]
@@ -1574,6 +1578,8 @@ solve!(solver::KrylovSolver, args...; kwargs...) = Krylov.solve!(solver, args...
 # spectrogram(s::AbstractVector{T}, n::Int64; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:420
 # spectrogram(s::AbstractVector{T}; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:420
 spectrogram = DSP.spectrogram # Method for spectrogram in package DSP
+export spectrogram
+push!(overrides, :spectrogram)
 
 ## :state
 # Showing duplicate methods for state in packages Module[Flux, ReinforcementLearning]
@@ -1684,6 +1690,8 @@ push!(overrides, :statistics)
 # stft(s::AbstractVector{T}, n::Int64; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
 # stft(s::AbstractVector{T}; ...) where T @ DSP.Periodograms ~/.julia/packages/DSP/eKP6r/src/periodograms.jl:443
 stft = DSP.stft # Method for stft in package DSP
+export stft
+push!(overrides, :stft)
 
 ## :top
 # Showing duplicate methods for top in packages Module[DataStructures, CairoMakie]
