@@ -129,7 +129,7 @@ packages = [
 
 # Meshes has too many overlapping names, so we'll just import it here
 @reexport import Meshes 
-@reexport import GLMakie 
+#@reexport import GLMakie 
 
 # handle Clp failures
 if Sys.ARCH == :aarch64 && Sys.isapple() 
