@@ -1,3 +1,6 @@
+env:
+  JULIA_TECHNICALCOMPUTE_USE_GLMAKIE: false 
+
 name: CI
 on:
   push:

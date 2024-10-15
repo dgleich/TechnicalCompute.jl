@@ -140,6 +140,10 @@ for pkg in packages
   eval(Meta.parse("@reexport using $pkg"))
 end 
 
+if get(()->"true", ENV, "JULIA_TECHNICALCOMPUTE_USE_GLMAKIE") == "true"
+  @reexport import GLMakie 
+end 
+
 include("overrides.jl")
 
 
