@@ -1,43 +1,85 @@
 TechnicalCompute.jl
 ===================
 
-[![Travis](https://travis-ci.org/dgleich/TechnicalCompute.jl.svg?branch=master)](https://travis-ci.org/dgleich/TechnicalCompute.jl)
-
 This package is a meta-package for a wide variety of commonly used Julia packages. It is
 designed to make it easy to include one package that handles the diversity of technical
 computing requirements for an undergraduate degree.
 
 Topics (and the packages that support them)
 
+* Data and IO
+  * DataFrames: `DataFrames.jl`, `Tables.jl`,
+  * CSVs: `DelimitedFiles.jl`, `CSV.jl`
+  * Structured Text: `JSON.jl`, `TOML.jl`, `YAML.jl`
+  * Binary formats: `JLD2.jl`, `HDF5.jl`, `MAT.jl`, `BSON.jl`, `NIfTI.jl` 
+  * Meshes: `MeshIO.jl`
 * Discrete Mathematics
-  * Graph algorithms: `LightGraphs.jl`
+  * Graph algorithms: `Graphs.jl`, `SimpleWeightedGraphs.jl`, `Metis.jl`
   * Combinatorics: `Combinatorics.jl`
 * Engineering
   * Signals: `DSP.jl`, `FFTW.jl`
-  * Image Processing: `Images.jl`
+  * Image Processing: `Images.jl`, `ImageShow.jl`, `TestImages.jl` 
+* Geometry and Graphics
+  * Primitives: `GeometryBasics.jl`
+  * Plotting and displays: `CairoMakie.jl`  
+  * Metrics and distances: `NearestNeighbors.jl`, `Distances.jl` 
+  * Colors: `Colors.jl`, `ColorVectorSpace.jl`, `ColorSchemes.jl`,
+  * Triangulation and Meshing: `DelaunayTriangulation.jl`, `Meshes.jl` (only imported), `MeshIO.jl`
+* Machine learning and AI
+  * `Flux.jl`, `Clustering.jl` 
 * Numerical and Scientific Computing
-  * Sparse matrices: `SparseArrays`, `SuiteSparse`
+  * Sparse matrices: `SparseArrays`
   * Differential equations: `DifferentialEquations.jl`
-  * Polynomials: `Polynomials.jl`
+  * Polynomials and Series: `Polynomials.jl`, `TaylorSeries.jl`
+  * Applied Math Functions: `SpecialFunctions.jl`
+  * Matrices and Linear Algebra: `LinearAlgebra.jl`, `Arpack.jl`, `Krylov.jl`, `LinearMaps.jl`
+  * High-accuracy: `DoubleFloats.jl`, `MultiFloats.jl`, `KahanSummation.jl`
+  * Po
 * Optimization and Operations Research
-  * Modeling: `JuMP.jl` for Linear Programs and Nonlinear Problems
+  * Modeling: `JuMP.jl` for Linear Programs and Nonlinear Problems 
+  * and associated solvers `Ipopt.jl`, `HiGHS.jl`, `GLPK.jl` (and `Clp.jl` where supported)
   * Root finding: `Roots.jl`
-* Statistics
+* Probability and Statistics
+  * General: `StatsBase.jl` and `Statistics.jl` 
+  * Distributions: `Distributions.jl`
+  * Kernel density estimation: `KernelDensity.jl`
   * Multivariate: `MultivariateStats.jl`
   * Simple functions: `Statistics`
-  
-  
+  * General Linear Models: `GLM.jl`
+* Programming 
+  * `DataStructures.jl`
+  * `OrderedCollections.jl`
+  * `BenchmarkTools.jl`
+  * `Transducers.jl`
+  * `ThreadsX.jl`
+  * `IterTools.jl`  
+  * `Observables.jl`
+* Symbolic computing
+  * Automatic differentiation: `ForwardDiff.jl`
+  * `Symbolics.jl`
+* Helpful tools
+  * Random numbers: `Random.jl`, `StableRNGs.jl`
+  * Output: `ProgressMeter.jl`, `Printf.jl`
+  * Dates: `Dates.jl`
+  * LaTeX: `LaTeXStrings.jl`
+  * Arrays: `StaticArrays.jl`, `IndirectArrays.jl`, `OffsetArrays.jl`, `FillArrays.jl`, `AxisArrays.jl`, `TiledIteration.jl`, `MosaicViews.jl`
+  * Units: `Measures.jl`, `Unitful.jl`
+
 And this also includes a variety of useful utility packages in the base Julia library and beyond to make working with files and output easy. 
-* `Random` 
-* `DelimitedFiles`
-* `IterTools`
-* `Printf`
-* `SpecialFunctions`
-* `BenchmarkTools`
-* `JSON.jl`
-* `HDF5.jl`
-* `Plots.jl` 
-* `CSV.jl`
+
+
+## To consider
+- `Bessels.jl`
+- `Interpolations.jl`
+- `NaNMath.jl`
+- `ApproxFun.jl`
+- `FastTransforms.jl`
+- `NMF.jl`
+- `TSne.jl`
+- `UMap.jl`
+- `Convex.jl`
+- `SCS.jl`
+
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
 
