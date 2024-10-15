@@ -24,8 +24,8 @@ function test_name_in_packages_for_equality(packages, name, overlaps)
   handles = map(packages) do pkg
     getfield(pkg, name)
   end
-  #overriden_names = TechnicalCompute.overrides
-  overriden_names = Set{Symbol}()
+  overriden_names = TechnicalCompute.overrides
+  #overriden_names = Set{Symbol}()
   for i in eachindex(handles)
     for j in i+1:length(handles)
       if handles[i] !== handles[j]
@@ -38,7 +38,8 @@ function test_name_in_packages_for_equality(packages, name, overlaps)
           overlaps[pkgpair] = 1
         end
         if name in overriden_names
-          # no error, we've handled it...
+          println("Name $name is not equal in packages $(packages[i]) and $(packages[j]) and is in overrides")
+          @test name in overriden_names
         else
           @test_broken name in overriden_names 
           println("Name $name is not equal in packages $(packages[i]) and $(packages[j]) and not in overrides")
