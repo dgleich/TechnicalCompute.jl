@@ -19,6 +19,9 @@ FillArrays.Fill represents a matrix with a single value. The default value is ze
 Fixed is duplicated between FixedPointNumbers and Makie
 but in Makie, this is used to indicate a fixed size partition of a GridLayout, so we change it to FixedSize
 
+Graph is used in DelaunayTriangulation and Graphs.jl
+We keep the meaning from Graphs.jl
+
 Normal is duplicated between Distributions and GeometryBasics
 but in GeometryBasics, this is used to indicate a normal vector, so we change it to NormalVector
 
