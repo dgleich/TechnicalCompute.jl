@@ -16,7 +16,7 @@ macro variables(expr...)
   #:(Symbolics.@variables expr...)
 end
 export @variables 
-push!(overrides, :@variables)
+push!(overrides, var"@variables")
 
 ## :Axis
 # Showing duplicate methods for Axis in packages Module[Images, AxisArrays, CairoMakie]
@@ -205,14 +205,14 @@ push!(overrides, :Mesh)
 # Distributions.Normal(mu::Num, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
 # Distributions.Normal(mu::Real, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
 # Distributions.Normal(mu::Num, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
 # Distributions.Normal(mu::Real, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
 # Distributions.Normal(μ::Real) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
 # Distributions.Normal(μ::Integer, σ::Integer; check_args) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:43
 # Distributions.Normal(μ::T, σ::T; check_args) where T<:Real @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:36
 # Distributions.Normal(μ::Real, σ::Real; check_args) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:42
-# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
-# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
-# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/rPOcC/src/wrapper-types.jl:158
 # Distributions.Normal() @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/normal.jl:44
 @doc (@doc Distributions.Normal)
 Normal = Distributions.Normal
@@ -912,10 +912,11 @@ push!(overrides, :integrate)
 # islinear(::IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:33
 # islinear(::NullOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:126
 # islinear(L::SciMLOperators.TransposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/left.jl:78
+# islinear(o::SciMLBase.AbstractDiffEqLinearOperator) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/operators/operators.jl:4
+# islinear(f::ODEFunction) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/scimlfunctions.jl:4469
 # islinear(::MatrixOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/matrix.jl:102
 # islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/matrix.jl:536
 # islinear(L::TensorProductOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/tensor.jl:117
-# islinear(o::SciMLBase.AbstractDiffEqLinearOperator) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/operators/operators.jl:4
 # islinear(L::SciMLOperators.ComposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:583
 # islinear(L::SciMLOperators.InvertedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:766
 # islinear(::SciMLOperators.AbstractSciMLScalarOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/scalar.jl:32
@@ -926,7 +927,6 @@ push!(overrides, :integrate)
 # islinear(L::SciMLOperators.AddedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:418
 # islinear(L::SciMLOperators.ScaledOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/basic.jl:250
 # islinear(::SciMLOperators.AbstractSciMLOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:309
-# islinear(f::ODEFunction) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/scimlfunctions.jl:4469
 # islinear(f::SplitFunction) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/scimlfunctions.jl:4470
 # islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/scimlfunctions.jl:4468
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/778OM/src/interface.jl:311
@@ -1530,52 +1530,52 @@ push!(overrides, :shape)
 # solve!(solver::GpmrSolver{T, FC, S}, A, B, b::AbstractVector{FC}, c::AbstractVector{FC}, x0::AbstractVector, y0::AbstractVector; C, D, E, F, ldiv, gsp, λ, μ, reorthogonalization, atol, rtol, itmax, timemax, verbose, history, callback, iostream) where {T<:AbstractFloat, FC<:Union{Complex{T}, T}, S<:AbstractVector{FC}} @ Krylov ~/.julia/packages/Krylov/fwLT6/src/krylov_solve.jl:59
 # solve!(solver::GpmrSolver{T, FC, S}, A, B, b::AbstractVector{FC}, c::AbstractVector{FC}; C, D, E, F, ldiv, gsp, λ, μ, reorthogonalization, atol, rtol, itmax, timemax, verbose, history, callback, iostream) where {T<:AbstractFloat, FC<:Union{Complex{T}, T}, S<:AbstractVector{FC}} @ Krylov ~/.julia/packages/Krylov/fwLT6/src/krylov_solve.jl:46
 # Methods for solve! in package CommonSolve
-# solve!(cache::LineSearch.LineSearchesJLCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/line_searches_ext.jl:128
-# solve!(cache::LineSearch.RobustNonMonotoneLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/robust_non_monotone.jl:90
-# solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/xs5DA/src/solve.jl:545
-# solve!(cache::SciMLBase.AbstractOptimizationCache) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/solve.jl:185
-# solve!(cache::LineSearch.StaticLiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/li_fukushima.jl:136
-# solve!(cache::LineSearch.NoLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/no_search.jl:19
-# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/YWZVL/src/solve.jl:544
 # solve!(integ::DiffEqBase.NullODEIntegrator) @ DiffEqBase ~/.julia/packages/DiffEqBase/ODi5x/src/solve.jl:643
-# solve!(cache::NonlinearSolve.NonlinearSolvePolyAlgorithmCache{iip, N}) where {iip, N} @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/default.jl:141
+# solve!(cache::LineSearch.RobustNonMonotoneLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/robust_non_monotone.jl:90
+# solve!(cache::LinearSolve.SimpleGMRESCache{false}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:220
+# solve!(cache::LinearSolve.SimpleGMRESCache{true}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:450
+# solve!(cache::NonlinearSolve.NonlinearSolveNoInitCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/core/noinit.jl:35
 # solve!(integrator::StochasticDiffEq.SDEIntegrator) @ StochasticDiffEq ~/.julia/packages/StochasticDiffEq/t06NJ/src/solve.jl:611
-# solve!(integrator::JumpProcesses.SSAIntegrator) @ JumpProcesses ~/.julia/packages/JumpProcesses/3mbsw/src/SSA_stepper.jl:120
 # solve!(integrator::Sundials.AbstractSundialsIntegrator; early_free, calculate_error) @ Sundials ~/.julia/packages/Sundials/B0Nd6/src/common_interface/solve.jl:1406
-# solve!(cache::LinearSolve.LinearCache, alg::NormalBunchKaufmanFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1172
-# solve!(cache::LinearSolve.LinearCache, alg::MKLLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/mkl.jl:213
+# solve!(integrator::JumpProcesses.SSAIntegrator) @ JumpProcesses ~/.julia/packages/JumpProcesses/3mbsw/src/SSA_stepper.jl:120
+# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqFIRK.FIRKCacheNested) @ BoundaryValueDiffEq.BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqFIRK/src/firk.jl:329
+# solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/xs5DA/src/solve.jl:545
+# solve!(cache::LineSearch.NoLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/no_search.jl:19
 # solve!(cache::LinearSolve.LinearCache, alg::DirectLdiv!, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/solve_function.jl:17
-# solve!(cache::LinearSolve.LinearCache, alg::UMFPACKFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:816
-# solve!(cache::LinearSolve.LinearCache, alg::SparspakFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1373
-# solve!(cache::LinearSolve.LinearCache, alg::AppleAccelerateLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/appleaccelerate.jl:237
 # solve!(cache::LinearSolve.LinearCache, alg::SimpleLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplelu.jl:133
+# solve!(cache::LinearSolve.LinearCache, alg::NormalBunchKaufmanFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1172
+# solve!(cache::LinearSolve.LinearCache, alg::AppleAccelerateLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/appleaccelerate.jl:237
 # solve!(cache::LinearSolve.LinearCache, alg::FastLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1237
 # solve!(cache::LinearSolve.LinearCache, alg::KLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:895
 # solve!(cache::LinearSolve.LinearCache, alg::Nothing, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/default.jl:298
-# solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.DefaultLinearSolver, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/default.jl:356
 # solve!(cache::LinearSolve.LinearCache, alg::DiagonalFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1199
-# solve!(cache::LinearSolve.LinearCache, alg::RFLUFactorization{P, T}; kwargs...) where {P, T} @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1031
+# solve!(cache::LinearSolve.LinearCache, alg::UMFPACKFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:816
+# solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.DefaultLinearSolver, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/default.jl:356
+# solve!(cache::LinearSolve.LinearCache, alg::MKLLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/mkl.jl:213
+# solve!(cache::LinearSolve.LinearCache, alg::SparspakFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1373
 # solve!(cache::LinearSolve.LinearCache, alg::FastQRFactorization{P}; kwargs...) where P @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1290
-# solve!(cache::LinearSolve.LinearCache, alg::CHOLMODFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:967
-# solve!(cache::LinearSolve.LinearCache, alg::LUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:79
 # solve!(cache::LinearSolve.LinearCache, alg::NormalCholeskyFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1118
-# solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.AbstractFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/LinearSolve.jl:151
-# solve!(cache::LinearSolve.LinearCache, alg::SimpleGMRES; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:148
-# solve!(cache::LinearSolve.LinearCache, alg::KrylovJL; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/iterative_wrappers.jl:227
+# solve!(cache::LinearSolve.LinearCache, alg::RFLUFactorization{P, T}; kwargs...) where {P, T} @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:1031
 # solve!(cache::LinearSolve.LinearCache, alg::LinearSolveFunction, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/solve_function.jl:6
+# solve!(cache::LinearSolve.LinearCache, alg::KrylovJL; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/iterative_wrappers.jl:227
+# solve!(cache::LinearSolve.LinearCache, alg::SimpleGMRES; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:148
+# solve!(cache::LinearSolve.LinearCache, alg::LUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:79
+# solve!(cache::LinearSolve.LinearCache, alg::CHOLMODFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/factorization.jl:967
+# solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.AbstractFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/LinearSolve.jl:151
 # solve!(cache::LinearSolve.LinearCache, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/common.jl:273
-# solve!(cache::NonlinearSolve.NonlinearSolveNoInitCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/core/noinit.jl:35
-# solve!(cache::NonlinearSolve.AbstractNonlinearSolveCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/core/generic.jl:11
 # solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqFIRK.FIRKCacheExpand) @ BoundaryValueDiffEq.BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqFIRK/src/firk.jl:303
-# solve!(cache::LineSearch.LiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/li_fukushima.jl:96
+# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqMIRK.MIRKCache) @ BoundaryValueDiffEq.BoundaryValueDiffEqMIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqMIRK/src/mirk.jl:134
+# solve!(cache::NonlinearSolve.NonlinearSolvePolyAlgorithmCache{iip, N}) where {iip, N} @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/default.jl:141
+# solve!(cache::NonlinearSolve.AbstractNonlinearSolveCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/core/generic.jl:11
 # solve!(P::Roots.ZeroProblemIterator{𝑴, 𝑵, 𝑭, 𝑺, 𝑶, 𝑳}; verbose) where {𝑴<:Bisection, 𝑵, 𝑭, 𝑺, 𝑶<:ExactOptions, 𝑳} @ Roots ~/.julia/packages/Roots/KNVCY/src/Bracketing/bisection.jl:172
 # solve!(𝐙::Roots.ZeroProblemIterator{𝐌, 𝐍}; verbose) where {𝐌, 𝐍<:AbstractBracketingMethod} @ Roots ~/.julia/packages/Roots/KNVCY/src/hybrid.jl:30
 # solve!(P::Roots.ZeroProblemIterator; verbose) @ Roots ~/.julia/packages/Roots/KNVCY/src/find_zero.jl:443
-# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqFIRK.FIRKCacheNested) @ BoundaryValueDiffEq.BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqFIRK/src/firk.jl:329
-# solve!(cache::LinearSolve.SimpleGMRESCache{false}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:220
-# solve!(cache::LinearSolve.SimpleGMRESCache{true}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/0Q5jw/src/simplegmres.jl:450
+# solve!(cache::LineSearch.StaticLiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/li_fukushima.jl:136
 # solve!(cache::NonlinearSolve.NonlinearSolveForwardDiffCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/sBl1H/src/internal/forward_diff.jl:51
-# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqMIRK.MIRKCache) @ BoundaryValueDiffEq.BoundaryValueDiffEqMIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqMIRK/src/mirk.jl:134
+# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/YWZVL/src/solve.jl:544
+# solve!(cache::LineSearch.LineSearchesJLCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/line_searches_ext.jl:128
+# solve!(cache::LineSearch.LiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/O1LT8/src/li_fukushima.jl:96
+# solve!(cache::SciMLBase.AbstractOptimizationCache) @ SciMLBase ~/.julia/packages/SciMLBase/tEuIM/src/solve.jl:185
 
 @doc (@doc DifferentialEquations.solve!)
 solve!(args...;kwargs...) = DifferentialEquations.solve!(args...;kwargs...)
