@@ -16,7 +16,7 @@ macro variables(expr...)
   #:(Symbolics.@variables expr...)
 end
 export @variables 
-push!(overrides, var"@variables")
+push!(overrides, Symbol("@variables"))
 
 ## :Axis
 # Showing duplicate methods for Axis in packages Module[Images, AxisArrays, CairoMakie]
@@ -303,7 +303,7 @@ push!(overrides, :Vec3)
 @doc (@doc FillArrays.Zeros)
 Zeros = FillArrays.Zeros
 export Zeros
-
+push!(overrides, :Zeros)
 
 ## :attributes
 # Showing duplicate methods for attributes in packages Module[HDF5, CairoMakie]
