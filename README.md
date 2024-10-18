@@ -6,66 +6,65 @@ designed to make it easy to include one package that handles the diversity of te
 computing requirements for an undergraduate degree.
 
 Topics (and the packages that support them)
-
 * Data and IO
-  * DataFrames: `DataFrames.jl`, `Tables.jl`,
-  * CSVs: `DelimitedFiles.jl`, `CSV.jl`
-  * Structured Text: `JSON.jl`, `TOML.jl`, `YAML.jl`
-  * Binary formats: `JLD2.jl`, `HDF5.jl`, `MAT.jl`, `BSON.jl`, `NIfTI.jl` 
-  * Meshes: `MeshIO.jl`, `GraphIO.jl`
-  * Datasets: `MLDatasets.jl`, `RDatasets.jl`
+  * DataFrames: [`DataFrames.jl`](https://github.com/JuliaData/DataFrames.jl), [`Tables.jl`](https://github.com/JuliaData/Tables.jl)
+  * CSVs: [`DelimitedFiles.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/DelimitedFiles), [`CSV.jl`](https://github.com/JuliaData/CSV.jl)
+  * Structured Text: [`JSON.jl`](https://github.com/JuliaIO/JSON.jl), [`TOML.jl`](https://github.com/JuliaLang/TOML.jl), [`YAML.jl`](https://github.com/JuliaData/YAML.jl)
+  * Binary formats: [`JLD2.jl`](https://github.com/JuliaIO/JLD2.jl), [`HDF5.jl`](https://github.com/JuliaIO/HDF5.jl), [`MAT.jl`](https://github.com/JuliaIO/MAT.jl), [`BSON.jl`](https://github.com/JuliaIO/BSON.jl), [`NIfTI.jl`](https://github.com/JuliaIO/NIfTI.jl) 
+  * Meshes: [`MeshIO.jl`](https://github.com/JuliaIO/MeshIO.jl), [`GraphIO.jl`](https://github.com/JuliaGraphs/GraphIO.jl)
+  * Datasets: [`MLDatasets.jl`](https://github.com/JuliaML/MLDatasets.jl), [`RDatasets.jl`](https://github.com/JuliaStats/RDatasets.jl)
 * Discrete Mathematics
-  * Graph algorithms: `Graphs.jl`, `SimpleWeightedGraphs.jl`, `Metis.jl`
-  * Combinatorics: `Combinatorics.jl`
+  * Graph algorithms: [`Graphs.jl`](https://github.com/JuliaGraphs/Graphs.jl), [`SimpleWeightedGraphs.jl`](https://github.com/JuliaGraphs/SimpleWeightedGraphs.jl), [`Metis.jl`](https://github.com/JuliaSparse/Metis.jl)
+  * Combinatorics: [`Combinatorics.jl`](https://github.com/JuliaMath/Combinatorics.jl)
 * Engineering
-  * Signals: `DSP.jl`, `FFTW.jl`
-  * Image Processing: `Images.jl`, `ImageShow.jl`, `TestImages.jl` 
+  * Signals: [`DSP.jl`](https://github.com/JuliaDSP/DSP.jl), [`FFTW.jl`](https://github.com/JuliaMath/FFTW.jl)
+  * Image Processing: [`Images.jl`](https://github.com/JuliaImages/Images.jl), [`ImageShow.jl`](https://github.com/JuliaImages/ImageShow.jl), [`TestImages.jl`](https://github.com/JuliaImages/TestImages.jl) 
 * Geometry and Graphics
-  * Primitives: `GeometryBasics.jl`
-  * Plotting and displays: `CairoMakie.jl`  
-  * Metrics and distances: `NearestNeighbors.jl`, `Distances.jl` 
-  * Colors: `Colors.jl`, `ColorVectorSpace.jl`, `ColorSchemes.jl`,
-  * Triangulation and Meshing: `DelaunayTriangulation.jl`, `Meshes.jl` (only imported)
+  * Primitives: [`GeometryBasics.jl`](https://github.com/JuliaGeometry/GeometryBasics.jl)
+  * Plotting and displays: [`CairoMakie.jl`](https://github.com/MakieOrg/CairoMakie.jl)  
+  * Metrics and distances: [`NearestNeighbors.jl`](https://github.com/KristofferC/NearestNeighbors.jl), [`Distances.jl`](https://github.com/JuliaStats/Distances.jl) 
+  * Colors: [`Colors.jl`](https://github.com/JuliaGraphics/Colors.jl), [`ColorVectorSpace.jl`](https://github.com/JuliaGraphics/ColorVectorSpace.jl), [`ColorSchemes.jl`](https://github.com/JuliaGraphics/ColorSchemes.jl)
+  * Triangulation and Meshing: [`DelaunayTriangulation.jl`](https://github.com/JuliaGeometry/DelaunayTriangulation.jl), [`Meshes.jl`](https://github.com/JuliaGeometry/Meshes.jl) (only imported)
 * Machine learning and AI
-  * `Flux.jl`, `Clustering.jl` 
+  * [`Flux.jl`](https://github.com/FluxML/Flux.jl), [`Clustering.jl`](https://github.com/JuliaStats/Clustering.jl) 
 * Numerical and Scientific Computing
-  * Sparse matrices: `SparseArrays`
-  * Differential equations: `DifferentialEquations.jl`
-  * Polynomials and Series: `Polynomials.jl`, `TaylorSeries.jl`, `FastTransforms.jl`, `ApproxFun.jl` (only imported)
-  * Applied Math Functions: `SpecialFunctions.jl`
-  * Matrices and Linear Algebra: `LinearAlgebra.jl`, `Arpack.jl`, `Krylov.jl`, `LinearMaps.jl`
-  * High-accuracy: `DoubleFloats.jl`, `MultiFloats.jl`, `KahanSummation.jl`
+  * Sparse matrices: [`SparseArrays`](https://github.com/JuliaLang/julia/tree/master/stdlib/SparseArrays)
+  * Differential equations: [`DifferentialEquations.jl`](https://github.com/SciML/DifferentialEquations.jl)
+  * Polynomials and Series: [`Polynomials.jl`](https://github.com/JuliaMath/Polynomials.jl), [`TaylorSeries.jl`](https://github.com/JuliaDiff/TaylorSeries.jl), [`FastTransforms.jl`](https://github.com/JuliaApproximation/FastTransforms.jl), [`ApproxFun.jl`](https://github.com/JuliaApproximation/ApproxFun.jl) (only imported)
+  * Applied Math Functions: [`SpecialFunctions.jl`](https://github.com/JuliaMath/SpecialFunctions.jl)
+  * Matrices and Linear Algebra: [`LinearAlgebra.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/LinearAlgebra), [`Arpack.jl`](https://github.com/JuliaLinearAlgebra/Arpack.jl), [`Krylov.jl`](https://github.com/Jutho/Krylov.jl), [`LinearMaps.jl`](https://github.com/Jutho/LinearMaps.jl)
+  * High-accuracy: [`DoubleFloats.jl`](https://github.com/JuliaMath/DoubleFloats.jl), [`MultiFloats.jl`](https://github.com/dzhang314/MultiFloats.jl), [`KahanSummation.jl`](https://github.com/JuliaMath/KahanSummation.jl)
 * Optimization and Operations Research
-  * Modeling: `JuMP.jl` for Linear Programs and Nonlinear Problems 
-  * and associated solvers `Ipopt.jl`, `HiGHS.jl`, `GLPK.jl` (and `Clp.jl` where supported)
-  * Root finding: `Roots.jl`
-  * Convex Solvers: `Convex.jl`, `SCS.jl`
+  * Modeling: [`JuMP.jl`](https://github.com/jump-dev/JuMP.jl) for Linear Programs and Nonlinear Problems 
+  * and associated solvers [`Ipopt.jl`](https://github.com/jump-dev/Ipopt.jl), [`HiGHS.jl`](https://github.com/jump-dev/HiGHS.jl), [`GLPK.jl`](https://github.com/jump-dev/GLPK.jl) (and [`Clp.jl`](https://github.com/jump-dev/Clp.jl) where supported)
+  * Root finding: [`Roots.jl`](https://github.com/JuliaMath/Roots.jl)
+  * Convex Solvers: [`Convex.jl`](https://github.com/jump-dev/Convex.jl), [`SCS.jl`](https://github.com/jump-dev/SCS.jl)
 * Probability and Statistics
-  * General: `StatsBase.jl` and `Statistics.jl` 
-  * Distributions: `Distributions.jl`
-  * Kernel density estimation: `KernelDensity.jl`
-  * Splines: `Interpolations.jl`
-  * Multivariate: `MultivariateStats.jl`, `NMF.jl`
-  * Simple functions: `Statistics`
-  * General Linear Models: `GLM.jl`
+  * General: [`StatsBase.jl`](https://github.com/JuliaStats/StatsBase.jl) and [`Statistics.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/Statistics) 
+  * Distributions: [`Distributions.jl`](https://github.com/JuliaStats/Distributions.jl)
+  * Kernel density estimation: [`KernelDensity.jl`](https://github.com/JuliaStats/KernelDensity.jl)
+  * Splines: [`Interpolations.jl`](https://github.com/JuliaMath/Interpolations.jl)
+  * Multivariate: [`MultivariateStats.jl`](https://github.com/JuliaStats/MultivariateStats.jl), [`NMF.jl`](https://github.com/JuliaStats/NMF.jl)
+  * Simple functions: [`Statistics`](https://github.com/JuliaLang/julia/tree/master/stdlib/Statistics)
+  * General Linear Models: [`GLM.jl`](https://github.com/JuliaStats/GLM.jl)
 * Programming 
-  * `DataStructures.jl`
-  * `OrderedCollections.jl`
-  * `BenchmarkTools.jl`
-  * `Transducers.jl`
-  * `ThreadsX.jl`
-  * `IterTools.jl`  
-  * `Observables.jl`
+  * [`DataStructures.jl`](https://github.com/JuliaCollections/DataStructures.jl)
+  * [`OrderedCollections.jl`](https://github.com/JuliaCollections/OrderedCollections.jl)
+  * [`BenchmarkTools.jl`](https://github.com/JuliaCI/BenchmarkTools.jl)
+  * [`Transducers.jl`](https://github.com/JuliaFolds/Transducers.jl)
+  * [`ThreadsX.jl`](https://github.com/tkf/ThreadsX.jl)
+  * [`IterTools.jl`](https://github.com/JuliaCollections/IterTools.jl)  
+  * [`Observables.jl`](https://github.com/JuliaGizmos/Observables.jl)
 * Symbolic computing
-  * Automatic differentiation: `ForwardDiff.jl`
-  * `Symbolics.jl`
+  * Automatic differentiation: [`ForwardDiff.jl`](https://github.com/JuliaDiff/ForwardDiff.jl)
+  * [`Symbolics.jl`](https://github.com/JuliaSymbolics/Symbolics.jl)
 * Helpful tools
-  * Random numbers: `Random.jl`, `StableRNGs.jl`
-  * Output: `ProgressMeter.jl`, `Printf.jl`
-  * Dates: `Dates.jl`
-  * LaTeX: `LaTeXStrings.jl`
-  * Arrays: `StaticArrays.jl`, `IndirectArrays.jl`, `OffsetArrays.jl`, `FillArrays.jl`, `AxisArrays.jl`, `TiledIteration.jl`, `MosaicViews.jl`
-  * Units: `Measures.jl`, `Unitful.jl`
+  * Random numbers: [`Random.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/Random), [`StableRNGs.jl`](https://github.com/rfourquet/StableRNGs.jl)
+  * Output: [`ProgressMeter.jl`](https://github.com/timholy/ProgressMeter.jl), [`Printf.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/Printf)
+  * Dates: [`Dates.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/Dates)
+  * LaTeX: [`LaTeXStrings.jl`](https://github.com/stevengj/LaTeXStrings.jl)
+  * Arrays: [`StaticArrays.jl`](https://github.com/JuliaArrays/StaticArrays.jl), [`IndirectArrays.jl`](https://github.com/JuliaArrays/IndirectArrays.jl), [`OffsetArrays.jl`](https://github.com/JuliaArrays/OffsetArrays.jl), [`FillArrays.jl`](https://github.com/JuliaArrays/FillArrays.jl), [`AxisArrays.jl`](https://github.com/JuliaArrays/AxisArrays.jl), [`TiledIteration.jl`](https://github.com/JuliaArrays/TiledIteration.jl), [`MosaicViews.jl`](https://github.com/JuliaArrays/MosaicViews.jl)
+  * Units: [`Measures.jl`](https://github.com/JuliaGraphics/Measures.jl), [`Unitful.jl`](https://github.com/PainterQubits/Unitful.jl)
 
 And this also includes a variety of useful utility packages in the base Julia library and beyond to make working with files and output easy. 
 
