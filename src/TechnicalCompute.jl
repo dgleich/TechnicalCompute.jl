@@ -109,6 +109,9 @@ packages = [
 "SpecialFunctions",
 "Roots", 
 "TaylorSeries",
+#"ApproxFun",
+"FastTransforms",
+"Interpolations", 
 # Graphs and combinatorics 
 "Graphs",
 "SimpleWeightedGraphs",
@@ -120,6 +123,8 @@ packages = [
 "GLPK",
 "Clp",
 "HiGHS",
+"Convex",
+"SCS",
 # Symbolic
 "ForwardDiff", 
 "Symbolics",
@@ -127,9 +132,6 @@ packages = [
 "DifferentialEquations"
 ]
 
-# Meshes has too many overlapping names, so we'll just import it here
-@reexport import Meshes 
-#@reexport import GLMakie 
 
 # handle Clp failures
 if Sys.ARCH == :aarch64 && Sys.isapple() 
@@ -140,14 +142,22 @@ for pkg in packages
   eval(Meta.parse("@reexport using $pkg"))
 end 
 
+# Meshes has too many overlapping names, so we'll just import it here
+@reexport import Meshes 
+# ApproxFun has too many overlapping names. 
+@reexport import ApproxFun 
+
+# these 
+@reexport import UnicodePlots
+@reexport import PGFPlotsX
+@reexport import NaNMath
+
+
 if get(()->"true", ENV, "JULIA_TECHNICALCOMPUTE_USE_GLMAKIE") == "true"
   @reexport import GLMakie 
 end 
 
 include("overrides.jl")
-
-
-
 
 # this one is bizarre, since Meshes exports a type with the same name as
 # DelaunayTriangulation, we need to get a function from the module to get 

@@ -58,4 +58,16 @@ end
   # HiGHS
   _test_optimal_horizon(Model(HiGHS.Optimizer))
 
+  # Convex and SCS 
+  @testset "Convex" begin 
+    m = 5;  n = 4
+    A = randn(StableRNG(1), m, n); 
+    xtrue = rand(StableRNG(2), n) 
+    b = A * xtrue + 0.1*rand(StableRNG(3), m)
+
+    x = Convex.Variable(n)
+    problem = minimize(sumsquares(A * x - b), [x >= 0])
+    solve!(problem, SCS.Optimizer; silent = true)
+    @test x.value ≈ A\b    
+  end 
 end
