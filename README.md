@@ -30,19 +30,20 @@ Topics (and the packages that support them)
 * Numerical and Scientific Computing
   * Sparse matrices: `SparseArrays`
   * Differential equations: `DifferentialEquations.jl`
-  * Polynomials and Series: `Polynomials.jl`, `TaylorSeries.jl`
+  * Polynomials and Series: `Polynomials.jl`, `TaylorSeries.jl`, `FastTransforms.jl`
   * Applied Math Functions: `SpecialFunctions.jl`
   * Matrices and Linear Algebra: `LinearAlgebra.jl`, `Arpack.jl`, `Krylov.jl`, `LinearMaps.jl`
   * High-accuracy: `DoubleFloats.jl`, `MultiFloats.jl`, `KahanSummation.jl`
-  * Po
 * Optimization and Operations Research
   * Modeling: `JuMP.jl` for Linear Programs and Nonlinear Problems 
   * and associated solvers `Ipopt.jl`, `HiGHS.jl`, `GLPK.jl` (and `Clp.jl` where supported)
   * Root finding: `Roots.jl`
+  * Convex Solvers: `Convex.jl`, `SCS.jl`
 * Probability and Statistics
   * General: `StatsBase.jl` and `Statistics.jl` 
   * Distributions: `Distributions.jl`
   * Kernel density estimation: `KernelDensity.jl`
+  * Splines: `Interpolations.jl`
   * Multivariate: `MultivariateStats.jl`
   * Simple functions: `Statistics`
   * General Linear Models: `GLM.jl`
@@ -74,6 +75,7 @@ And this also includes a variety of useful utility packages in the base Julia li
 - `NMF.jl`
 - `TSne.jl`
 - `UMap.jl`
+- `GraphIO.jl`
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
 
