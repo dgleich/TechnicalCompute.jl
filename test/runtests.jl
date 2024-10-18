@@ -6,6 +6,9 @@ using Test
 envargs = get(()->"", ENV, "JULIA_ACTIONS_RUNTEST_ARGS")
 foreach(s->push!(ARGS,s), split(envargs,","))
 
+# make sure datadeps always accepts to download datasets... 
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true
+
 test_dups = "test_dups" in ARGS 
 
 if "debug" in ARGS

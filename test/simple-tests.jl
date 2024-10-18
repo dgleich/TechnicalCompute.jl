@@ -15,7 +15,7 @@ end
 
 @testset "LinearAlgebra" begin
   A = rand(50,50)
-  vals,vecs = eigen(A)
+  @test begin; vals,vecs = eigen(A); return true; end 
 end
 
 @testset "DataStructures" begin
@@ -40,8 +40,63 @@ end
   @test pdf(d, 0) ≈ 1/sqrt(2*pi)
 end
 
+@testset "StatsBase" begin
+  x = [1,2,3,4,5]
+  @test wsample(StableRNG(1), x, Weights([0.99, 0.0025, 0.0025, 0.0025, 0.0025])) == 1
+end
+
+@testset "KernelDensity" begin
+  y = randn(10) 
+  x = [0.01*y; 0.01.*y .+ 1] 
+  kd = kde(x)
+  @test pdf(kd, 0) ≈ pdf(kd, 1) rtol=1e-2
+end
+
 @testset "Statistics" begin
   @test isapprox(std(randn(StableRNG(100), 10000)), 1; atol=1e-2)
+  x = [1,2,3,4,5]
+  @test median(x) == 3
+end
+
+@testset "MultivariateStats" begin
+  C = randn(10,4)
+  PC = pcacov(C'*C, zeros(size(C,2)))
+  @test PC.prinvars ≈ sort(eigvals(C'*C), rev=true)
+  @test begin; pca = fit(PCA, rand(10,4)); return true; end 
+end
+
+@testset "Flux" begin 
+  function run_test() 
+    actual(x) = 4x + 2
+    x_train, x_test = hcat(0:5...), hcat(6:10...)
+    y_train, y_test = actual.(x_train), actual.(x_test)
+    predict = Dense(1 => 1)
+    loss(model, x, y) = mean(abs2.(model(x) .- y));
+    opt = Descent()
+    data = [(x_train, y_train)]
+    Flux.train!(loss, predict, data, opt)
+    for epoch in 1:200
+      Flux.train!(loss, predict, data, opt)
+    end
+    @test predict(x_test) ≈ y_test rtol=1e-2
+  end 
+end 
+
+@testset "MLDatasets" begin 
+  dataset = Iris() 
+  @test size(dataset.features)  == (150, 4)
+end
+
+@testset "ReinforcementLearning" begin 
+  @test begin
+    run(
+           RandomPolicy(),
+           CartPoleEnv(),
+           StopAfterNSteps(1_000),
+           TotalRewardPerEpisode()
+       )
+    return true
+  end 
 end
 
 @testset "Arpack" begin 
@@ -62,11 +117,6 @@ end
 
 @testset "Makie" begin 
   @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
-end 
-
-@testset "MultivariateStats"  begin 
-  @test begin; pca = fit(PCA, rand(10,4)); return true; end 
-
 end 
 
 @testset "Polynomials" begin 

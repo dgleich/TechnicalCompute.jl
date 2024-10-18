@@ -71,11 +71,8 @@ And this also includes a variety of useful utility packages in the base Julia li
 
 ## To consider
 - `Bessels.jl`
-- `ApproxFun.jl`
-- `NMF.jl`
 - `TSne.jl`
 - `UMap.jl`
-- `GraphIO.jl`
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
 
