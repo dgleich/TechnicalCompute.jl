@@ -179,6 +179,21 @@ function _read_overrides(filename)
   return overrides 
 end 
 
+"""
+The input is a string like this:
+params(d::Gamma) @ Distributions ~/.julia/packages/Distributions/uuqsE/src/univariate/continuous/gamma.jl:56
+But we want to replace the packagesha uuqsE with "-----" so that we can compare the
+"""
+function _replace_packagesha_in_path(x::String)
+  repfunc(p) = begin 
+    parts = splitpath(p) 
+    parts[end-1] = "-----"
+    return joinpath(parts)
+  end 
+  return replace(x, r"/packages/[^/]+/[^/]+/src" => s -> repfunc(s))
+end 
+
+
 function _write_overrides(;io=stdout, namesused, overrides)
   namesused = sort(collect(namesused), by = x -> x[1])
   println(io, "const overrides = Set{Symbol}()")
@@ -187,6 +202,7 @@ function _write_overrides(;io=stdout, namesused, overrides)
   
   for (name, pkgs) in namesused
     if length(pkgs) > 1
+      pkgs = sort(pkgs, by = pkg -> repr(pkg)) # sort by string name 
       handles = map(pkgs) do pkg
         getfield(pkg, name)
       end
@@ -200,7 +216,10 @@ function _write_overrides(;io=stdout, namesused, overrides)
         println(io, "# Showing duplicate methods for $name in packages $(pkgs)")
         for h in unique(handles) 
           println(io, "# Methods for $(h) in package $(typeof(h).name.module)")
-          for method in methods(h)
+          methodstrings = repr.(methods(h))
+          sort!(methodstrings)
+          methodstrings = _replace_packagesha_in_path.(methodstrings)
+          for method in methodstrings
             println(io, "# ", method)
           end
         end
@@ -216,7 +235,7 @@ function _write_overrides(;io=stdout, namesused, overrides)
   # Now print out any remaining overrides...
   println(io, "##-Unused overrides")
   remaining_overrides = setdiff(keys(overrides), usedoverrides)
-  sort!(collect(remaining_overrides))
+  remaining_overrides = sort!(collect(remaining_overrides))
   for name in remaining_overrides
     println(io, "#=")
     println(io, "## :$name")
