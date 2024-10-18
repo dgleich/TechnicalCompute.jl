@@ -28,7 +28,6 @@ packages = [
 # Data structures
 "DataStructures",
 "OrderedCollections",
-#"TaylorSeries",
 #"SuiteSparse",
 "GeometryBasics",
 # Machine Learning / Stats
@@ -41,6 +40,7 @@ packages = [
 "MLDatasets", 
 "ReinforcementLearning",
 "NMF",
+"RDatasets",
 # Clustering
 "Clustering",
 "Distances",

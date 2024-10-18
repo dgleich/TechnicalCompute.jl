@@ -13,6 +13,7 @@ Topics (and the packages that support them)
   * Structured Text: `JSON.jl`, `TOML.jl`, `YAML.jl`
   * Binary formats: `JLD2.jl`, `HDF5.jl`, `MAT.jl`, `BSON.jl`, `NIfTI.jl` 
   * Meshes: `MeshIO.jl`, `GraphIO.jl`
+  * Datasets: `MLDatasets.jl`, `RDatasets.jl`
 * Discrete Mathematics
   * Graph algorithms: `Graphs.jl`, `SimpleWeightedGraphs.jl`, `Metis.jl`
   * Combinatorics: `Combinatorics.jl`

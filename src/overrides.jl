@@ -28,7 +28,7 @@ push!(overrides, Symbol("@variables"))
 Axis = Makie.Axis
 @doc (@doc Images.Axis)
 ArrayAxis = Images.Axis
-export PlotAxis, ArrayAxis 
+export Axis, ArrayAxis 
 push!(overrides, :Axis)
 
 ## :BSpline
@@ -729,13 +729,13 @@ push!(overrides, :differentiate)
 # entropy(d::Chisq) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chisq.jl:68
 # entropy(d::Chi{T}) where T<:Real @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chi.jl:70
 # entropy(d::Dirac{T}) where T @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/dirac.jl:38
-# entropy(d::Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:109
 # entropy(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:203
 # entropy(d::DiscreteNonParametric, b::Real) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:204
 # entropy(d::DiscreteUniform) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discreteuniform.jl:65
 # entropy(d::Distributions.Censored) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:281
 # entropy(d::Distributions.Censored{D, S, T, Nothing, T} where {D<:(UnivariateDistribution), S<:ValueSupport, T<:Real}) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:263
 # entropy(d::Distributions.Censored{D, S, T, T, Nothing} where {D<:(UnivariateDistribution), S<:ValueSupport, T<:Real}) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:245
+# entropy(d::Distributions.Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:109
 # entropy(d::Distributions.GenericMvTDist) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvtdist.jl:107
 # entropy(d::Distributions.Normal) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:76
 # entropy(d::Distributions.ProductDistribution{1, 0, <:Tuple}) @ Distributions ~/.julia/packages/Distributions/-----/src/product.jl:103
@@ -1048,7 +1048,7 @@ export gradient
 push!(overrides, :gradient)
 
 ## :groupby
-# Showing duplicate methods for groupby in packages Module[DataFrames, IterTools]
+# Showing duplicate methods for groupby in packages Module[DataFrames, IterTools, RDatasets]
 # Methods for groupby in package DataAPI
 # groupby(df::AbstractDataFrame, cols; sort, skipmissing) @ DataFrames ~/.julia/packages/DataFrames/-----/src/groupeddataframe/groupeddataframe.jl:218
 # Methods for groupby in package IterTools
@@ -1180,13 +1180,13 @@ push!(overrides, :integrate)
 # Showing duplicate methods for islinear in packages Module[DifferentialEquations, StatsBase]
 # Methods for islinear in package SciMLOperators
 # islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:536
-# islinear(::IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:33
 # islinear(::MatrixOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:102
 # islinear(::NullOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:126
 # islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4468
 # islinear(::SciMLOperators.AbstractSciMLOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:309
 # islinear(::SciMLOperators.AbstractSciMLScalarOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/scalar.jl:32
 # islinear(::SciMLOperators.BatchedDiagonalOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/batch.jl:98
+# islinear(::SciMLOperators.IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:33
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:311
 # islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/operators/operators.jl:7
 # islinear(L::FunctionOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/func.jl:579
@@ -1296,7 +1296,7 @@ export meanad
 push!(overrides, :meanad)
 
 ## :metadata
-# Showing duplicate methods for metadata in packages Module[DataFrames, FileIO]
+# Showing duplicate methods for metadata in packages Module[DataFrames, FileIO, RDatasets]
 # Methods for metadata in package DataAPI
 # metadata(df::DataFrame, key::AbstractString, default; style) @ DataFrames ~/.julia/packages/DataFrames/-----/src/other/metadata.jl:102
 # metadata(df::DataFrame, key::AbstractString; ...) @ DataFrames ~/.julia/packages/DataFrames/-----/src/other/metadata.jl:102
@@ -1339,10 +1339,10 @@ push!(overrides, :metadata)
 # mode(d::Chisq{T}) where T<:Real @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chisq.jl:58
 # mode(d::Cosine) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/cosine.jl:51
 # mode(d::Dirac) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/dirac.jl:36
-# mode(d::Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:134
 # mode(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:206
 # mode(d::DiscreteUniform) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discreteuniform.jl:67
 # mode(d::Distributions.AffineDistribution) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/locationscale.jl:111
+# mode(d::Distributions.Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:134
 # mode(d::Distributions.DirichletCanon) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:135
 # mode(d::Distributions.GenericMvTDist) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvtdist.jl:92
 # mode(d::Distributions.Normal) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:69
@@ -1484,13 +1484,13 @@ push!(overrides, :orthogonal)
 # params(d::Chi) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chi.jl:46
 # params(d::Chisq) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chisq.jl:40
 # params(d::Cosine) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/cosine.jl:41
-# params(d::Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:74
 # params(d::DirichletMultinomial) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichletmultinomial.jl:56
 # params(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:50
 # params(d::DiscreteUniform) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discreteuniform.jl:43
 # params(d::Distributions.AffineDistribution) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/locationscale.jl:104
 # params(d::Distributions.Categorical{P, Ps}) where {P<:Real, Ps<:AbstractVector{P}} @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/categorical.jl:52
 # params(d::Distributions.Censored) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:106
+# params(d::Distributions.Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:74
 # params(d::Distributions.GenericMvTDist) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvtdist.jl:102
 # params(d::Distributions.Normal) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:57
 # params(d::Distributions.ReshapedDistribution) @ Distributions ~/.julia/packages/Distributions/-----/src/reshaped.jl:30
@@ -2075,7 +2075,7 @@ export top
 push!(overrides, :top)
 
 ## :transform
-# Showing duplicate methods for transform in packages Module[DataFrames, MultivariateStats]
+# Showing duplicate methods for transform in packages Module[DataFrames, MultivariateStats, RDatasets]
 # Methods for transform in package DataFrames
 # transform(arg::Union{Function, Type}, df::AbstractDataFrame; renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/-----/src/abstractdataframe/selection.jl:1388
 # transform(df::AbstractDataFrame, args...; copycols, renamecols, threads) @ DataFrames ~/.julia/packages/DataFrames/-----/src/abstractdataframe/selection.jl:1383
