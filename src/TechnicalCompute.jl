@@ -40,6 +40,7 @@ packages = [
 "Flux", 
 "MLDatasets", 
 "ReinforcementLearning",
+"NMF",
 # Clustering
 "Clustering",
 "Distances",
@@ -64,6 +65,7 @@ packages = [
 "MAT",
 "BSON",
 "NIfTI", # used in Makie demos... 
+"GraphIO", 
 # Extra
 "BenchmarkTools",
 "StableRNGs",

@@ -12,7 +12,7 @@ Topics (and the packages that support them)
   * CSVs: `DelimitedFiles.jl`, `CSV.jl`
   * Structured Text: `JSON.jl`, `TOML.jl`, `YAML.jl`
   * Binary formats: `JLD2.jl`, `HDF5.jl`, `MAT.jl`, `BSON.jl`, `NIfTI.jl` 
-  * Meshes: `MeshIO.jl`
+  * Meshes: `MeshIO.jl`, `GraphIO.jl`
 * Discrete Mathematics
   * Graph algorithms: `Graphs.jl`, `SimpleWeightedGraphs.jl`, `Metis.jl`
   * Combinatorics: `Combinatorics.jl`
@@ -24,13 +24,13 @@ Topics (and the packages that support them)
   * Plotting and displays: `CairoMakie.jl`  
   * Metrics and distances: `NearestNeighbors.jl`, `Distances.jl` 
   * Colors: `Colors.jl`, `ColorVectorSpace.jl`, `ColorSchemes.jl`,
-  * Triangulation and Meshing: `DelaunayTriangulation.jl`, `Meshes.jl` (only imported), `MeshIO.jl`
+  * Triangulation and Meshing: `DelaunayTriangulation.jl`, `Meshes.jl` (only imported)
 * Machine learning and AI
   * `Flux.jl`, `Clustering.jl` 
 * Numerical and Scientific Computing
   * Sparse matrices: `SparseArrays`
   * Differential equations: `DifferentialEquations.jl`
-  * Polynomials and Series: `Polynomials.jl`, `TaylorSeries.jl`, `FastTransforms.jl`
+  * Polynomials and Series: `Polynomials.jl`, `TaylorSeries.jl`, `FastTransforms.jl`, `ApproxFun.jl` (only imported)
   * Applied Math Functions: `SpecialFunctions.jl`
   * Matrices and Linear Algebra: `LinearAlgebra.jl`, `Arpack.jl`, `Krylov.jl`, `LinearMaps.jl`
   * High-accuracy: `DoubleFloats.jl`, `MultiFloats.jl`, `KahanSummation.jl`
@@ -44,7 +44,7 @@ Topics (and the packages that support them)
   * Distributions: `Distributions.jl`
   * Kernel density estimation: `KernelDensity.jl`
   * Splines: `Interpolations.jl`
-  * Multivariate: `MultivariateStats.jl`
+  * Multivariate: `MultivariateStats.jl`, `NMF.jl`
   * Simple functions: `Statistics`
   * General Linear Models: `GLM.jl`
 * Programming 
