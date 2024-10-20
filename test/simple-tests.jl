@@ -114,12 +114,12 @@ end
 @testset "RDatasets" begin 
   @test begin 
     iris = dataset("datasets", "iris")
-    @test size(dataset) == (150, 5)
+    @test size(iris) == (150, 5)
     return true
   end 
 end
 
-@tesetset "Clustering" begin 
+@testset "Clustering" begin 
   @test begin 
     x = rand(10, 2)
     kmeans(x, 2)
