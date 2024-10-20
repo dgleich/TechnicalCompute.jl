@@ -42,7 +42,9 @@ end
 
 @testset "StatsBase" begin
   x = [1,2,3,4,5]
-  @test wsample(StableRNG(1), x, Weights([0.99, 0.0025, 0.0025, 0.0025, 0.0025])) == 1
+  @test begin wsample(StableRNG(1), x, Weights([0.99, 0.0025, 0.0025, 0.0025, 0.0025])) == 1
+  end
+  @test begin; bins = [0,1,7]; obs = [0.5, 1.5, 1.5, 2.5]; fit(Histogram, obs, bins); return true; end 
 end
 
 @testset "KernelDensity" begin
@@ -99,6 +101,99 @@ end
   end 
 end
 
+@testset "NMF" begin 
+  @test begin 
+    A = rand(50, 50)
+    A .= abs.(A)
+    W, H = NMF.randinit(A, 3)
+    NMF.solve!(NMF.MultUpdate{Float64}(obj=:mse,maxiter=100), A, W, H);
+    return true
+  end 
+end
+
+@testset "RDatasets" begin 
+  @test begin 
+    iris = dataset("datasets", "iris")
+    @test size(iris) == (150, 5)
+    return true
+  end 
+end
+
+@testset "Clustering" begin 
+  @test begin 
+    x = rand(10, 2)
+    kmeans(x, 2)
+    return true
+  end 
+end
+
+@testset "Distances" begin 
+  @test begin 
+    x = rand(10)
+    y = rand(10)
+    @test euclidean(x,y) ≈ sqrt(sum((x .- y).^2))
+    return true
+  end 
+end
+
+@testset "NearestNeighbors" begin 
+  @test begin 
+    x = rand(10, 2)
+    knn = KDTree(x)
+    @test sum(knn.data[1]) + sum(knn.data[2]) ≈ sum(x)
+    return true
+  end 
+end
+
+@testset "Images" begin 
+  @test begin 
+    img = rand(10, 10)
+    img = Gray.(img)
+    @test size(img) == (10, 10)
+    return true
+  end 
+end
+
+@testset "FFTW" begin 
+  @test begin 
+    n = 20
+    x = rand(n)
+    fft(x)
+    @test real(sum(fft(fft(x))) / sum(x)) ≈ n
+    return true
+  end 
+end
+
+@testset "TestImages" begin 
+  @test begin 
+    img = testimage("cameraman")
+    @test size(img) == (512, 512)
+    return true
+  end 
+end
+
+@testset "DataFrames" begin 
+  @test begin 
+    df = DataFrame(A = 1:3, B = ["a", "b", "c"])
+    @test size(df) == (3, 2)
+    df[!, :C] = [1.0, 2.0, 3.0]
+    @test size(df) == (3, 3)
+    return true
+  end 
+end
+
+@testset "ProgressMeter" begin 
+  p = Progress(100)
+  for i in 1:100
+    update!(p, i)
+  end
+  @test true
+end 
+
+@testset "Makie" begin 
+  @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
+end 
+
 @testset "Arpack" begin 
   A = sprand(StableRNG(1), 50,50,10/50)
   Avals,Avecs = eigen(Matrix(A))
@@ -114,37 +209,12 @@ end
   @test true
 end
 
-
-@testset "Makie" begin 
-  @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
-end 
-
 @testset "Polynomials" begin 
   @test degree(Polynomial([1, 0, 3, 4])) == 3
 end 
 
-@testset "ProgressMeter" begin 
-  p = Progress(100)
-  for i in 1:100
-    update!(p, i)
-  end
-  @test true
-end 
 
-@testset "StatsBase" begin 
-  bins = [0,1,7]
-  obs = [0.5, 1.5, 1.5, 2.5]
-  @test begin; fit(Histogram, obs, bins); return true; end 
-end 
 
-@testset "Symbolics" begin 
-  @test begin 
-    @variables x y 
-    f = x^2 + y^2
-    dfdx = (Differential(x))(f) 
-    return simplify(expand_derivatives(dfdx) == 2x)
-  end 
-end
 
 
 @testset "Graphs" begin 
@@ -189,6 +259,15 @@ end
   0.0       4.0  0.0  2.0
   0.0       3.0  2.0  0.0]
 end 
+
+@testset "Symbolics" begin 
+  @test begin 
+    @variables x y 
+    f = x^2 + y^2
+    dfdx = (Differential(x))(f) 
+    return simplify(expand_derivatives(dfdx) == 2x)
+  end 
+end
 
 @testset "DifferentialEquations" begin 
   # https://docs.sciml.ai/DiffEqDocs/stable/examples/classical_physics/
