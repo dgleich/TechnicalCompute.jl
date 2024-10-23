@@ -26,4 +26,8 @@ end
   include("simple-tests.jl")
 end 
 
+@testset "overrides" begin 
+  include("override-tests.jl")
+end 
+
 include("optimization.jl")

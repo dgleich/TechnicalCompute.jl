@@ -48,6 +48,7 @@ BSpline(::Type{D}) where D <: Interpolations.Degree = Interpolations.BSpline(Typ
 BSpline(d::D) where D <: Interpolations.Degree = Interpolations.BSpline(D) 
 @doc (@doc DelaunayTriangulation.BSpline)
 BSpline(control_points::Vector{Tuple{Float64, Float64}}, knots::Vector{Int64}, cache::Vector{Tuple{Float64, Float64}}, lookup_table::Vector{Tuple{Float64, Float64}}, orientation_markers::Vector{Float64}) = DelaunayTriangulation.BSpline(control_points, knots, cache, lookup_table, orientation_markers) 
+BSpline(control_points::Vector{Tuple{Float64, Float64}}; kwargs...) = DelaunayTriangulation.BSpline(control_points; kwargs...)
 export BSpline
 push!(overrides, :BSpline) 
 
@@ -114,7 +115,7 @@ push!(overrides, :ComplexVariable)
 EllipticalArc(c::Point{2, Float64}, r1::Float64, r2::Float64, angle::Float64, a1::Float64, a2::Float64)= Makie.EllipticalArc(c, r1, r2, angle, a1, a2)
 EllipticalArc(x1, y1, x2, y2, rx, ry, ϕ, largearc::Bool, sweepflag::Bool) = Makie.EllipticalArc(x1, y1, x2, y2, rx, ry, ϕ, largearc, sweepflag)
 @doc (@doc DelaunayTriangulation.EllipticalArc)
-EllipticalArc(p, q, c, α, β, θ°; positive) = DelaunayTriangulation.EllipticalArc(p, q, c, α, β, θ°; positive)
+EllipticalArc(p, q, c, α, β, θ°; kwargs...) = DelaunayTriangulation.EllipticalArc(p, q, c, α, β, θ°; kwargs...)
 export EllipticalArc
 push!(overrides, :EllipticalArc)
 

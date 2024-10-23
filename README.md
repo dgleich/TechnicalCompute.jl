@@ -79,6 +79,9 @@ And this also includes a variety of useful utility packages in the base Julia li
 - `OptimTestProblems.jl`
 - `LsqFit.jl`
 - `LineSearches.jl`
+- `HTTP.jl`
+- `Serde.jl`
+- `Latexify.jl`
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
 

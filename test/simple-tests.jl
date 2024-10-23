@@ -182,6 +182,11 @@ end
   end 
 end
 
+@testset "JSON" begin
+  @test json([2,3]) == "[2,3]"
+  @test JSON.parse("{\"title\":\"Matrix\",\"values\":[2,3,4]}") == Dict("title" => "Matrix", "values" => [2,3,4])
+end
+
 @testset "ProgressMeter" begin 
   p = Progress(100)
   for i in 1:100
