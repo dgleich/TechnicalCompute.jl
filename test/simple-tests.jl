@@ -187,6 +187,51 @@ end
   @test JSON.parse("{\"title\":\"Matrix\",\"values\":[2,3,4]}") == Dict("title" => "Matrix", "values" => [2,3,4])
 end
 
+@testset "CSV" begin
+  
+end
+
+@testset "TOML" begin
+  @test TOML.parse("a = 1") == Dict("a" => 1)
+end
+
+@testset "YAML" begin 
+  @test YAML.load("a: 1") == Dict("a" => 1)
+end
+
+@testset "DelimitedFiles" begin 
+  @test [5.0,6.0] == vec(readdlm(IOBuffer("5.0\n6.0"), ' ', Float64))
+end
+
+@testset "FileIO" begin 
+end 
+
+@testset "JLD2" begin 
+end 
+
+@testset "HDF5" begin 
+end
+
+@testset "MAT" begin 
+end
+
+@testset "BSON" begin 
+end 
+
+@testset "NIfTI" begin 
+end
+
+@testset "GraphIO" begin 
+end
+
+@testset "BenchmarkTools" begin 
+
+end
+
+@testset "StableRNG" begin 
+end 
+
+
 @testset "ProgressMeter" begin 
   p = Progress(100)
   for i in 1:100
@@ -195,9 +240,123 @@ end
   @test true
 end 
 
-@testset "Makie" begin 
-  @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
+
+@testset "Printf" begin 
+  @test @printf("%d", 1) == "1"
+end
+
+@testset "Measures" begin 
+  x = 1mm; y = 1cm; 
+  @test x + y == 11mm
+end
+
+@testset "Unitful" begin 
+  @test 1u"s" == Second(1)
+  @test 1u"m" == Minute(1)
+  @test 1u"h" == Hour(1)
+  @test 1u"d" == Day(1)
+  @test 1u"y" == Year(1) 
+  @test 1u"kg" * 1u"m/s^2" == 1u"N"
+  @test uconvert(u"°C", 212u"°F") == 100u"°C"
+  @test mod(1u"hr" + 24u"minute", 35u"s") == 0u"s"
 end 
+
+@testset "Colors" begin
+  @test colorant"white" == RGB(1.0, 1.0, 1.0)
+end
+
+@testset "ColorVectorSpace" begin
+  @test RGB(1.0, 1.0, 1.0) + RGB(0.0, 0.0, 0.0) == RGB(1.0, 1.0, 1.0)
+end
+
+@testset "ColorSchemes" begin
+  #@test ColorSchemes.viridis(0.5) == RGB(0.282623, 0.140926, 0.457517)
+end
+
+@testset "Dates" begin
+  @test Dates.DateTime(2021, 1, 1) == Date(2021, 1, 1)
+end
+
+@testset "HypertextLiteral" begin
+  s = "Me & You"
+  @test string(@htl("<p>$s</p>")) == "<p>Me &amp; You</p>"
+end
+
+@testset "Transducers" begin
+end 
+
+@testset "ThreadsX" begin 
+end
+
+@testset "IterTools" begin 
+end
+
+@testset "StaticArrays" begin 
+  a = SVector(1,2,3)
+  b = SVector(4,5,6)
+  @test a + b == SVector(5,7,9)
+end
+
+@testset "IndirectArrays" begin 
+  a = [1,2,3]
+  b = [4,5,6]
+  ia = IndirectArray(a, b)
+  @test ia[1] == 4
+end
+
+@testset "OffsetArrays" begin 
+  a = OffsetArray(1:10, -5:4)
+  @test a[-5] == 1
+  @test a[4] == 10
+  
+end
+
+@testset "KahanSummation" begin
+  @test sum_kbn(1.0, 1.0, 1.0) == 3.0
+end
+
+@testset "FillArrays" begin 
+  x = Ones(5)
+  y = Zeros(5)
+  @test 5x+y == 5*ones(5) 
+end 
+
+@testset "TiledIteration" begin 
+  A = reshape(1:16, 4, 4)
+  @test collect(TileIterator((1:4, 1:4), (2,2))) == [(1:2, 1:2) (1:2, 3:4); (3:4, 1:2) (3:4, 3:4)]
+end 
+
+@testset "AxisArrays" begin 
+  M = reshape(1:60, 12, 5)
+  A = AxisArray(M, .1:.1:1.2, [:a, :b, :c, :d, :e])
+  @test A[ArrayAxis{:col}(2)] == M[:,2]
+  @test A[ArrayAxis{:col}(:b)] == M[:,2]
+
+  f = Figure()
+  @test begin; a = Axis(f[1,1]); return true; end 
+end
+
+@testset "DSP" begin 
+end
+
+@testset "CairoMakie / Makie" begin 
+  @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
+end
+
+@testset "Observables" begin 
+  x = Observable(1)
+  y = Observable(2)
+  z = Observable(3)
+  onany(x, y) do x, y
+    z[] = x + y
+  end
+  y[] = 4
+  @test z[] == 5
+end
+
+@testset "LaTeXStrings" begin 
+  @test begin; x = L"\alpha"; return true; end 
+end
 
 @testset "Arpack" begin 
   A = sprand(StableRNG(1), 50,50,10/50)
@@ -207,6 +366,15 @@ end
   @test abs.(vals) ≈ abs.(sort(Avals, by=abs,rev=true)[1:k])
 end 
 
+@testset "LinearMaps" begin 
+end 
+
+@testset "Krylov" begin 
+end 
+
+@testset "MeshIO" begin 
+end
+
 # This is exported by Meshes... 
 @testset "DelaunayTriangulation" begin
   points = rand(StableRNG(1), 2, 100)
@@ -214,13 +382,45 @@ end
   @test true
 end
 
+@testset "DoubleFloats" begin 
+  @test Double64(1.0) + Double64(1.0) == Double64(2.0)
+end
+
+@testset "MultiFloats" begin 
+  @test Float64x4(1.0) + Float64x4(eps(1.0)/2) - Float64x4(1.0) ≈ Float64x4(eps(1.0)/2)
+end
+
 @testset "Polynomials" begin 
   @test degree(Polynomial([1, 0, 3, 4])) == 3
 end 
 
+@testset "SpecialFunctions" begin 
+  @test besselj(1, 0.5) ≈ 0.24226845767487388
+end
 
+@testset "Roots" begin 
+  #@test find_zero(x -> x^2 - 2, 0, Roots.Newton()) ≈ sqrt(2)
+  @test find_zero(sin, 3) ≈ π
+end
 
+@testset "TaylorSeries" begin 
+  @test Taylor1([1.0, 1.0, 0.5, 0.16666666666666666, 0.041666666666666664, 0.008333333333333333])(1.5) ≈ exp(1.5) atol=1e-1
+end
 
+@testset "FastTransforms" begin 
+  c = range(0, 1, length=8192)
+  x = leg2cheb(c, normcheb=true)
+  y = cheb2leg(x, normcheb=true)
+  @test y ≈ c
+end
+
+@testset "Interpolations" begin 
+  xs = 1:0.2:5
+  A = log.(xs)
+  interp_linear = linear_interpolation(xs, A)
+  @test interp_linear(3) ≈ log(3)
+  @test interp_linear(2) ≈ log(2)
+end 
 
 @testset "Graphs" begin 
   @test degree(path_graph(5)) == [1, 2, 2, 2, 1]
