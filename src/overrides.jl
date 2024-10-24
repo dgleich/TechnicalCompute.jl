@@ -218,6 +218,7 @@ push!(overrides, :Graph)
 # StaticArrays.Length(x::StaticArrays.Args) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/convert.jl:9
 
 # Neither of these seems to be the right one to get Length. 
+push!(overrides, :Length)
 
 ## :Line
 # Showing duplicate methods for Line in packages Module[GeometryBasics, Interpolations]
@@ -486,6 +487,8 @@ constant(quad::GenericQuadExpr) = JuMP.constant(quad)
 @doc (@doc Convex.constant)
 constant(x::Convex.ComplexConstant) = Convex.constant(x) 
 constant(x::Convex.Constant) = Convex.constant(x) 
+export constant
+push!(overrides, :constant)
 
 ## :conv
 # Showing duplicate methods for conv in packages Module[Convex, DSP, Flux]
@@ -1005,6 +1008,8 @@ geomean(a) = StatsBase.geomean(a)
 geomean(a::Convex.AbstractExpr, b) = Convex.geomean(a, b)
 geomean(a, b::Convex.AbstractExpr) = Convex.geomean(a, b)
 geomean(args::Union{Convex.AbstractExpr, Number, AbstractArray}...) = Convex.geomean(args...)
+export geomean
+push!(overrides, :geomean)
 
 ## :get_weight
 # Showing duplicate methods for get_weight in packages Module[DelaunayTriangulation, SimpleWeightedGraphs]
