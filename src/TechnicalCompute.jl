@@ -60,6 +60,7 @@ packages = [
 "DelimitedFiles",
 # Files
 "FileIO",
+"HTTP",
 "JLD2",
 "HDF5",
 "MAT",

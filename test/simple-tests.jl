@@ -182,13 +182,17 @@ end
   end 
 end
 
+@testset "Tables" begin 
+end 
+
 @testset "JSON" begin
   @test json([2,3]) == "[2,3]"
   @test JSON.parse("{\"title\":\"Matrix\",\"values\":[2,3,4]}") == Dict("title" => "Matrix", "values" => [2,3,4])
 end
 
 @testset "CSV" begin
-  
+  @test CSV.read(IOBuffer("a,b\n1,2\n3,4"), DataFrame) == DataFrame(a=[1,3], b=[2,4])
+  #@test CSV.read(IOBuffer("a,b\n1,2\n3,4"), NamedTuple) 
 end
 
 @testset "TOML" begin
@@ -204,7 +208,13 @@ end
 end
 
 @testset "FileIO" begin 
+  img = load(HTTP.URI("https://github.com/JuliaLang/julia-logo-graphics/raw/master/images/julia-logo-color.png"));
+  @test size(img) == (200, 320)
 end 
+
+@testset "HTTP" begin 
+  @test HTTP.get("https://www.google.com") |> x -> x.status == 200
+end
 
 @testset "JLD2" begin 
 end 
