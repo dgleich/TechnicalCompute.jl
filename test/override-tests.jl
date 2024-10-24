@@ -86,6 +86,7 @@ end
 
     colsize!(f.layout, 1, FixedSize(400))
     # colsize!(f.layout, 1, 400) would also work
+    return true 
   end 
 end
 
@@ -104,5 +105,5 @@ end
 
 @testset "Line" begin 
   # GeometryBasics.Line(Point2f(1.0, 3.0), Point2f(1.0, 4.0))
-  
+
 end
