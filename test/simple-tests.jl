@@ -312,7 +312,7 @@ end
 end
 
 @testset "KahanSummation" begin
-  @test sum_kbn(1.0, 1.0, 1.0) == 3.0
+  @test sum_kbn([1.0, 1.0, 1.0]) == 3.0
 end
 
 @testset "FillArrays" begin 
