@@ -42,7 +42,7 @@ function test_name_in_packages_for_equality(packages, name, overlaps)
           @test name in overriden_names
         else
           @test_broken name in overriden_names 
-          println("Name $name is not equal in packages $(packages[i]) and $(packages[j]) and not in overrides")
+          println("Name $name is not equal in packages $(packages[i]) and $(packages[j]) and not in overrides ******")
         end
       end
     end
