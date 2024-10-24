@@ -270,6 +270,7 @@ end
 end
 
 @testset "ColorSchemes" begin
+  @test colorschemes[:Purples_5] == ColorSchemes.Purples_5 
   #@test ColorSchemes.viridis(0.5) == RGB(0.282623, 0.140926, 0.457517)
 end
 
@@ -283,12 +284,15 @@ end
 end
 
 @testset "Transducers" begin
+  @test 1:3 |> Map(x -> 2x) |> collect == [2,4,6]
 end 
 
 @testset "ThreadsX" begin 
+  @test ThreadsX.sum(y for x in 1:10 if isodd(x) for y in 1:x^2) == sum(y for x in 1:10 if isodd(x) for y in 1:x^2)
 end
 
 @testset "IterTools" begin 
+  @test collect(distinct([1,1,2,1,2,4,1,2,3,4])) == [1,2,4,3]
 end
 
 @testset "StaticArrays" begin 
