@@ -232,6 +232,7 @@ push!(overrides, :Graph)
 # I'm not sure this is the right call, but let's go with it. 
 @doc (@doc Interpolations.Line)
 Line = Interpolations.Line 
+export Line 
 push!(overrides, :Line)
 
 ## :Mesh

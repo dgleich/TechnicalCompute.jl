@@ -49,4 +49,60 @@ end
 
 end 
 
+@testset "Bisection" begin 
+end 
 
+@testset "Categorical" begin 
+end 
+
+@testset "ComplexVariable" begin 
+end
+
+@testset "EllipticalArc" begin 
+end
+
+@testset "Fill" begin 
+end 
+
+@testset "Filters" begin 
+  zi_python = [ 0.99672078, -1.49409147,  1.28412268, -0.45244173,  0.07559489]
+
+  b = [ 0.00327922,  0.01639608,  0.03279216,  0.03279216,  0.01639608,  0.00327922]
+  a = [ 1.        , -2.47441617,  2.81100631, -1.70377224,  0.54443269, -0.07231567]
+
+  @test ≈(zi_python, Filters.filt_stepstate(b, a), atol=1e-7)
+end 
+
+@testset "Fixed" begin 
+  T = Fixed{Int32, 10}
+  @test T(1) == 1
+  @test T(-1.0) == -1
+
+  @test begin 
+    f = Figure()
+
+    Axis(f[1, 1], title = "My column has size Fixed(400)")
+    Axis(f[1, 2], title = "My column has size Auto()")
+
+    colsize!(f.layout, 1, FixedSize(400))
+    # colsize!(f.layout, 1, 400) would also work
+  end 
+end
+
+@testset "FunctionMap" begin 
+
+end
+
+@testset "Graph" begin 
+  g = Graph(sparse(Tridiagonal(ones(4), zeros(5), ones(4))))
+  @test collect(edges(g)) == [Edge(1, 2), Edge(2, 3), Edge(3, 4), Edge(4, 5)]
+end 
+
+@testset "Length" begin 
+  # intentionally empty
+end 
+
+@testset "Line" begin 
+  # GeometryBasics.Line(Point2f(1.0, 3.0), Point2f(1.0, 4.0))
+  
+end
