@@ -91,7 +91,8 @@ end
 end
 
 @testset "FunctionMap" begin 
-
+  F = FunctionMap{Int64,false}(cumsum, 2)
+  @test Matrix(F) == [1 0 ; 1 1]
 end
 
 @testset "Graph" begin 
