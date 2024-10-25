@@ -152,5 +152,5 @@ end
 end
 
 @testset "center" begin 
-  @test center(path_graph(5)) == 3
+  @test center(path_graph(5)) == [3]
 end 
