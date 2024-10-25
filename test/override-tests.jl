@@ -108,3 +108,49 @@ end
   # GeometryBasics.Line(Point2f(1.0, 3.0), Point2f(1.0, 4.0))
 
 end
+
+@testset "Mesh" begin
+end 
+
+@testset "Normal" begin 
+  @test begin 
+    x = Normal(0, 1)
+    rand(x, 10)
+    return true
+  end 
+end 
+
+@testset "Partition" begin 
+  @test 1:8 |> Partition(3) |> Map(copy) |> collect == [[1, 2, 3], [4, 5, 6]]
+end
+
+@testset "Variable" begin 
+  # intentionally empty
+  # removed the override 
+end 
+
+@testset "Vec" begin 
+  @test Vec(Point2f(1.0,2.0)) == [1.0,2.0]
+end 
+
+@testset "Vec2" begin 
+  @test Vec2(1.0,2.0) == [1.0,2.0]
+  @test_throws MethodError Vec2(Point3f(1.0,2.0,4.0)) 
+end
+
+@testset "Vec3" begin 
+  @test Vec3(1.0,2.0,4.0) == [1.0,2.0,4.0]
+  @test_throws MethodError Vec3(Point2f(1.0,2.0)) 
+end
+
+@testset "Zeros" begin 
+  @test Zeros(3) == [0,0,0]
+end
+
+@testset "attributes" begin 
+  
+end
+
+@testset "center" begin 
+  @test center(path_graph(5)) == 3
+end 
