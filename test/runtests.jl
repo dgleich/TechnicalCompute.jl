@@ -22,6 +22,10 @@ if test_dups
   end
 end 
 
+workdir = joinpath(tempdir(), "TechnicalCompute")
+tempfiles = [] 
+_filename(file) = joinpath(workdir, file)
+
 @testset "simple tests" begin 
   include("simple-tests.jl")
 end 
@@ -31,3 +35,10 @@ end
 end 
 
 include("optimization.jl")
+
+try 
+  if isdir(workdir)
+    rm(workdir; force=true, recursive=true)
+  end
+catch 
+end 
