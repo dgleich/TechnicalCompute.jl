@@ -82,6 +82,12 @@ And this also includes a variety of useful utility packages in the base Julia li
 - `Serde.jl`
 - `Latexify.jl`
 - `OnlineStats.jl`  
+- `CodecZlib.jl`
+- `ZipFiles.jl`
+- `EzXML.jl`
+- `ParserCombinator.jl`
+- `MatrixMarket.jl`
+- `SuiteSparseMatrixCollection.jl`
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
 
