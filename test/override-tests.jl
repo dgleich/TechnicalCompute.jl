@@ -153,4 +153,91 @@ end
 
 @testset "center" begin 
   @test center(path_graph(5)) == [3]
+  W = ones(5,5)
+  W[1,2] = 5
+  W[2,1] = 5 
+  @test center(path_graph(5), W) == [2]
+  @test center(rand(11,11)) == [6.0,6.0]
+end 
+
+@testset "centered" begin 
+  A = reshape(collect(1:9), 3, 3)
+  Ao = centered(A)
+  @test Ao[-1,-1] == 1 
+end 
+
+@testset "complement" begin 
+  @test begin 
+    
+    complement(DataStructures.IntSet([1,3,5]))
+    return true 
+  end 
+
+  @test complement(RGB(0.1,0.1,0.1)) == RGB(0.9,0.9,0.9)
+  @test complement(0.1) == 0.9 
+  @test complement(RGBA(0.1,0.1,0.1,0.1)) == RGBA(0.9,0.9,0.9,0.1)
+
+  g = path_graph(5)
+  complement(g) 
+  @test Edge(1,3) in edges(complement(g))
+
+  g = path_digraph(5)
+  complement(g) 
+  @test Edge(1,3) in edges(complement(g))
+end 
+
+@testset "constant" begin 
+  # test the jump overrides 
+  model = Model()
+  @variable(model, x) 
+  quad = 2.0*x^2 + 3.0
+  @test constant(quad) == 3.0 
+
+  affine = 5*x + 2.0 
+  @test constant(affine) == 2.0 
+
+
+end 
+
+@testset "conv" begin 
+end 
+
+@testset "crossentropy" begin 
+end 
+
+@testset "curvature" begin 
+end 
+
+@testset "degree" begin 
+  x = Polynomial(5,6)
+  @test degree(x) == 6 
+
+  p,q = fromroots(Polynomial, [1,2,3]), fromroots(Polynomial, [2,3,4])
+  pq = p // q
+  @test degree(pq)==1 
+
+  g = path_graph(5)
+  @test degree(g) == [1,2,2,2,1]
+  @test degree(g,2) == 2
+end 
+
+@testset "density" begin 
+  @test density(path_graph(4)) == 0.5
+
+  # test Makie
+  p = density(rand(10))
+  @test typeof(p)==Makie.FigureAxisPlot
+end 
+
+@testset "derivative" begin 
+  p,q = fromroots(Polynomial, [1,2,3]), fromroots(Polynomial, [2,3,4])
+  pq = p // q
+
+  pp = derivative(p)
+  pp2 = derivative(p, 2)
+  @test pp2 == derivative(pp)
+  @test derivative(derivative(pq)) == derivative(pq,2)
+
+  t = Taylor1([1.0, 1.0, 0.5, 0.16666666666666666, 0.041666666666666664, 0.008333333333333333])
+  @test derivative(t, 2) == derivative(derivative(t))
 end 

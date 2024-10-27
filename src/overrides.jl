@@ -310,9 +310,12 @@ push!(overrides, :Partition)
 # Methods for Symbolics.Variable in package Core
 # Symbolics.Variable(s, i...) @ Symbolics ~/.julia/packages/Symbolics/-----/src/variable.jl:749
 
-@doc (@doc Symbolics.Variable)
-Variable = Symbolics.Variable 
-export Variable
+# we aren't using Variable because it's 
+# deprecated in Symbolics.
+# and I'm not sure I want to give it to Convex. 
+#@doc (@doc Symbolics.Variable)
+#Variable = Symbolics.Variable 
+#export Variable
 push!(overrides, :Variable)
 
 ## :Vec
@@ -437,16 +440,20 @@ push!(overrides, :center)
 # centered(a::AxisArray) @ ImageAxes ~/.julia/packages/ImageAxes/-----/src/offsetarrays.jl:6
 # centered(a::ImageMeta) @ ImageMetadata ~/.julia/packages/ImageMetadata/-----/src/ImageMetadata.jl:272
 # centered(ax::AxisArrays.Axis{name}) where name @ ImageAxes ~/.julia/packages/ImageAxes/-----/src/offsetarrays.jl:5
-@doc (@doc GeometryBasics.centered)
-centered(R::Union{HyperRectangle, HyperRectangle{N}, HyperSphere{N, T}, HyperRectangle{N, T}}) where {N, T} = GeometryBasics.centered(R)
-centered(::Type{T}) where T<:HyperSphere = GeometryBasics.centered(T)
-@doc (@doc OffsetArrays.centered)
-centered(ax::Images.Axis) = OffsetArrays.centered(ax)
-centered(a::ImageMeta) = OffsetArrays.centered(a)
-centered(a::AxisArray) = OffsetArrays.centered(a)
-centered(A::ImageMorphology.StructuringElements.MorphologySEArray) = OffsetArrays.centered(A)
-centered(A::AbstractArray) = OffsetArrays.centered(A)
-centered(A::AbstractArray, r) = OffsetArrays.centered(A, r)
+
+# Remove override for GeometryBasics.jl - 2024-10-25 - This doesn't seem to be used
+# and calling this with HypersSphere actually breaks. 
+#@doc (@doc GeometryBasics.centered)
+#centered(R::Type{T}) where T <: Union{HyperRectangle,HyperSphere} = GeometryBasics.centered(R) 
+#centered(::Type{T}) where T<:HyperSphere = GeometryBasics.centered(T)
+#@doc (@doc OffsetArrays.centered)
+centered = OffsetArrays.centered 
+# centered(ax::Images.Axis) = OffsetArrays.centered(ax)
+# centered(a::ImageMeta) = OffsetArrays.centered(a)
+# centered(a::AxisArray) = OffsetArrays.centered(a)
+# centered(A::ImageMorphology.StructuringElements.MorphologySEArray) = OffsetArrays.centered(A)
+# centered(A::AbstractArray) = OffsetArrays.centered(A)
+# centered(A::AbstractArray, r) = OffsetArrays.centered(A, r)
 export centered
 push!(overrides, :centered)
 
@@ -599,6 +606,15 @@ push!(overrides, :crossentropy)
 # curvature(c::CircularArc, t) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/-----/src/data_structures/mesh_refinement/curves/circulararc.jl:121
 # curvature(c::DelaunayTriangulation.AbstractParametricCurve, t) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/-----/src/data_structures/mesh_refinement/curves/abstract.jl:370
 # curvature(e::DelaunayTriangulation.EllipticalArc, t) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/-----/src/data_structures/mesh_refinement/curves/ellipticalarc.jl:101
+
+@doc (@doc Convex.curvature) 
+curvature(x::Convex.AbstractExpr) = Convex.curvature(x)
+@doc (@doc DelaunayTriangulation.curvature) 
+curvature(c::DelaunayTriangulation.AbstractParametricCurve,t) = DelaunayTriangulation.curvature(c, t)
+
+export curvature
+push!(overrides, :curvature)
+
 ## :degree
 # Showing duplicate methods for degree in packages Module[Graphs, Polynomials]
 # Methods for degree in package Graphs
