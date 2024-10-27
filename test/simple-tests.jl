@@ -183,6 +183,9 @@ end
 end
 
 @testset "Tables" begin 
+  T =  CSV.read(IOBuffer("a,b\n1,2\n3,4"), rowtable)
+  @test T == [(a=1,b=2), (a=3,b=4)]
+  @test columntable(T) == (a = [1,3], b = [2,4])
 end 
 
 @testset "JSON" begin
@@ -217,30 +220,56 @@ end
 end
 
 @testset "JLD2" begin 
+  D = Dict("hello" => "world", "foo" => :bar)
+  save(_filename("example.jld2"), D)
+  D2 = load(_filename("example.jld2"))
+  @test D2 == D 
 end 
 
 @testset "HDF5" begin 
+  D = OrderedDict("z"=>1, "a"=>2, "g/f"=>3, "g/b"=>4)
+  save(_filename("example.h5"), D)
+  D2 = load(_filename("example.h5"); dict=OrderedDict())
+  @test D2 == D
 end
 
 @testset "MAT" begin 
+  D = OrderedDict("z"=>1, "a"=>2, "x"=>[1.0,2.0])
+  matwrite(_filename("example.mat"), D)
+  D2 = matread(_filename("example.mat"))
+  @test D2 == D
 end
 
 @testset "BSON" begin 
+  D = OrderedDict("z"=>1, "a"=>2, "x"=>[1.0,2.0])
+  save(_filename("example.bson"), D)
+  D2 = load(_filename("example.bson"))
+  @test D2 == D
 end 
 
 @testset "NIfTI" begin 
+  @test begin
+    brain = niread(Makie.assetpath("brain.nii.gz")).raw
+    return true
+  end
 end
 
 @testset "GraphIO" begin 
+  @test begin 
+    testdatadir = joinpath(pkgdir(GraphIO), "test", "testdata")
+    g = loadgraph(joinpath(testdatadir, "kinship.net"), GraphIO.NET.NETFormat()) 
+    return true
+  end 
 end
 
 @testset "BenchmarkTools" begin 
-
+  @btime sum(rand(1000)); 
 end
 
 @testset "StableRNG" begin 
+  x = rand(StableRNG(1), 10)
+  @test rand(StableRNG(1), 10) == x
 end 
-
 
 @testset "ProgressMeter" begin 
   p = Progress(100)
@@ -249,7 +278,6 @@ end
   end
   @test true
 end 
-
 
 @testset "Printf" begin 
   @test @sprintf("%d", 1) == "1"
@@ -351,6 +379,7 @@ end
 end
 
 @testset "DSP" begin 
+  @test shiftsignal([1,2,3,4], 2) == [0,0,1,2]
 end
 
 @testset "CairoMakie / Makie" begin 
@@ -381,12 +410,22 @@ end
 end 
 
 @testset "LinearMaps" begin 
+  B = LinearMap(cumsum, reverse∘cumsum∘reverse, 10)+I
+  @test B'*ones(10) == 11:-1:2
 end 
 
 @testset "Krylov" begin 
+  A = SymTridiagonal(2*ones(100), -1*ones(99))
+  b = ones(100)
+  (x,stats) = cg(A,b) 
+  @test x ≈ A\b 
 end 
 
 @testset "MeshIO" begin 
+  @test begin 
+    mesh = load(Makie.assetpath("cat.obj"))
+    return true
+  end 
 end
 
 # This is exported by Meshes... 
