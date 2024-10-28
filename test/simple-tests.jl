@@ -556,6 +556,18 @@ end
 @testset "OptimTestProblems" begin 
 end 
 
+@testset "Optim" begin 
+end
+
+@testset "NonlinearSolve" begin 
+end
+
+@testset "LsqFit" begin 
+end
+
+@testset "Tulip" begin 
+end
+
 @testset "ForwardDiff" begin 
   f(x::Vector) = sin(x[1]) + prod(x[2:end]);  # returns a scalar
   x = vcat(pi/4, 2:4)

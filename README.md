@@ -36,7 +36,9 @@ Topics (and the packages that support them)
   * High-accuracy: [`DoubleFloats.jl`](https://github.com/JuliaMath/DoubleFloats.jl), [`MultiFloats.jl`](https://github.com/dzhang314/MultiFloats.jl), [`KahanSummation.jl`](https://github.com/JuliaMath/KahanSummation.jl)
 * Optimization and Operations Research
   * Modeling: [`JuMP.jl`](https://github.com/jump-dev/JuMP.jl) for Linear Programs and Nonlinear Problems 
-  * and associated solvers [`Ipopt.jl`](https://github.com/jump-dev/Ipopt.jl), [`HiGHS.jl`](https://github.com/jump-dev/HiGHS.jl), [`GLPK.jl`](https://github.com/jump-dev/GLPK.jl) (and [`Clp.jl`](https://github.com/jump-dev/Clp.jl) where supported)
+  * and associated solvers [`Ipopt.jl`](https://github.com/jump-dev/Ipopt.jl), [`HiGHS.jl`](https://github.com/jump-dev/HiGHS.jl), [`GLPK.jl`](https://github.com/jump-dev/GLPK.jl), [`Tulip.jl`](https://github.com/ds4dm/Tulip.jl),  (and [`Clp.jl`](https://github.com/jump-dev/Clp.jl) where supported)
+  * General solvers: [`Optim.jl`](https://github.com/JuliaNLSolvers/Optim.jl), [`NonlinearSolve.jl`](https://github.com/SciML/NonlinearSolve.jl),[`LineSearches.jl`](https://github.com/JuliaNLSolvers/LineSearches.jl) (only imported)
+  * Least squares: [`LsqFit.jl`](https://github.com/JuliaNLSolvers/LsqFit.jl)
   * Root finding: [`Roots.jl`](https://github.com/JuliaMath/Roots.jl)
   * Convex Solvers: [`Convex.jl`](https://github.com/jump-dev/Convex.jl), [`SCS.jl`](https://github.com/jump-dev/SCS.jl)
   * Test Problems: [`OptimTestProblems.jl`](https://github.com/JuliaNLSolvers/OptimTestProblems.jl)
@@ -64,6 +66,7 @@ Topics (and the packages that support them)
   * Output: [`ProgressMeter.jl`](https://github.com/timholy/ProgressMeter.jl), [`Printf.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/Printf)
   * Dates: [`Dates.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/Dates)
   * LaTeX: [`LaTeXStrings.jl`](https://github.com/stevengj/LaTeXStrings.jl), [`Latexify.jl`](https://github.com/korsbo/Latexify.jl)
+  * Parsing: [`ParserCombinator.jl`](https://github.com/JuliaParsing/ParserCombinator.jl) (only imported)
   * Arrays: [`StaticArrays.jl`](https://github.com/JuliaArrays/StaticArrays.jl), [`IndirectArrays.jl`](https://github.com/JuliaArrays/IndirectArrays.jl), [`OffsetArrays.jl`](https://github.com/JuliaArrays/OffsetArrays.jl), [`FillArrays.jl`](https://github.com/JuliaArrays/FillArrays.jl), [`AxisArrays.jl`](https://github.com/JuliaArrays/AxisArrays.jl), [`TiledIteration.jl`](https://github.com/JuliaArrays/TiledIteration.jl), [`MosaicViews.jl`](https://github.com/JuliaArrays/MosaicViews.jl)
   * Units: [`Measures.jl`](https://github.com/JuliaGraphics/Measures.jl), [`Unitful.jl`](https://github.com/PainterQubits/Unitful.jl)
 
@@ -74,12 +77,6 @@ And this also includes a variety of useful utility packages in the base Julia li
 - `Bessels.jl`
 - `TSne.jl`
 - `UMap.jl`
-- `Tulip.jl`
-- `Optim.jl`
-- `NLSolve.jl`
-- `LsqFit.jl`
-- `LineSearches.jl`
-- `ParserCombinator.jl`
 
 
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 

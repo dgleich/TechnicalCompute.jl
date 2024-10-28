@@ -102,6 +102,8 @@ packages = [
 "FillArrays",
 "TiledIteration",
 "AxisArrays", # this is reexported from Images anyway...
+# Parser Tools
+# "ParserCombinator", # too many overlaps, too specialized... 
 # Signals
 "DSP", 
 # Plot Tools
@@ -143,6 +145,10 @@ packages = [
 "Convex",
 "SCS",
 "OptimTestProblems",
+"Optim",
+"NonlinearSolve",
+"LsqFit", 
+"Tulip",
 # Symbolic
 "ForwardDiff", 
 "Symbolics",
@@ -164,12 +170,15 @@ end
 @reexport import Meshes 
 # ApproxFun has too many overlapping names. 
 @reexport import ApproxFun 
+# ParserCombinator has too many overlapping names.
+@reexport import ParserCombinator
+# LineSearches.jl seems to be on the way out, replaced by LineSearch included in NonlinearSolve.jl
+@reexport import LineSearches
 
-# these 
+# these are specialized packages... 
 @reexport import UnicodePlots
 @reexport import PGFPlotsX
 @reexport import NaNMath
-
 
 if get(()->"true", ENV, "JULIA_TECHNICALCOMPUTE_USE_GLMAKIE") == "true"
   @reexport import GLMakie 

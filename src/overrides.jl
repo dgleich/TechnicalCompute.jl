@@ -18,6 +18,44 @@ end
 export @variables 
 push!(overrides, Symbol("@variables"))
 
+## :AdaMax
+# Showing duplicate methods for AdaMax in packages Module[Flux, Optim]
+# Methods for Flux.Optimise.AdaMax in package Core
+# Flux.Optimise.AdaMax() @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:265
+# Flux.Optimise.AdaMax(eta, beta, epsilon, state) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:260
+# Flux.Optimise.AdaMax(eta::Float64, beta::Tuple{Float64, Float64}, epsilon::Float64, state::IdDict{Any, Any}) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:260
+# Flux.Optimise.AdaMax(η::Real) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:265
+# Flux.Optimise.AdaMax(η::Real, β::Tuple) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:265
+# Flux.Optimise.AdaMax(η::Real, β::Tuple, state::IdDict) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:266
+# Flux.Optimise.AdaMax(η::Real, β::Tuple, ϵ::Real) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:265
+# Methods for Optim.AdaMax in package Core
+# Optim.AdaMax(; alpha, beta_mean, beta_var, epsilon) @ Optim ~/.julia/packages/Optim/-----/src/multivariate/solvers/first_order/adamax.jl:21
+# Optim.AdaMax(α::T, β₁::T, β₂::T, ϵ::T, manifold::Tm) where {T, Tm} @ Optim ~/.julia/packages/Optim/-----/src/multivariate/solvers/first_order/adamax.jl:15
+
+# Flux is the ML package so it gets AdaMax.
+AdaMax = Flux.AdaMax
+export AdaMax
+push!(overrides, :AdaMax)
+
+## :Adam
+# Showing duplicate methods for Adam in packages Module[Flux, Optim]
+# Methods for Flux.Optimise.Adam in package Core
+# Flux.Optimise.Adam() @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:173
+# Flux.Optimise.Adam(eta, beta, epsilon, state) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:168
+# Flux.Optimise.Adam(eta::Float64, beta::Tuple{Float64, Float64}, epsilon::Float64, state::IdDict{Any, Any}) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:168
+# Flux.Optimise.Adam(η::Real) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:173
+# Flux.Optimise.Adam(η::Real, β::Tuple) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:173
+# Flux.Optimise.Adam(η::Real, β::Tuple, state::IdDict) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:174
+# Flux.Optimise.Adam(η::Real, β::Tuple, ϵ::Real) @ Flux.Optimise ~/.julia/packages/Flux/-----/src/optimise/optimisers.jl:173
+# Methods for Optim.Adam in package Core
+# Optim.Adam(; alpha, beta_mean, beta_var, epsilon) @ Optim ~/.julia/packages/Optim/-----/src/multivariate/solvers/first_order/adam.jl:21
+# Optim.Adam(α::T, β₁::T, β₂::T, ϵ::T, manifold::Tm) where {T, Tm} @ Optim ~/.julia/packages/Optim/-----/src/multivariate/solvers/first_order/adam.jl:14
+
+# Flux is the ML package so it gets Adam.
+Adam = Flux.Adam
+export Adam
+push!(overrides, :Adam)
+
 ## :Axis
 # Showing duplicate methods for Axis in packages Module[AxisArrays, CairoMakie, Images]
 # Methods for AxisArrays.Axis in package Core
@@ -53,7 +91,7 @@ export BSpline
 push!(overrides, :BSpline) 
 
 ## :Bisection
-# Showing duplicate methods for Bisection in packages Module[DifferentialEquations, Roots]
+# Showing duplicate methods for Bisection in packages Module[DifferentialEquations, NonlinearSolve, Roots]
 # Methods for SimpleNonlinearSolve.Bisection in package Core
 # SimpleNonlinearSolve.Bisection(; exact_left, exact_right) @ SimpleNonlinearSolve ~/.julia/packages/SimpleNonlinearSolve/-----/src/bracketing/bisection.jl:17
 # SimpleNonlinearSolve.Bisection(exact_left, exact_right) @ SimpleNonlinearSolve ~/.julia/packages/SimpleNonlinearSolve/-----/src/bracketing/bisection.jl:18
@@ -68,6 +106,12 @@ Bisection(left,right) = SimpleNonlinearSolve.Bisection(left,right)
 export Bisection 
 push!(overrides, :Bisection)
 
+## :Brent
+# Showing duplicate methods for Brent in packages Module[DifferentialEquations, NonlinearSolve, Optim]
+# Methods for SimpleNonlinearSolve.Brent in package Core
+# SimpleNonlinearSolve.Brent() @ SimpleNonlinearSolve ~/.julia/packages/SimpleNonlinearSolve/-----/src/bracketing/brent.jl:6
+# Methods for Optim.Brent in package Core
+# Optim.Brent() @ Optim ~/.julia/packages/Optim/-----/src/univariate/solvers/brent.jl:19
 ## :Categorical
 # Showing duplicate methods for Categorical in packages Module[CairoMakie, Distributions]
 # Methods for Makie.Categorical in package Core
@@ -171,6 +215,24 @@ Fixed = FixedPointNumbers.Fixed
 FixedSize = Makie.Fixed
 export Fixed, FixedSize 
 push!(overrides, :Fixed)
+
+## :Flat
+# Showing duplicate methods for Flat in packages Module[Interpolations, Optim]
+# Methods for Interpolations.Flat in package Core
+# (::Type{BC})() where BC<:BoundaryCondition @ Interpolations ~/.julia/packages/Interpolations/-----/src/Interpolations.jl:111
+# Interpolations.Flat(::Type{GT}) where GT<:GridType @ Interpolations ~/.julia/packages/Interpolations/-----/src/Interpolations.jl:114
+# Interpolations.Flat(gt::GT) where GT<:Union{Nothing, GridType} @ Interpolations ~/.julia/packages/Interpolations/-----/src/Interpolations.jl:94
+# Methods for Optim.Flat in package Core
+# Optim.Flat() @ Optim ~/.julia/packages/Optim/-----/src/Manifolds.jl:56
+
+@doc (@doc Interpolations.Flat)
+Flat(x::Interpolations.GridType) = Interpolations.Flat(x)
+Flat(x::Nothing) = Interpolations.Flat(x)
+Float(::Type{GT}) where GT <: Interpolations.GridType = Interpolations.Flat(Type{GT})
+@doc (@doc Optim.Flat)
+Flat() = Optim.Flat()
+export Flat
+push!(overrides, :Flat)
 
 ## :FunctionMap
 # Showing duplicate methods for FunctionMap in packages Module[DifferentialEquations, LinearMaps]
@@ -294,12 +356,9 @@ push!(overrides, :Mesh)
 # OnlineStatsBase.Moments(; weight) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:505
 # OnlineStatsBase.Moments(m::Vector{Float64}, weight::W, n::Int64) where W @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:501
 
-@doc (@doc Images.Moments)
-ImageMoments = Images.Moments
-export ImageMoments
-@doc (@doc OnlineStats.Moments)
-StatsMoments = OnlineStats.Moments
-export StatsMoments
+# Stats gets Moments... Images needs Images.Moments. 
+Moments = OnlineStats.Moments
+export Moments
 push!(overrides, :Moments)
 
 ## :Normal
@@ -359,6 +418,17 @@ push!(overrides, :Partition)
 Series = OnlineStats.Series
 export Series
 push!(overrides, :Series)
+
+## :Sphere
+# Showing duplicate methods for Sphere in packages Module[CairoMakie, GeometryBasics, Optim]
+# Methods for GeometryBasics.Sphere in package Core
+# (HyperSphere{N})(p::Point{N, T}, number) where {N, T} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/primitives/spheres.jl:26
+# Methods for Optim.Sphere in package Core
+# Optim.Sphere() @ Optim ~/.julia/packages/Optim/-----/src/Manifolds.jl:67
+
+Sphere = GeometryBasics.Sphere
+export Sphere
+push!(overrides, :Sphere)
 
 ## :Trace
 # Showing duplicate methods for Trace in packages Module[OnlineStats, ReinforcementLearning]
@@ -1239,14 +1309,14 @@ push!(overrides, :height)
 # Methods for imrotate in package NNlib
 # imrotate(arr::AbstractArray{T, 4}, θ; method, rotation_center) where T @ NNlib ~/.julia/packages/NNlib/-----/src/rotation.jl:165
 # Methods for imrotate in package ImageTransformations
-# imrotate(img::AbstractArray, θ::Real, fillvalue::Union{Number, Colorant, Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
-# imrotate(img::AbstractArray, θ::Real, fillvalue::Union{Number, Colorant, Flat, Periodic, Reflect}, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
-# imrotate(img::AbstractArray, θ::Real, inds, fillvalue::Union{Number, Colorant, Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
-# imrotate(img::AbstractArray, θ::Real, inds, fillvalue::Union{Number, Colorant, Flat, Periodic, Reflect}, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
+# imrotate(img::AbstractArray, θ::Real, fillvalue::Union{Number, Colorant, Interpolations.Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
+# imrotate(img::AbstractArray, θ::Real, fillvalue::Union{Number, Colorant, Interpolations.Flat, Periodic, Reflect}, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
+# imrotate(img::AbstractArray, θ::Real, inds, fillvalue::Union{Number, Colorant, Interpolations.Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
+# imrotate(img::AbstractArray, θ::Real, inds, fillvalue::Union{Number, Colorant, Interpolations.Flat, Periodic, Reflect}, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
 # imrotate(img::AbstractArray, θ::Real, inds, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
-# imrotate(img::AbstractArray, θ::Real, inds, method::Union{Interpolations.InterpolationType, Interpolations.Degree}, fillvalue::Union{Number, Colorant, Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
+# imrotate(img::AbstractArray, θ::Real, inds, method::Union{Interpolations.InterpolationType, Interpolations.Degree}, fillvalue::Union{Number, Colorant, Interpolations.Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
 # imrotate(img::AbstractArray, θ::Real, method::Union{Interpolations.InterpolationType, Interpolations.Degree}) @ ImageTransformations deprecated.jl:103
-# imrotate(img::AbstractArray, θ::Real, method::Union{Interpolations.InterpolationType, Interpolations.Degree}, fillvalue::Union{Number, Colorant, Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
+# imrotate(img::AbstractArray, θ::Real, method::Union{Interpolations.InterpolationType, Interpolations.Degree}, fillvalue::Union{Number, Colorant, Interpolations.Flat, Periodic, Reflect}) @ ImageTransformations deprecated.jl:103
 # imrotate(img::AbstractArray{T}, θ::Real, inds::Union{Nothing, Tuple}; kwargs...) where T @ ImageTransformations ~/.julia/packages/ImageTransformations/-----/src/warp.jl:245
 # imrotate(img::AbstractArray{T}, θ::Real; ...) where T @ ImageTransformations ~/.julia/packages/ImageTransformations/-----/src/warp.jl:245
 imrotate = ImageTransformations.imrotate
@@ -1293,7 +1363,7 @@ export integrate
 push!(overrides, :integrate)
 
 ## :islinear
-# Showing duplicate methods for islinear in packages Module[DifferentialEquations, StatsBase]
+# Showing duplicate methods for islinear in packages Module[DifferentialEquations, NonlinearSolve, StatsBase]
 # Methods for islinear in package SciMLOperators
 # islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:536
 # islinear(::IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:33
@@ -1323,7 +1393,7 @@ export islinear
 push!(overrides, :islinear)
 
 ## :issquare
-# Showing duplicate methods for issquare in packages Module[DifferentialEquations, DoubleFloats]
+# Showing duplicate methods for issquare in packages Module[DifferentialEquations, DoubleFloats, NonlinearSolve]
 # Methods for issquare in package SciMLOperators
 # issquare(::AbstractVector) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:360
 # issquare(::Union{Number, UniformScaling, SciMLOperators.AbstractSciMLScalarOperator}) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:361
@@ -1399,6 +1469,46 @@ push!(overrides, :logsumexp)
 mae = Flux.mae
 export mae
 push!(overrides, :mae)
+
+
+## :maximize
+# Showing duplicate methods for maximize in packages Module[Convex, Optim]
+# Methods for maximize in package Convex
+# maximize(objective::Convex.AbstractExpr, constraints::Constraint...; numeric_type) @ Convex ~/.julia/packages/Convex/-----/src/problems.jl:231
+# maximize(objective::Convex.AbstractExpr, constraints; numeric_type) @ Convex ~/.julia/packages/Convex/-----/src/problems.jl:239
+# maximize(objective::Convex.AbstractExpr; ...) @ Convex ~/.julia/packages/Convex/-----/src/problems.jl:239
+# maximize(objective::Union{Number, AbstractArray}, constraints::Constraint...; numeric_type) @ Convex ~/.julia/packages/Convex/-----/src/problems.jl:247
+# maximize(objective::Union{Number, AbstractArray}, constraints; numeric_type) @ Convex ~/.julia/packages/Convex/-----/src/problems.jl:255
+# maximize(objective::Union{Number, AbstractArray}; ...) @ Convex ~/.julia/packages/Convex/-----/src/problems.jl:255
+# Methods for maximize in package Optim
+# maximize(f, g, h, x0::AbstractArray, method::Optim.AbstractOptimizer, options; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:38
+# maximize(f, g, h, x0::AbstractArray, method::Optim.AbstractOptimizer; ...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:38
+# maximize(f, g, x0::AbstractArray, method::Optim.AbstractOptimizer, options; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:32
+# maximize(f, g, x0::AbstractArray, method::Optim.AbstractOptimizer; ...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:32
+# maximize(f, lb::Real, ub::Real, method::Optim.AbstractOptimizer; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:11
+# maximize(f, lb::Real, ub::Real; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:16
+# maximize(f, x0::AbstractArray, method::Optim.AbstractOptimizer, options; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:28
+# maximize(f, x0::AbstractArray, method::Optim.AbstractOptimizer; ...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:28
+# maximize(f, x0::AbstractArray; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:24
+
+@doc (@doc Convex.maximize)
+maximize(objective::Convex.AbstractExpr, args...; kwargs...) = Convex.maximize(objective, args...; kwargs...)
+maximize(objective::Union{Number, AbstractArray}, constraints::Constraint...; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
+maximize(objective::Union{Number, AbstractArray}, constraints::AbstractArray{Constraint}; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
+@doc (@doc Optim.maximize)
+maximize(f, x0::AbstractArray; kwargs...) = Optim.maximize(f, x0; kwargs...)
+maximize(f, x0::AbstractArray, method::Optim.AbstractOptimizer; kwargs...) = Optim.maximize(f, x0, method; kwargs...)
+maximize(f, x0::AbstractArray, method::Optim.AbstractOptimizer, options; kwargs...) = Optim.maximize(f, x0, method, options; kwargs...)
+maximize(f, g, x0::AbstractArray, method::Optim.AbstractOptimizer; kwargs...) = Optim.maximize(f, g, x0, method; kwargs...)
+maximize(f, g, x0::AbstractArray, method::Optim.AbstractOptimizer, options; kwargs...) = Optim.maximize(f, g, x0, method, options; kwargs...)
+maximize(f, g, h, x0::AbstractArray, method::Optim.AbstractOptimizer; kwargs...) = Optim.maximize(f, g, h, x0, method; kwargs...)
+maximize(f, g, h, x0::AbstractArray, method::Optim.AbstractOptimizer, options; kwargs...) = Optim.maximize(f, g, h, x0, method, options; kwargs...)
+maximize(f, lb::Real, ub::Real; kwargs...) = Optim.maximize(f, lb, ub; kwargs...)
+maximize(f, lb::Real, ub::Real, method::Optim.AbstractOptimizer; kwargs...) = Optim.maximize(f, lb, ub, method; kwargs...)
+export maximize
+push!(overrides, :maximize)
+
+
 
 
 ## :meanad
@@ -1535,11 +1645,13 @@ export msd
 push!(overrides, :msd)
 
 ## :mse
-# Showing duplicate methods for mse in packages Module[Flux, Images]
+# Showing duplicate methods for mse in packages Module[Flux, Images, LsqFit]
 # Methods for mse in package Flux.Losses
 # mse(ŷ, y; agg) @ Flux.Losses ~/.julia/packages/Flux/-----/src/losses/functions.jl:45
 # Methods for mse in package ImageDistances
 # mse(a::AbstractArray{T} where T<:Union{Number, Colorant}, b::AbstractArray{T} where T<:Union{Number, Colorant}) @ ImageDistances ~/.julia/packages/ImageDistances/-----/src/metrics.jl:101
+# Methods for mse in package LsqFit
+# mse(lfr::LsqFit.LsqFitResult) @ LsqFit ~/.julia/packages/LsqFit/-----/src/curve_fit.jl:16
 
 mse = Flux.mse
 export mse
@@ -1945,7 +2057,7 @@ export shape
 push!(overrides, :shape)
 
 ## :solve!
-# Showing duplicate methods for solve! in packages Module[Convex, DifferentialEquations, Krylov, Roots]
+# Showing duplicate methods for solve! in packages Module[Convex, DifferentialEquations, Krylov, NonlinearSolve, Roots]
 # Methods for solve! in package Convex
 # solve!(p::Problem, optimizer_factory; silent, warmstart, silent_solver) @ Convex ~/.julia/packages/Convex/-----/src/solution.jl:79
 # Methods for solve! in package CommonSolve
@@ -2435,7 +2547,7 @@ export volume
 push!(overrides, :volume)
 
 ## :weights
-# Showing duplicate methods for weights in packages Module[Graphs, StatsBase]
+# Showing duplicate methods for weights in packages Module[Graphs, LsqFit, StatsBase]
 # Methods for weights in package Graphs
 # weights(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/-----/src/core.jl:431
 # weights(g::MetaGraphs.AbstractMetaGraph) @ MetaGraphs ~/.julia/packages/MetaGraphs/-----/src/MetaGraphs.jl:236
@@ -2443,6 +2555,7 @@ push!(overrides, :volume)
 # weights(g::SimpleWeightedGraph) @ SimpleWeightedGraphs ~/.julia/packages/SimpleWeightedGraphs/-----/src/simpleweightedgraph.jl:166
 # Methods for weights in package StatsAPI
 # weights(f::LinearDiscriminant) @ MultivariateStats ~/.julia/packages/MultivariateStats/-----/src/lda.jl:121
+# weights(lfr::LsqFit.LsqFitResult) @ LsqFit ~/.julia/packages/LsqFit/-----/src/curve_fit.jl:14
 # weights(vs::AbstractArray{<:Real}) @ StatsBase ~/.julia/packages/StatsBase/-----/src/weights.jl:88
 # weights(vs::AbstractVector{<:Real}) @ StatsBase ~/.julia/packages/StatsBase/-----/src/weights.jl:89
 @doc (@doc StatsBase.weights)

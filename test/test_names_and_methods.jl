@@ -7,6 +7,8 @@ function _names_in_packages(pkgs)
     for name in names(pkg)
       if name == :gamma && pkg == Combinatorics
         continue # this one doesn't really exist! 
+      elseif name == :Empty && pkg == ParserCombinator
+        continue # this one doesn't really exist!
       end 
       if haskey(namesused, name)
         push!(namesused[name], pkg)
