@@ -412,6 +412,16 @@ end
   @test shiftsignal([1,2,3,4], 2) == [0,0,1,2]
 end
 
+@testset "SampledSignals" begin
+  @test begin 
+    TEST_SR = 48000
+    TEST_T = Float32
+    buf = SampleBuf(zeros(TEST_T, 64, 2), TEST_SR)
+    fft(buf) 
+    return true
+  end
+end
+
 @testset "CairoMakie / Makie" begin 
   @test begin; brain = load(assetpath("brain.stl")); mesh(brain); return true; end 
 end

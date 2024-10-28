@@ -673,6 +673,18 @@ push!(overrides, :constant)
 # conv(A::AbstractArray{<:Number, M}, B::AbstractArray{<:Number, N}) where {M, N} @ DSP ~/.julia/packages/DSP/-----/src/dspbase.jl:722
 # conv(a::AbstractVector{V}, ::Ones{T, 1, <:Tuple{var"#s3"} where var"#s3"<:InfiniteArrays.OneToInf}) where {T, V} @ InfiniteArraysDSPExt ~/.julia/packages/InfiniteArrays/aJMPs/ext/InfiniteArraysDSPExt.jl:35
 # conv(a::Vector{V}, ::Ones{T, 1, <:Tuple{var"#s3"} where var"#s3"<:InfiniteArrays.OneToInf}) where {T, V} @ InfiniteArraysDSPExt ~/.julia/packages/InfiniteArrays/aJMPs/ext/InfiniteArraysDSPExt.jl:40
+# conv(b1::SampleBuf{T, 1}, b2::SampleBuf{T, 1}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:322
+# conv(b1::SampleBuf{T, 1}, b2::StridedVector{T}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:344
+# conv(b1::SampleBuf{T, 2}, b2::StridedMatrix{T}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:350
+# conv(b1::SampleBuf{T, N1}, b2::SampleBuf{T, N2}) where {T, N1, N2} @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:329
+# conv(b1::SpectrumBuf{T, 1}, b2::SpectrumBuf{T, 1}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:322
+# conv(b1::SpectrumBuf{T, 1}, b2::StridedVector{T}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:344
+# conv(b1::SpectrumBuf{T, 2}, b2::StridedMatrix{T}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:350
+# conv(b1::SpectrumBuf{T, N1}, b2::SpectrumBuf{T, N2}) where {T, N1, N2} @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:329
+# conv(b1::StridedMatrix{T}, b2::SampleBuf{T, 2}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:362
+# conv(b1::StridedMatrix{T}, b2::SpectrumBuf{T, 2}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:362
+# conv(b1::StridedVector{T}, b2::SampleBuf{T, 1}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:348
+# conv(b1::StridedVector{T}, b2::SpectrumBuf{T, 1}) where T @ SampledSignals ~/.julia/packages/SampledSignals/-----/src/SampleBuf.jl:348
 # conv(r1::FillArrays.AbstractFill{<:Any, 1, <:Tuple{var"#s2"} where var"#s2"<:InfiniteArrays.OneToInf}, r2::FillArrays.AbstractFill{<:Any, 1, <:Tuple{var"#s6"} where var"#s6"<:InfiniteArrays.OneToInf}) @ InfiniteArraysDSPExt ~/.julia/packages/InfiniteArrays/aJMPs/ext/InfiniteArraysDSPExt.jl:65
 # conv(r1::FillArrays.AbstractFill{<:Any, 1, <:Tuple{var"#s4"} where var"#s4"<:InfiniteArrays.OneToInf}, r2::Ones{<:Any, 1, <:Tuple{var"#s1"} where var"#s1"<:InfiniteArrays.OneToInf}) @ InfiniteArraysDSPExt ~/.julia/packages/InfiniteArrays/aJMPs/ext/InfiniteArraysDSPExt.jl:69
 # conv(r1::Ones{<:Any, 1, <:Tuple{var"#s4"} where var"#s4"<:InfiniteArrays.OneToInf}, r2::FillArrays.AbstractFill{<:Any, 1, <:Tuple{var"#s1"} where var"#s1"<:InfiniteArrays.OneToInf}) @ InfiniteArraysDSPExt ~/.julia/packages/InfiniteArrays/aJMPs/ext/InfiniteArraysDSPExt.jl:73
@@ -1522,7 +1534,7 @@ export meanad
 push!(overrides, :meanad)
 
 ## :metadata
-# Showing duplicate methods for metadata in packages Module[DataFrames, FileIO, RDatasets]
+# Showing duplicate methods for metadata in packages Module[DataFrames, FileIO, RDatasets, SampledSignals]
 # Methods for metadata in package DataAPI
 # metadata(df::DataFrame, key::AbstractString, default; style) @ DataFrames ~/.julia/packages/DataFrames/-----/src/other/metadata.jl:102
 # metadata(df::DataFrame, key::AbstractString; ...) @ DataFrames ~/.julia/packages/DataFrames/-----/src/other/metadata.jl:102
@@ -1534,6 +1546,7 @@ push!(overrides, :meanad)
 # Methods for metadata in package FileIO
 # metadata(file, args...; options...) @ FileIO ~/.julia/packages/FileIO/-----/src/loadsave.jl:109
 # metadata(file::Formatted, args...; options...) @ FileIO ~/.julia/packages/FileIO/-----/src/loadsave.jl:116
+# Methods for metadata in package SampledSignals
 @doc (@doc DataFrames.metadata)
 #metadata(x; style) = DataFrames.metadata(x; style)
 metadata(df::Union{DataFrame, DataFrames.DataFrameColumns, DataFrames.DataFrameRows, DataFrameRow, SubDataFrame}, key::AbstractString; kwargs...) = DataFrames.metadata(df, key; kwargs...)

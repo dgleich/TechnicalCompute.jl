@@ -17,7 +17,7 @@ Topics (and the packages that support them)
   * Graph algorithms: [`Graphs.jl`](https://github.com/JuliaGraphs/Graphs.jl), [`SimpleWeightedGraphs.jl`](https://github.com/JuliaGraphs/SimpleWeightedGraphs.jl), [`Metis.jl`](https://github.com/JuliaSparse/Metis.jl)
   * Combinatorics: [`Combinatorics.jl`](https://github.com/JuliaMath/Combinatorics.jl)
 * Engineering
-  * Signals: [`DSP.jl`](https://github.com/JuliaDSP/DSP.jl), [`FFTW.jl`](https://github.com/JuliaMath/FFTW.jl)
+  * Signals: [`DSP.jl`](https://github.com/JuliaDSP/DSP.jl), [`FFTW.jl`](https://github.com/JuliaMath/FFTW.jl), [`SampledSignals.jl`](https://github.com/JuliaAudio/SampledSignals.jl)
   * Image Processing: [`Images.jl`](https://github.com/JuliaImages/Images.jl), [`ImageShow.jl`](https://github.com/JuliaImages/ImageShow.jl), [`TestImages.jl`](https://github.com/JuliaImages/TestImages.jl) 
 * Geometry and Graphics
   * Primitives: [`GeometryBasics.jl`](https://github.com/JuliaGeometry/GeometryBasics.jl)

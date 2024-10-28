@@ -106,6 +106,7 @@ packages = [
 # "ParserCombinator", # too many overlaps, too specialized... 
 # Signals
 "DSP", 
+"SampledSignals",
 # Plot Tools
 "CairoMakie",
 "Observables",
