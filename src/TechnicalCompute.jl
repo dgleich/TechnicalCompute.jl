@@ -41,6 +41,7 @@ packages = [
 "ReinforcementLearning",
 "NMF",
 "RDatasets",
+"OnlineStats", 
 # Clustering
 "Clustering",
 "Distances",
@@ -58,6 +59,8 @@ packages = [
 "TOML",
 "YAML",
 "DelimitedFiles",
+"Serde",
+"EzXML", 
 # Files
 "FileIO",
 "HTTP",
@@ -66,6 +69,14 @@ packages = [
 "MAT",
 "BSON",
 "NIfTI", # used in Makie demos... 
+"CodecBzip2",
+"CodecLz4",
+"CodecXz",
+"CodecZlib",
+"CodecZstd",
+"ZipFile",
+"TranscodingStreams",
+# Graphs
 "GraphIO", 
 # Extra
 "BenchmarkTools",
@@ -97,10 +108,13 @@ packages = [
 "CairoMakie",
 "Observables",
 "LaTeXStrings", 
+"Latexify",
 # Linear Algebra
 "Arpack",
 "LinearMaps",
 "Krylov",
+"MatrixMarket",
+"SuiteSparseMatrixCollection",
 # Meshes, MeshIO
 #"Meshes",
 "MeshIO", 
@@ -128,6 +142,7 @@ packages = [
 "HiGHS",
 "Convex",
 "SCS",
+"OptimTestProblems",
 # Symbolic
 "ForwardDiff", 
 "Symbolics",

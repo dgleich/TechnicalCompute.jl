@@ -206,6 +206,41 @@ Graph = Graphs.Graph
 export Graph
 push!(overrides, :Graph)
 
+## :GroupBy
+# Showing duplicate methods for GroupBy in packages Module[OnlineStats, Transducers]
+# Methods for OnlineStatsBase.GroupBy in package Core
+# OnlineStatsBase.GroupBy(T::Type, stat::O) where O<:OnlineStat @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:439
+# OnlineStatsBase.GroupBy(value::OrderedDict{T, O}, init::O, n::Int64) where {T, S, O<:OnlineStat{S}} @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:435
+# Methods for Transducers.GroupBy in package Core
+# Transducers.GroupBy(key, rf) @ Transducers ~/.julia/packages/Transducers/-----/src/groupby.jl:111
+# Transducers.GroupBy(key, xf::Transducer) @ Transducers ~/.julia/packages/Transducers/-----/src/groupby.jl:106
+# Transducers.GroupBy(key, xf::Transducer, step) @ Transducers ~/.julia/packages/Transducers/-----/src/groupby.jl:106
+# Transducers.GroupBy(key, xf::Transducer, step, init) @ Transducers ~/.julia/packages/Transducers/-----/src/groupby.jl:106
+# Transducers.GroupBy(key::K, rf::R, init::T) where {K, R, T} @ Transducers ~/.julia/packages/Transducers/-----/src/groupby.jl:101
+
+@doc (@doc OnlineStats.GroupBy)
+GroupBy(T::Type, stat::OnlineStat) = OnlineStats.GroupBy(T, stat)
+GroupBy(value::OrderedDict{T, O}, init::OnlineStat, n::Int64) where {T, S, O<:OnlineStat{S}} = OnlineStats.GroupBy(value, init, n)
+@doc (@doc Transducers.GroupBy)
+GroupBy(key, xf::Transducer) = Transducers.GroupBy(key, xf)
+GroupBy(key, xf::Transducer, step) = Transducers.GroupBy(key, xf, step)
+GroupBy(key, xf::Transducer, step, init) = Transducers.GroupBy(key, xf, step, init)
+export GroupBy
+push!(overrides, :GroupBy)
+
+## :Hist
+# Showing duplicate methods for Hist in packages Module[CairoMakie, OnlineStats]
+# Methods for Plot{Makie.hist} in package Core
+# (Plot{Func})(user_args::Tuple, user_attributes::Dict) where Func @ Makie ~/.julia/packages/Makie/-----/src/interfaces.jl:260
+# Methods for OnlineStats.Hist in package Core
+# OnlineStats.Hist(edges::R, T::Type; left, closed) where R<:(AbstractVector) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/histograms.jl:64
+# OnlineStats.Hist(edges::R; ...) where R<:(AbstractVector) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/histograms.jl:64
+
+# for Makie, we just use the hist function.
+Hist = OnlineStats.Hist
+export Hist
+push!(overrides, :Hist) 
+
 ## :Length
 # Showing duplicate methods for Length in packages Module[Measures, StaticArrays]
 # Methods for Measures.Length in package Core
@@ -251,6 +286,22 @@ Mesh = GeometryBasics.Mesh
 export Mesh
 push!(overrides, :Mesh)
 
+## :Moments
+# Showing duplicate methods for Moments in packages Module[Images, OnlineStats]
+# Methods for HistogramThresholding.Moments in package Core
+# HistogramThresholding.Moments() @ HistogramThresholding ~/.julia/packages/HistogramThresholding/-----/src/algorithms/moments.jl:92
+# Methods for OnlineStatsBase.Moments in package Core
+# OnlineStatsBase.Moments(; weight) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:505
+# OnlineStatsBase.Moments(m::Vector{Float64}, weight::W, n::Int64) where W @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:501
+
+@doc (@doc Images.Moments)
+ImageMoments = Images.Moments
+export ImageMoments
+@doc (@doc OnlineStats.Moments)
+StatsMoments = OnlineStats.Moments
+export StatsMoments
+push!(overrides, :Moments)
+
 ## :Normal
 # Showing duplicate methods for Normal in packages Module[Distributions, GeometryBasics]
 # Methods for Distributions.Normal in package Core
@@ -277,10 +328,16 @@ NormalVector = GeometryBasics.Normal
 export Normal, NormalVector 
 
 ## :Partition
-# Showing duplicate methods for Partition in packages Module[Combinatorics, Transducers]
+# Showing duplicate methods for Partition in packages Module[Combinatorics, OnlineStats, Transducers]
 # Methods for Combinatorics.Partition in package Core
 # Combinatorics.Partition(x) @ Combinatorics ~/.julia/packages/Combinatorics/-----/src/youngdiagrams.jl:6
 # Combinatorics.Partition(x::Vector{Int64}) @ Combinatorics ~/.julia/packages/Combinatorics/-----/src/youngdiagrams.jl:6
+# Methods for OnlineStats.Partition in package Core
+# OnlineStats.Partition(init::Function) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:22
+# OnlineStats.Partition(init::Function, b::Int64) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:22
+# OnlineStats.Partition(o::OnlineStat) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:23
+# OnlineStats.Partition(o::OnlineStat, b::Int64) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:23
+# OnlineStats.Partition(parts::Array{Pair{Tuple{Int64, Int64}, O}, 1}, b::Int64, init::I, n::Int64) where {T, I, O<:OnlineStat{T}} @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:17
 # Methods for Transducers.Partition in package Core
 # Transducers.Partition(size, step, flush) @ Transducers ~/.julia/packages/Transducers/-----/src/library.jl:820
 # Transducers.Partition(size, step; flush) @ Transducers ~/.julia/packages/Transducers/-----/src/library.jl:827
@@ -289,6 +346,37 @@ Partition = Transducers.Partition
 export Partition
 push!(overrides, :Partition)
 
+## :Series
+# Showing duplicate methods for Series in packages Module[CairoMakie, OnlineStats]
+# Methods for Plot{Makie.series} in package Core
+# (Plot{Func})(user_args::Tuple, user_attributes::Dict) where Func @ Makie ~/.julia/packages/Makie/-----/src/interfaces.jl:260
+# Methods for OnlineStatsBase.Series in package Core
+# OnlineStatsBase.Series(; t...) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:617
+# OnlineStatsBase.Series(stats::T) where T @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:614
+# OnlineStatsBase.Series(t::OnlineStat...) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:616
+
+# makie Series is just a series plot, via `series`
+Series = OnlineStats.Series
+export Series
+push!(overrides, :Series)
+
+## :Trace
+# Showing duplicate methods for Trace in packages Module[OnlineStats, ReinforcementLearning]
+# Methods for OnlineStats.Trace in package Core
+# OnlineStats.Trace(o::OnlineStat) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/trace.jl:25
+# OnlineStats.Trace(o::OnlineStat, b::Int64) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/trace.jl:25
+# OnlineStats.Trace(parts::Array{Pair{Tuple{Int64, Int64}, O}, 1}, b::Int64, n::Int64) where {T, O<:OnlineStat{T}} @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/trace.jl:21
+# Methods for ReinforcementLearningTrajectories.Trace in package Core
+# ReinforcementLearningTrajectories.Trace(x::T) where T<:AbstractArray @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/traces.jl:36
+
+@doc (@doc OnlineStats.Trace)
+Trace(o::OnlineStat) = OnlineStats.Trace(o)
+Trace(o::OnlineStat, b::Int64) = OnlineStats.Trace(o, b)
+Trace(parts::Array{Pair{Tuple{Int64, Int64}, O}, 1}, b::Int64, n::Int64) where {T, O<:OnlineStat{T}} = OnlineStats.Trace(parts, b, n)
+@doc (@doc ReinforcementLearning.Trace)
+Trace(x::T) where T<:AbstractArray = ReinforcementLearning.Trace(x)
+export Trace
+push!(overrides, :Trace)
 ## :Variable
 # Showing duplicate methods for Variable in packages Module[Convex, Symbolics]
 # Methods for Convex.Variable in package Core
@@ -391,14 +479,18 @@ export Zeros
 push!(overrides, :Zeros)
 
 ## :attributes
-# Showing duplicate methods for attributes in packages Module[CairoMakie, HDF5]
+# Showing duplicate methods for attributes in packages Module[CairoMakie, EzXML, HDF5]
 # Methods for attributes in package MakieCore
 # attributes(x::AbstractPlot) @ MakieCore ~/.julia/packages/MakieCore/-----/src/attributes.jl:35
 # attributes(x::Attributes) @ MakieCore ~/.julia/packages/MakieCore/-----/src/attributes.jl:34
+# Methods for attributes in package EzXML
+# attributes(node::EzXML.Node) @ EzXML ~/.julia/packages/EzXML/-----/src/node.jl:1459
 # Methods for attributes in package HDF5
 # attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) @ HDF5 ~/.julia/packages/HDF5/-----/src/attributes.jl:374
 @doc (@doc HDF5.attributes)
 attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) = HDF5.attributes(p)
+@doc (@doc EzXML.attributes)
+attributes(node::EzXML.Node) = EzXML.attributes(node)
 @doc (@doc Makie.attributes)
 attributes(x::Attributes) = Makie.attributes(x)
 attributes(x::AbstractPlot) = Makie.attributes(x)
@@ -750,13 +842,13 @@ push!(overrides, :differentiate)
 # entropy(d::Chisq) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chisq.jl:68
 # entropy(d::Chi{T}) where T<:Real @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chi.jl:70
 # entropy(d::Dirac{T}) where T @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/dirac.jl:38
+# entropy(d::Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:109
 # entropy(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:203
 # entropy(d::DiscreteNonParametric, b::Real) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:204
 # entropy(d::DiscreteUniform) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discreteuniform.jl:65
 # entropy(d::Distributions.Censored) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:281
 # entropy(d::Distributions.Censored{D, S, T, Nothing, T} where {D<:(UnivariateDistribution), S<:ValueSupport, T<:Real}) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:263
 # entropy(d::Distributions.Censored{D, S, T, T, Nothing} where {D<:(UnivariateDistribution), S<:ValueSupport, T<:Real}) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:245
-# entropy(d::Distributions.Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:109
 # entropy(d::Distributions.GenericMvTDist) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvtdist.jl:107
 # entropy(d::Distributions.Normal) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:76
 # entropy(d::Distributions.ProductDistribution{1, 0, <:Tuple}) @ Distributions ~/.julia/packages/Distributions/-----/src/product.jl:103
@@ -801,7 +893,7 @@ push!(overrides, :differentiate)
 # entropy(d::WalleniusNoncentralHypergeometric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/noncentralhypergeometric.jl:266
 # entropy(d::Weibull) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/weibull.jl:88
 # entropy(d::Wishart) @ Distributions ~/.julia/packages/Distributions/-----/src/matrix/wishart.jl:128
-# entropy(o::OnlineStats.NBClassifier) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/nbclassifier.jl:153
+# entropy(o::NBClassifier) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/nbclassifier.jl:153
 # entropy(p) @ StatsBase ~/.julia/packages/StatsBase/-----/src/scalarstats.jl:735
 # entropy(p, b::Real) @ StatsBase ~/.julia/packages/StatsBase/-----/src/scalarstats.jl:743
 # Methods for entropy in package ImageQualityIndexes
@@ -811,6 +903,7 @@ push!(overrides, :differentiate)
 
 @doc (@doc Distributions.entropy)
 entropy(d::Distributions.Distribution) = Distributions.entropy(d)
+entropy(o::NBClassifier) = StatsBase.entropy(o)
 @doc (@doc Images.entropy)
 entropy(logᵦ::Function, img::AbstractArray{Bool}) = Images.entropy(logᵦ, img)
 entropy(logᵦ::Function, img; nbins) = Images.entropy(logᵦ, img; nbins)
@@ -1203,13 +1296,13 @@ push!(overrides, :integrate)
 # Showing duplicate methods for islinear in packages Module[DifferentialEquations, StatsBase]
 # Methods for islinear in package SciMLOperators
 # islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:536
+# islinear(::IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:33
 # islinear(::MatrixOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:102
 # islinear(::NullOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:126
 # islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4468
 # islinear(::SciMLOperators.AbstractSciMLOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:309
 # islinear(::SciMLOperators.AbstractSciMLScalarOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/scalar.jl:32
 # islinear(::SciMLOperators.BatchedDiagonalOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/batch.jl:98
-# islinear(::SciMLOperators.IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:33
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:311
 # islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/operators/operators.jl:7
 # islinear(L::FunctionOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/func.jl:579
@@ -1362,10 +1455,10 @@ push!(overrides, :metadata)
 # mode(d::Chisq{T}) where T<:Real @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chisq.jl:58
 # mode(d::Cosine) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/cosine.jl:51
 # mode(d::Dirac) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/dirac.jl:36
+# mode(d::Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:134
 # mode(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:206
 # mode(d::DiscreteUniform) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discreteuniform.jl:67
 # mode(d::Distributions.AffineDistribution) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/locationscale.jl:111
-# mode(d::Distributions.Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:134
 # mode(d::Distributions.DirichletCanon) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:135
 # mode(d::Distributions.GenericMvTDist) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvtdist.jl:92
 # mode(d::Distributions.Normal) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:69
@@ -1507,13 +1600,13 @@ push!(overrides, :orthogonal)
 # params(d::Chi) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chi.jl:46
 # params(d::Chisq) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/chisq.jl:40
 # params(d::Cosine) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/cosine.jl:41
+# params(d::Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:74
 # params(d::DirichletMultinomial) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichletmultinomial.jl:56
 # params(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:50
 # params(d::DiscreteUniform) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discreteuniform.jl:43
 # params(d::Distributions.AffineDistribution) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/locationscale.jl:104
 # params(d::Distributions.Categorical{P, Ps}) where {P<:Real, Ps<:AbstractVector{P}} @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/categorical.jl:52
 # params(d::Distributions.Censored) @ Distributions ~/.julia/packages/Distributions/-----/src/censored.jl:106
-# params(d::Distributions.Dirichlet) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/dirichlet.jl:74
 # params(d::Distributions.GenericMvTDist) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvtdist.jl:102
 # params(d::Distributions.Normal) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:57
 # params(d::Distributions.ReshapedDistribution) @ Distributions ~/.julia/packages/Distributions/-----/src/reshaped.jl:30
@@ -1599,6 +1692,35 @@ params(x::BenchmarkTools.TrialEstimate) = BenchmarkTools.params(x)
 params(x::BenchmarkTools.Trial) = BenchmarkTools.params(x)
 export params
 push!(overrides, :params)
+
+## :probs
+# Showing duplicate methods for probs in packages Module[Distributions, OnlineStats]
+# Methods for probs in package Distributions
+# probs(d::DiscreteNonParametric) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/discretenonparametric.jl:64
+# probs(d::Distribution{Univariate, Discrete}) @ Distributions ~/.julia/packages/Distributions/-----/src/deprecates.jl:5
+# probs(d::MixtureModel) @ Distributions ~/.julia/packages/Distributions/-----/src/mixtures/mixturemodel.jl:166
+# probs(d::Multinomial) @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/multinomial.jl:46
+# probs(d::UnivariateGMM) @ Distributions ~/.julia/packages/Distributions/-----/src/mixtures/unigmm.jl:24
+# Methods for probs in package OnlineStatsBase
+# probs(o::CountMap) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:132
+# probs(o::CountMap, kys) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:132
+# probs(o::FastNode) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/fasttree.jl:20
+# probs(o::NBClassifier) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/nbclassifier.jl:107
+# probs(o::ProbMap) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:510
+# probs(o::ProbMap, levels) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:510
+
+@doc (@doc Distributions.probs)
+probs(x::Distribution) = Distributions.probs(x)
+@doc (@doc OnlineStats.probs)
+probs(x::OnlineStats.CountMap) = OnlineStats.probs(x)
+probs(x::OnlineStats.CountMap, kys) = OnlineStats.probs(x, kys)
+probs(x::OnlineStats.FastNode) = OnlineStats.probs(x)
+probs(x::OnlineStats.NBClassifier) = OnlineStats.probs(x)
+probs(x::OnlineStats.ProbMap) = OnlineStats.probs(x)
+probs(x::OnlineStats.ProbMap,levels) = OnlineStats.probs(x, levels)
+export probs
+push!(overrides, :probs)
+
 
 ## :properties
 # Showing duplicate methods for properties in packages Module[Images, IterTools]
@@ -2209,6 +2331,88 @@ update!(a::TaylorSeries.Taylor1, x0) = TaylorSeries.update!(a, x0)
 update!(a::TaylorSeries.TaylorN, vals::Vector) = TaylorSeries.update!(a, vals)
 export update!
 push!(overrides, :update!)
+
+## :value
+# Showing duplicate methods for value in packages Module[JuMP, OnlineStats]
+# Methods for value in package JuMP
+# value(::AbstractArray{<:AbstractJuMPScalar}) @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:2453
+# value(::Function, x::Number) @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:2465
+# value(::MutableArithmetics.Zero; result) @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:2461
+# value(Q::Symmetric{V, Matrix{V}}) where V<:AbstractVariableRef @ JuMP ~/.julia/packages/JuMP/-----/src/sd.jl:430
+# value(a::GenericAffExpr; result) @ JuMP ~/.julia/packages/JuMP/-----/src/aff_expr.jl:700
+# value(a::GenericNonlinearExpr; result) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp_expr.jl:654
+# value(c::NonlinearConstraintRef; result) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp.jl:616
+# value(con_ref::ConstraintRef{<:AbstractModel, <:MathOptInterface.ConstraintIndex}; result) @ JuMP ~/.julia/packages/JuMP/-----/src/constraints.jl:1297
+# value(ex::GenericQuadExpr; result) @ JuMP ~/.julia/packages/JuMP/-----/src/quad_expr.jl:854
+# value(ex::NonlinearExpression; result) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp.jl:413
+# value(f::Function, expr::GenericNonlinearExpr) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp_expr.jl:650
+# value(p::NonlinearParameter) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp.jl:285
+# value(v::GenericVariableRef{T}; result) where T @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:1905
+# value(var_value::Function, c::NonlinearConstraintRef) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp.jl:627
+# value(var_value::Function, con_ref::ConstraintRef{<:AbstractModel, <:MathOptInterface.ConstraintIndex}) @ JuMP ~/.julia/packages/JuMP/-----/src/constraints.jl:1310
+# value(var_value::Function, ex::GenericAffExpr{T, V}) where {T, V} @ JuMP ~/.julia/packages/JuMP/-----/src/aff_expr.jl:404
+# value(var_value::Function, ex::GenericQuadExpr{CoefType, VarType}) where {CoefType, VarType} @ JuMP ~/.julia/packages/JuMP/-----/src/quad_expr.jl:828
+# value(var_value::Function, ex::NonlinearExpression) @ JuMP ~/.julia/packages/JuMP/-----/src/nlp.jl:448
+# value(var_value::Function, v::GenericVariableRef) @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:1914
+# value(x::Number; result) @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:2463
+# Methods for value in package OnlineStatsBase
+# value(::CountMinSketch) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/probabilistic.jl:38
+# value(::CountMinSketch{T}, val::S) where {T, S} @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/probabilistic.jl:39
+# value(o::Ash) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/ash.jl:43
+# value(o::Ash, kernel::Function) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/ash.jl:41
+# value(o::Ash, kernel::Function, m::Int64) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/ash.jl:41
+# value(o::Ash, m::Int64) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/ash.jl:43
+# value(o::Ash, m::Int64, kernel::Function) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/ash.jl:43
+# value(o::AutoCov) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:85
+# value(o::CallFun) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:158
+# value(o::CountMinSketch{T, I}, val::T) where {T, I} @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/probabilistic.jl:43
+# value(o::CovMatrix; corrected) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:192
+# value(o::DPMM{T}) where T<:Real @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/dpmm.jl:275
+# value(o::ExpandingHist) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/histograms.jl:180
+# value(o::Extrema) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:286
+# value(o::FitBeta) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:16
+# value(o::FitCauchy) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:46
+# value(o::FitGamma) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:72
+# value(o::FitLogNormal) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:99
+# value(o::FitMultinomial) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:176
+# value(o::FitMvNormal) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:203
+# value(o::FitNormal) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/distributions.jl:124
+# value(o::GeometricMean) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:212
+# value(o::HeatMap) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/heatmap.jl:45
+# value(o::HyperLogLog; original_estimator) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/probabilistic.jl:124
+# value(o::IndexedPartition) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:93
+# value(o::KHist) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/khist.jl:68
+# value(o::KIndexedPartition) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:156
+# value(o::KahanVariance{W, T}) where {W, T} @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/kahan.jl:210
+# value(o::LinReg, args...) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/linreg.jl:41
+# value(o::LinRegBuilder, args...) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/linreg.jl:103
+# value(o::LogSumExp) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:723
+# value(o::Mosaic) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/mosaicplot.jl:18
+# value(o::MovingTimeWindow) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:347
+# value(o::MovingWindow) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:383
+# value(o::OnlineStats.Cluster) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:254
+# value(o::OnlineStats.Hist) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/histograms.jl:69
+# value(o::OnlineStats.Partition) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/viz/partition.jl:26
+# value(o::OnlineStats.Trace) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/trace.jl:28
+# value(o::OnlineStatsBase.CircBuff; ordered) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:60
+# value(o::OnlineStatsBase.ExtremeValues) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:313
+# value(o::OnlineStatsBase.Series) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:619
+# value(o::OnlineStatsBase.StatWrapper) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/wrappers.jl:4
+# value(o::P2Quantile) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:544
+# value(o::Quantile) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:637
+# value(o::Quantile, q) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/stats.jl:637
+# value(o::T) where T<:OnlineStat @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/OnlineStatsBase.jl:39
+# value(o::Variance{T}) where T @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:588
+
+# I hope this one works.. 
+@doc (@doc JuMP.value)
+# need to specialize this one more... 
+value(args...) = JuMP.value(args...)
+value(arg; result) = JuMP.value(arg; result)
+@doc (@doc OnlineStats.value)
+value(o::OnlineStat, args...) = OnlineStats.value(o, args...)
+export value
+push!(overrides, :value)
 
 ## :volume
 # Showing duplicate methods for volume in packages Module[CairoMakie, GeometryBasics]

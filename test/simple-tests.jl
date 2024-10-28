@@ -119,6 +119,9 @@ end
   end 
 end
 
+@testset "OnlineStats" begin 
+end
+
 @testset "Clustering" begin 
   @test begin 
     x = rand(10, 2)
@@ -210,6 +213,12 @@ end
   @test [5.0,6.0] == vec(readdlm(IOBuffer("5.0\n6.0"), ' ', Float64))
 end
 
+@testset "Serde" begin 
+end
+
+@testset "EzXML" begin 
+end 
+
 @testset "FileIO" begin 
   img = load(HTTP.URI("https://github.com/JuliaLang/julia-logo-graphics/raw/master/images/julia-logo-color.png"));
   @test size(img) == (200, 320)
@@ -252,6 +261,27 @@ end
     brain = niread(Makie.assetpath("brain.nii.gz")).raw
     return true
   end
+end
+
+@testset "CodecBzip2" begin 
+end
+
+@testset "CodecLz4" begin 
+end
+
+@testset "CodecXz" begin 
+end
+
+@testset "CodecZLib" begin 
+end
+
+@testset "CodecZstd" begin 
+end
+
+@testset "ZipFile" begin 
+end
+
+@testset "TranscodingStreams" begin 
 end
 
 @testset "GraphIO" begin 
@@ -401,6 +431,9 @@ end
   @test begin; x = L"\alpha"; return true; end 
 end
 
+@testset "Latexify" begin 
+end 
+
 @testset "Arpack" begin 
   A = sprand(StableRNG(1), 50,50,10/50)
   Avals,Avecs = eigen(Matrix(A))
@@ -427,6 +460,13 @@ end
   (x,stats) = cg(A,b) 
   @test x ≈ A\b 
 end 
+
+@testset "MatrixMarket" begin 
+end
+
+@testset "SuiteSparseMatrixCollection" begin 
+  #@test begin; A = load("HB/1138_bus.mtx"); return true; end 
+end
 
 @testset "MeshIO" begin 
   @test begin 
@@ -511,6 +551,9 @@ end
 end
 
 ## Optimization Methods tested in optimization.jl
+
+@testset "OptimTestProblems" begin 
+end 
 
 @testset "ForwardDiff" begin 
   f(x::Vector) = sin(x[1]) + prod(x[2:end]);  # returns a scalar

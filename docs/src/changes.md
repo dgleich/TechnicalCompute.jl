@@ -22,6 +22,10 @@ but in Makie, this is used to indicate a fixed size partition of a GridLayout, s
 Graph is used in DelaunayTriangulation and Graphs.jl
 We keep the meaning from Graphs.jl
 
+Moments in in OnlineStats and Images
+We name them 
+StatsMoments and ImageMoments
+
 Normal is duplicated between Distributions and GeometryBasics
 but in GeometryBasics, this is used to indicate a normal vector, so we change it to NormalVector
 
