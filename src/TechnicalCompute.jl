@@ -76,6 +76,7 @@ packages = [
 "CodecZstd",
 "ZipFile",
 "TranscodingStreams",
+"LibSndFile",
 # Graphs
 "GraphIO", 
 # Extra

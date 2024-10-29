@@ -284,6 +284,11 @@ end
 @testset "TranscodingStreams" begin 
 end
 
+@testset "LibSndFile" begin 
+  xs = load(joinpath(pkgdir(LibSndFile), "test", "440left_880right_0.5amp.flac"))
+  @test size(xs) == (100,2)
+end
+
 @testset "GraphIO" begin 
   @test begin 
     testdatadir = joinpath(pkgdir(GraphIO), "test", "testdata")
