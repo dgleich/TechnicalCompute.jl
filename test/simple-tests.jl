@@ -264,24 +264,109 @@ end
 end
 
 @testset "CodecBzip2" begin 
+  text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin
+mauris non nisi consectetur, a dapibus urna pretium. Vestibulum non posuere
+erat. Donec luctus a turpis eget aliquet. Cras tristique iaculis ex, eu
+malesuada sem interdum sed. Vestibulum ante ipsum primis in faucibus orci luctus
+et ultrices posuere cubilia Curae; Etiam volutpat, risus nec gravida ultricies,
+erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
+"""
+  array = Vector{UInt8}(text)
+  array = transcode(Bzip2Compressor, array)
+  @test sizeof(array) < sizeof(text)
+  array = transcode(Bzip2Decompressor, array)
+  @test text == String(array)
 end
 
 @testset "CodecLz4" begin 
+  text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin
+mauris non nisi consectetur, a dapibus urna pretium. Vestibulum non posuere
+erat. Donec luctus a turpis eget aliquet. Cras tristique iaculis ex, eu
+malesuada sem interdum sed. Vestibulum ante ipsum primis in faucibus orci luctus
+et ultrices posuere cubilia Curae; Etiam volutpat, risus nec gravida ultricies,
+erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
+"""
+  array = Vector{UInt8}(text)
+  array = transcode(LZ4FrameCompressor, array)
+  @test sizeof(array) < sizeof(text)
+  array = transcode(LZ4FrameDecompressor, array)
+  @test text == String(array)
 end
 
 @testset "CodecXz" begin 
+  text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin
+mauris non nisi consectetur, a dapibus urna pretium. Vestibulum non posuere
+erat. Donec luctus a turpis eget aliquet. Cras tristique iaculis ex, eu
+malesuada sem interdum sed. Vestibulum ante ipsum primis in faucibus orci luctus
+et ultrices posuere cubilia Curae; Etiam volutpat, risus nec gravida ultricies,
+erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
+"""
+  array = Vector{UInt8}(text)
+  array = transcode(XzCompressor, array)
+  @test sizeof(array) < sizeof(text)
+  array = transcode(XzDecompressor, array)
+  @test text == String(array)
 end
 
 @testset "CodecZLib" begin 
+  text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin
+mauris non nisi consectetur, a dapibus urna pretium. Vestibulum non posuere
+erat. Donec luctus a turpis eget aliquet. Cras tristique iaculis ex, eu
+malesuada sem interdum sed. Vestibulum ante ipsum primis in faucibus orci luctus
+et ultrices posuere cubilia Curae; Etiam volutpat, risus nec gravida ultricies,
+erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
+"""
+  array = Vector{UInt8}(text)
+  array = transcode(GzipCompressor, array)
+  @test sizeof(array) < sizeof(text)
+  array = transcode(GzipDecompressor, array)
+  @test text == String(array)
 end
 
 @testset "CodecZstd" begin 
+  text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin
+mauris non nisi consectetur, a dapibus urna pretium. Vestibulum non posuere
+erat. Donec luctus a turpis eget aliquet. Cras tristique iaculis ex, eu
+malesuada sem interdum sed. Vestibulum ante ipsum primis in faucibus orci luctus
+et ultrices posuere cubilia Curae; Etiam volutpat, risus nec gravida ultricies,
+erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
+"""
+  array = Vector{UInt8}(text)
+  array = transcode(ZstdCompressor, array)
+  @test sizeof(array) < sizeof(text)
+  array = transcode(ZstdDecompressom, array)
+  @test text == String(array)
 end
 
 @testset "ZipFile" begin 
+  dir = ZipFile.Reader(joinpath(pkgdir(ZipFile), "test", "infozip.zip"))
+  @test length(dir.files) == 4
+
+  f = findfile(dir, "ziptest/")
+  @test f.method == ZipFile.Store
+  @test f.uncompressedsize == 0
+  @test fileequals(f, "")
 end
 
 @testset "TranscodingStreams" begin 
+
+  text = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sollicitudin
+mauris non nisi consectetur, a dapibus urna pretium. Vestibulum non posuere
+erat. Donec luctus a turpis eget aliquet. Cras tristique iaculis ex, eu
+malesuada sem interdum sed. Vestibulum ante ipsum primis in faucibus orci luctus
+et ultrices posuere cubilia Curae; Etiam volutpat, risus nec gravida ultricies,
+erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
+"""
+  array = Vector{UInt8}(text)
+  array = transcode(Noop, array)
+  array = transcode(Noop, array)
+  @test text == String(array)
 end
 
 @testset "LibSndFile" begin 
