@@ -120,6 +120,19 @@ end
 end
 
 @testset "OnlineStats" begin 
+  # Create several statistics
+  o = Series(Mean(), Variance(), Extrema())
+
+  # Update with single data point
+  fit!(o, 1.0)
+  @test value(o)[1] == 1.0
+  @test value(o)[2] == 1.0
+  @test value(o)[3] == (min=1.0, max=1.0, nmin=1, nmax=1)
+
+  fit!(o, 2.0 )
+  @test value(o)[1] == 1.5
+  @test value(o)[2] == 0.5
+  @test value(o)[3] == (min=1.0, max=2.0, nmin=1, nmax=1)
 end
 
 @testset "Clustering" begin 
@@ -214,9 +227,56 @@ end
 end
 
 @testset "Serde" begin 
+  # Define a struct to hold JuliaCon information
+  struct JuliaCon
+      title::String
+      start_date::Date
+      end_date::Date
+  end
+
+  # Custom deserialization function for the JuliaCon struct
+  function Serde.deser(::Type{JuliaCon}, ::Type{Date}, v::String)
+      return Dates.Date(v, "U d, yyyy")
+  end
+
+  # JSON deserialization example
+  json = """
+  {
+    "title": "JuliaCon 2024",
+    "start_date": "July 9, 2024",
+    "end_date": "July 13, 2024"
+  }
+  """
+
+  juliacon = deser_json(JuliaCon, json)
+
+  @test juliacon == JuliaCon("JuliaCon 2024", Date("2024-07-09"), Date("2024-07-13"))
+
+  toml = """
+title = "JuliaCon 2024"
+start_date = "July 9, 2024"
+end_date = "July 13, 2024"
+"""
+  
+    juliacon = deser_toml(JuliaCon, toml)
+  
+    @test juliacon == JuliaCon("JuliaCon 2024", Date("2024-07-09"), Date("2024-07-13"))
 end
 
 @testset "EzXML" begin 
+  doc = parsexml("""
+  <primates>
+      <genus name="Homo">
+          <species name="sapiens">Human</species>
+      </genus>
+      <genus name="Pan">
+          <species name="paniscus">Bonobo</species>
+          <species name="troglodytes">Chimpanzee</species>
+      </genus>
+  </primates>
+  """)
+  primates = root(doc)  # or `doc.root`
+  @test primates.name == "primates"
 end 
 
 @testset "FileIO" begin 
@@ -339,7 +399,7 @@ erat ex bibendum ipsum, sed varius ipsum ipsum vitae dui.
   array = Vector{UInt8}(text)
   array = transcode(ZstdCompressor, array)
   @test sizeof(array) < sizeof(text)
-  array = transcode(ZstdDecompressom, array)
+  array = transcode(ZstdDecompressor, array)
   @test text == String(array)
 end
 
@@ -347,7 +407,13 @@ end
   dir = ZipFile.Reader(joinpath(pkgdir(ZipFile), "test", "infozip.zip"))
   @test length(dir.files) == 4
 
-  f = findfile(dir, "ziptest/")
+  f = begin 
+    for f in dir.files
+      if f.name == "ziptest/"
+        return f
+      end
+    end
+  end 
   @test f.method == ZipFile.Store
   @test f.uncompressedsize == 0
   @test fileequals(f, "")
@@ -563,10 +629,19 @@ end
 end 
 
 @testset "MatrixMarket" begin 
+  filename = joinpath(pkgdir(MatrixMarket), "test", "data", "test.mtx")
+  M = MatrixMarket.mmread(filename)
+  @test nnz(M) == 5
 end
 
 @testset "SuiteSparseMatrixCollection" begin 
   #@test begin; A = load("HB/1138_bus.mtx"); return true; end 
+  ssmc = ssmc_db() 
+  busmat = ssmc_matrices(ssmc, "HB", "1138_bus")
+  paths = fetch_ssmc(busmat, format="MM")
+  M = MatrixMarket.mmread(joinpath(paths[1], "$(busmat[1,"name"]).mtx"))
+  @test size(M) == (busmat[1,"nrows"], busmat[1,"ncols"])
+  @test nnz(M) == busmat[1,"nnz"]
 end
 
 @testset "MeshIO" begin 
@@ -654,18 +729,81 @@ end
 ## Optimization Methods tested in optimization.jl
 
 @testset "OptimTestProblems" begin 
+  p = UnconstrainedProblems.examples["Rosenbrock"]
+  @test p.f(p.initial_x) ≈ 24.2
+  @test p.f(p.solutions[:,1]) ≈ 0.0
 end 
 
 @testset "Optim" begin 
+  @test begin 
+    f(x) = (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
+    x0 = [0.0, 0.0]
+    soln = optimize(f, x0)
+    return Optim.minimizer(soln)
+  end ≈ [1.0, 1.0] atol=1e-3
+
+  @test begin 
+    f(x) = (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
+    function g!(G, x)
+      G[1] = -2.0 * (1.0 - x[1]) - 400.0 * (x[2] - x[1]^2) * x[1]
+      G[2] = 200.0 * (x[2] - x[1]^2)
+    end
+    soln = optimize(f, g!, x0, LBFGS())
+    return Optim.minimizer(soln)
+  end ≈ [1.0, 1.0]
 end
 
 @testset "NonlinearSolve" begin 
+  @test begin 
+    f(u, p) = u .* u .- 2
+    u0 = @SVector[1.0, 1.0]
+    prob = NonlinearProblem(f, u0)
+    return solve(prob)
+  end ≈ [1.4142135623730951, 1.4142135623730951]
+
+  @test begin 
+    function nlls!(du, u, p)
+      du[1] = 2u[1] - 2
+      du[2] = u[1] - 4u[2]
+      du[3] = 0
+    end
+    u0 = [0.0, 0.0]
+    prob = NonlinearLeastSquaresProblem(
+        NonlinearFunction(nlls!, resid_prototype = zeros(3)), u0)
+    solve(prob)
+  end ≈ [1.0, 0.25]
 end
 
 @testset "LsqFit" begin 
-end
-
-@testset "Tulip" begin 
+  # a two-parameter exponential model
+  # x: array of independent variables
+  # p: array of model parameters
+  # model(x, p) will accept the full data set as the first argument `x`.
+  # This means that we need to write our model function so it applies
+  # the model to the full dataset. We use `@.` to apply the calculations
+  # across all rows.
+  @. model(x, p) = p[1]*exp(-x*p[2])
+  # some example data
+  # xdata: independent variables
+  # ydata: dependent variable
+  xdata = range(0, stop=10, length=20)
+  ydata = model(xdata, [1.0 2.0]) + 0.01*randn(length(xdata))
+  p0 = [0.5, 0.5]
+  fit = curve_fit(model, xdata, ydata, p0)
+  @test coef(fit) ≈ [1.0, 2.0] atol=1e-1
+  # fit is a composite type (LsqFitResult), with some interesting values:
+  #	dof(fit): degrees of freedom
+  #	coef(fit): best fit parameters
+  #	fit.resid: residuals = vector of residuals
+  #	fit.jacobian: estimated Jacobian at solution
+  lb = [1.1, -0.5]
+  ub = [1.9, Inf]
+  p0_bounds = [1.2, 1.2] # we have to start inside the bounds
+  # Optional upper and/or lower bounds on the free parameters can be passed as an argument.
+  # Bounded and unbouded variables can be mixed by setting `-Inf` if no lower bounds
+  # is to be enforced for that variable and similarly for `+Inf`
+  fit_bounds = curve_fit(model, xdata, ydata, p0_bounds, lower=lb, upper=ub)
+  @test coef(fit_bounds)[1] ≈ 1.1
 end
 
 @testset "ForwardDiff" begin 

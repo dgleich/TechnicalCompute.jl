@@ -58,6 +58,9 @@ end
   # HiGHS
   _test_optimal_horizon(Model(HiGHS.Optimizer))
 
+  # Tulip
+  _test_optimal_horizon(Model(Tulip.Optimizer))
+
   # Convex and SCS 
   @testset "Convex" begin 
     m = 5;  n = 4
