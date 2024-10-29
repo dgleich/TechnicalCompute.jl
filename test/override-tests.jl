@@ -241,3 +241,82 @@ end
   t = Taylor1([1.0, 1.0, 0.5, 0.16666666666666666, 0.041666666666666664, 0.008333333333333333])
   @test derivative(t, 2) == derivative(derivative(t))
 end 
+
+@testset "differentiate" begin 
+  t = Taylor1([1.0, 1.0, 0.5, 0.16666666666666666, 0.041666666666666664, 0.008333333333333333])
+  @test differentiate(t, 2) == differentiate(differentiate(t))
+
+  # test code below is from DelaunayTriangulation
+  #=
+  MIT License
+
+  Copyright (c) 2024 Daniel VandenHeuvel <danj.vandenheuvel@gmail.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  =#
+  ⪧(a::Vector{Tuple}, b::Vector{Tuple}; kwargs...) = ⪧(collect.(a), collect.(b); kwargs...)
+  ⪧(a::Vector{<:Union{Vector, Number}}, b::Vector; kwargs...) = isapprox(a, b; kwargs...)
+  ⪧(a, b; kwargs...) = isapprox(collect(collect.(a)), collect(collect.(b)); kwargs...)
+  p = rand(2) |> Tuple
+  q = rand(2) |> Tuple
+  L = LineSegment(p, q)
+  for t in LinRange(0, 1, 100)
+    der1 = differentiate(L, t)
+    h = 1.0e-8
+    der2 = (L(t + h) .- L(t - h)) ./ (2h)
+    @test der1 ⪧ der2 rtol = 1.0e-5 atol = 1.0e-5
+  end
+end 
+
+@testset "entropy" begin 
+
+  @test begin 
+    x = Convex.Variable(3)
+    p = entropy(x) 
+    return true 
+  end 
+
+  @test entropy(Chisq(3)) ≈ 2.05411995
+  
+  img = [   2  8   2  5  6
+  7  9   2  7  3
+  7  8   8  1  3
+  3  1   3  9  4
+  5  7  10  4  6]
+  @test entropy(img) ≈   3.223465189601647
+
+end 
+
+@testset "evaluate" begin 
+end 
+
+@testset "fit" begin 
+end 
+
+@testset "geomean" begin 
+end 
+
+@testset "get_weight" begin 
+end
+
+@testset "gradient" begin 
+end
+
+@testset "groupby" begin 
+end 
