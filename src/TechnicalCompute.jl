@@ -20,6 +20,29 @@ using Reexport
 # Differential Equations
 =#
 
+import Preferences
+const makie_load_glmakie = Preferences.@load_preference("makie_load_glmakie", true)
+const makie_backend = Preferences.@load_preference("makie_backend", "CairoMakie")
+const _show_banner = Preferences.@load_preference("show_banner", true)
+
+function set_makie_backend(backend)
+  if !(backend in ["CairoMakie", "GLMakie"])
+    throw(ArgumentError("Backend must be either \"CairoMakie\" or \"GLMakie\", not \"$backend\""))
+  end
+  Preferences.@set_preferences!("makie_backend", backend)
+  @info("Makie backend set to $(backend); restart your Julia session for this change to take effect!")
+end
+
+function set_makie_load_glmakie(value::Bool)
+  Preferences.@set_preferences!("makie_load_glmakie", value)
+  @info("TechnicalCompute $(value ? "_will_" : "will _not_") load GLMakie; restart your Julia session for this change to take effect!")
+end
+
+function set_show_banner(value::Bool)
+  Preferences.@set_preferences!("show_banner", value)
+  @info("TechnicalCompute $(value ? "_will_" : "will _not_") show the banner; restart your Julia session for this change to take effect!")
+end
+
 packages = [
 # base ... 
 "SparseArrays",
@@ -78,7 +101,7 @@ packages = [
 "TranscodingStreams",
 "LibSndFile",
 # Graphs
-"GraphIO", 
+# "GraphIO", # removed pending issue with precompiling circular dependencies. 
 # Extra
 "BenchmarkTools",
 "StableRNGs",
@@ -182,8 +205,42 @@ end
 @reexport import PGFPlotsX
 @reexport import NaNMath
 
-if get(()->"true", ENV, "JULIA_TECHNICALCOMPUTE_USE_GLMAKIE") == "true"
+# Handle CairoMakie vs. GLMakie... 
+if get(()->"true", ENV, "JULIA_TECHNICALCOMPUTE_USE_GLMAKIE") == "true" && makie_load_glmakie
   @reexport import GLMakie 
+end 
+
+# const logo="""
+#                _
+#    _       _ _(_)_  ___      |  "Batteries included" 
+#   (_)     | (_) (_)|_ _|     |  
+#    _ _   _| |_  __ _| | __   |  
+#   | | | | | | |/ _` | |/ _\\  |  Version $(pkgversion(TechnicalCompute)) 
+#   | | |_| | | | (_| | | (_   |  running on Julia $(VERSION)
+#  _/ |\\__'_|_|_|\\__'_|_|\\__/  |  
+# |__/                         |
+# """
+const logo="""
+               _
+   _       _ _(_)_  ____ ____     |  "Batteries included" 
+  (_)     | (_) (_)|_ _ / __ \\    |  
+   _ _   _| |_  __ _| |/ /  \\_|   |  
+  | | | | | | |/ _` | | |    _    |  Version $(pkgversion(TechnicalCompute)) 
+  | | |_| | | | (_| | |\\ \\__/ |   |  running via Julia $(VERSION)
+ _/ |\\__'_|_|_|\\__'_|_| \\____/    |  
+|__/                              |
+"""
+function __init__()
+  if isinteractive() && get(ENV, "JULIA_TECHNICALCOMPUTE_SHOW_BANNER", "1") != "0" && _show_banner
+    println(logo)
+  end 
+  # the default is for GLMakie to activate because
+  # we loaded it last... 
+  # so we need to load CairoMakie if that's what we want
+  if makie_backend == "CairoMakie" 
+    @assert(makie_backend == "CairoMakie")
+    CairoMakie.activate!()
+  end
 end 
 
 include("overrides.jl")
