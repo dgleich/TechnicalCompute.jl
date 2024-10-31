@@ -1,6 +1,6 @@
 println("Time to load TechnicalCompute")
 @time using TechnicalCompute
-using Test
+using Test, Aqua, JET 
 
 # Add methods for optional tests and debugging
 envargs = get(()->"", ENV, "JULIA_ACTIONS_RUNTEST_ARGS")
@@ -36,9 +36,20 @@ end
 
 include("optimization.jl")
 
+
 try 
   if isdir(workdir)
     rm(workdir; force=true, recursive=true)
   end
 catch 
 end 
+
+@testset "Code quality (Aqua.jl)" begin
+  Aqua.test_all(TechnicalCompute;
+    ambiguities = false
+  )
+end
+
+# @testset "Code linting (JET.jl)" begin
+#   JET.test_package(TechnicalCompute; target_defined_modules = false)
+# end  
