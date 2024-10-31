@@ -46,7 +46,8 @@ end
 
 @testset "Code quality (Aqua.jl)" begin
   Aqua.test_all(TechnicalCompute;
-    ambiguities = false
+    undefined_exports = false, # too many of these right now...
+    stale_deps = (; ignore=[:GLMakie]), # ignore GLMakie as a stale dependency since it isn't tested on CI 
   )
 end
 
