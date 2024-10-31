@@ -244,6 +244,7 @@ function __init__()
 end 
 
 include("overrides.jl")
+include("overrides-custom.jl")
 
 # this one is bizarre, since Meshes exports a type with the same name as
 # DelaunayTriangulation, we need to get a function from the module to get 

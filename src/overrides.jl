@@ -112,6 +112,12 @@ push!(overrides, :Bisection)
 # SimpleNonlinearSolve.Brent() @ SimpleNonlinearSolve ~/.julia/packages/SimpleNonlinearSolve/-----/src/bracketing/brent.jl:6
 # Methods for Optim.Brent in package Core
 # Optim.Brent() @ Optim ~/.julia/packages/Optim/-----/src/univariate/solvers/brent.jl:19
+
+@doc (@doc NonlinearSolve.Brent)
+Brent = NonlinearSolve.Brent
+export Brent
+push!(overrides, :Brent)
+
 ## :Categorical
 # Showing duplicate methods for Categorical in packages Module[CairoMakie, Distributions]
 # Methods for Makie.Categorical in package Core

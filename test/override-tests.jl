@@ -320,3 +320,10 @@ end
 
 @testset "groupby" begin 
 end 
+
+@testset "tanpi" begin 
+  x = DoubleFloat(rand()) 
+  y = rand(Float64)
+  @test tanpi(x) ≈ tan(pi*x)
+  @test tanpi(y) ≈ tan(pi*y)
+end 
