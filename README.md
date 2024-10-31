@@ -11,7 +11,7 @@ Topics (and the packages that support them)
   * CSVs: [`DelimitedFiles.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/DelimitedFiles), [`CSV.jl`](https://github.com/JuliaData/CSV.jl)
   * Structured Text: [`JSON.jl`](https://github.com/JuliaIO/JSON.jl), [`TOML.jl`](https://github.com/JuliaLang/TOML.jl), [`YAML.jl`](https://github.com/JuliaData/YAML.jl), [`Serde.jl`](https://github.com/bhftbootcamp/Serde.jl), [`EzXML.jl`](https://github.com/JuliaIO/EzXML.jl)
   * Binary formats: [`JLD2.jl`](https://github.com/JuliaIO/JLD2.jl), [`HDF5.jl`](https://github.com/JuliaIO/HDF5.jl), [`MAT.jl`](https://github.com/JuliaIO/MAT.jl), [`BSON.jl`](https://github.com/JuliaIO/BSON.jl), [`NIfTI.jl`](https://github.com/JuliaIO/NIfTI.jl), [`CodecBzip2.jl`](https://github.com/bicycle1885/CodecBzip2.jl), [`CodecLz4.jl`](https://github.com/bicycle1885/CodecLz4.jl),  [`CodecXz.jl`](https://github.com/bicycle1885/CodecXz.jl),  [`CodecZlib.jl`](https://github.com/bicycle1885/CodecZlib.jl), [`CodecZstd.jl`](https://github.com/bicycle1885/CodecZstd.jl), [`ZipFile.jl`](https://github.com/fhs/ZipFile.jl), [`TranscodingStreams.jl`](https://github.com/JuliaIO/TranscodingStreams.jl), [`LibSndFile.jl`](https://github.com/JuliaAudio/LibSndFile.jl)   
-  * Meshes and Graphs: [`MeshIO.jl`](https://github.com/JuliaIO/MeshIO.jl), [`GraphIO.jl`](https://github.com/JuliaGraphs/GraphIO.jl)
+  * Meshes and Graphs: [`MeshIO.jl`](https://github.com/JuliaIO/MeshIO.jl)
   * Datasets: [`MLDatasets.jl`](https://github.com/JuliaML/MLDatasets.jl), [`RDatasets.jl`](https://github.com/JuliaStats/RDatasets.jl)
 * Discrete Mathematics
   * Graph algorithms: [`Graphs.jl`](https://github.com/JuliaGraphs/Graphs.jl), [`SimpleWeightedGraphs.jl`](https://github.com/JuliaGraphs/SimpleWeightedGraphs.jl), [`Metis.jl`](https://github.com/JuliaSparse/Metis.jl)
@@ -72,6 +72,8 @@ Topics (and the packages that support them)
 
 And this also includes a variety of useful utility packages in the base Julia library and beyond to make working with files and output easy. 
 
+## Coming soon
+- [`GraphIO.jl`](https://github.com/JuliaGraphs/GraphIO.jl)
 
 ## To consider
 - `Bessels.jl`
