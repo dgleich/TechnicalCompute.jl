@@ -1,6 +1,7 @@
 println("Time to load TechnicalCompute")
 @time using TechnicalCompute
 using Test, Aqua, JET 
+using Suppressor
 
 # Add methods for optional tests and debugging
 envargs = get(()->"", ENV, "JULIA_ACTIONS_RUNTEST_ARGS")

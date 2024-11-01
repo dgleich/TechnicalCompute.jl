@@ -1,41 +1,42 @@
 
 
 function _test_optimal_horizon(m) 
-  # # https://discourse.julialang.org/t/writing-a-simple-production-scheduling-optimal-control-problem-in-jump/17748
-  T = 4 # 4 weeks horizon
+  @suppress_out begin 
+    # # https://discourse.julialang.org/t/writing-a-simple-production-scheduling-optimal-control-problem-in-jump/17748
+    T = 4 # 4 weeks horizon
 
-  @expression(m, g[t=0:T], -t+5)
+    @expression(m, g[t=0:T], -t+5)
 
-  @variable(m, 0 <= x[0:T] <= 0.8)
-  @variable(m, 0 <= y[0:T] <= 0.9, start=0.0)
+    @variable(m, 0 <= x[0:T] <= 0.8)
+    @variable(m, 0 <= y[0:T] <= 0.9, start=0.0)
 
-  @objective(m, Min, 2*sum(x) + 3*sum(y))
+    @objective(m, Min, 2*sum(x) + 3*sum(y))
 
-  @constraint(m, [t in 0:(T-1)], y[t+1] == y[t] + (x[t+1] - g[t+1]))
+    @constraint(m, [t in 0:(T-1)], y[t+1] == y[t] + (x[t+1] - g[t+1]))
 
-  optimize!(m)
-
+    optimize!(m)
+  end 
   @test termination_status(m) != JuMP.MOI.TerminationStatusCode(1)
 end 
 
 function _test_nonlinear(model)
+  @suppress_out begin 
+    @variable(model, x, start = 0.0)
+    @variable(model, y, start = 0.0)
 
-  @variable(model, x, start = 0.0)
-  @variable(model, y, start = 0.0)
+    @NLobjective(model, Min, (1 - x)^2 + 100 * (y - x^2)^2)
 
-  @NLobjective(model, Min, (1 - x)^2 + 100 * (y - x^2)^2)
+    optimize!(model)
 
-  optimize!(model)
+    @test termination_status(model) != JuMP.MOI.TerminationStatusCode(1)
 
-  @test termination_status(model) != JuMP.MOI.TerminationStatusCode(1)
-
-  # adding a (linear) constraint
-  @constraint(model, x + y == 10)
-  optimize!(model)
-
+    # adding a (linear) constraint
+    @constraint(model, x + y == 10)
+    optimize!(model)
+  end 
+  
   # only test that we get here...
   @test true 
-  #@test termination_status(model) != JuMP.MOI.TerminationStatusCode(1)
 end 
 
 # make sure we can solve a simple LP
