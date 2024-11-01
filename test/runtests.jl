@@ -46,8 +46,9 @@ end
 
 @testset "Code quality (Aqua.jl)" begin
   Aqua.test_all(TechnicalCompute;
-    undefined_exports = false, # too many of these right now...
+    undefined_exports = (; broken=true), # too many of these right now... but we still want the report! 
     stale_deps = (; ignore=[:GLMakie]), # ignore GLMakie as a stale dependency since it isn't tested on CI 
+    piraces = (; treat_as_own=[DoubleFloat]), # treat DoubleFloat as something we can work with 
   )
 end
 
