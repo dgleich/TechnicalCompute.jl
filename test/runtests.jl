@@ -15,6 +15,10 @@ if "debug" in ARGS
   ENV["JULIA_DEBUG"] = "TechnicalCompute,Main"
 end
 
+if "aqua_first" in ARGS
+  include("aqua-and-jet.jl")
+end 
+
 if test_dups 
   @testset "duplicate names and overrides" begin 
     include("test_names_and_methods.jl")
@@ -44,14 +48,6 @@ try
 catch 
 end 
 
-@testset "Code quality (Aqua.jl)" begin
-  Aqua.test_all(TechnicalCompute;
-    undefined_exports = (; broken=true), # too many of these right now... but we still want the report! 
-    stale_deps = (; ignore=[:GLMakie]), # ignore GLMakie as a stale dependency since it isn't tested on CI 
-    piraces = (; treat_as_own=[DoubleFloat]), # treat DoubleFloat as something we can work with 
-  )
+if !("aqua_first" in ARGS)
+  include("aqua-and-jet.jl")
 end
-
-# @testset "Code linting (JET.jl)" begin
-#   JET.test_package(TechnicalCompute; target_defined_modules = false)
-# end  

@@ -1203,7 +1203,10 @@ push!(overrides, :fit)
 geomean(a) = StatsBase.geomean(a)
 @doc (@doc Convex.geomean)
 geomean(a::Convex.AbstractExpr, b) = Convex.geomean(a, b)
+geomean(a::Convex.AbstractExpr, b::Convex.AbstractExpr) = Convex.geomean(a, b) # need this to fix ambiguities 
 geomean(a, b::Convex.AbstractExpr) = Convex.geomean(a, b)
+geomean(a::Convex.AbstractExpr, b::Union{Number, AbstractArray, Convex.AbstractExpr}) = Convex.geomean(a, b)
+geomean(a::Union{Number, AbstractArray, Convex.AbstractExpr}, b::Convex.AbstractExpr) = Convex.geomean(a, b)
 geomean(args::Union{Convex.AbstractExpr, Number, AbstractArray}...) = Convex.geomean(args...)
 export geomean
 push!(overrides, :geomean)
@@ -1510,7 +1513,8 @@ push!(overrides, :mae)
 # maximize(f, x0::AbstractArray; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:24
 
 @doc (@doc Convex.maximize)
-maximize(objective::Convex.AbstractExpr, args...; kwargs...) = Convex.maximize(objective, args...; kwargs...)
+maximize(objective::Convex.AbstractExpr, args::Constraint...; kwargs...) = Convex.maximize(objective, args...; kwargs...)
+maximize(objective::Convex.AbstractExpr, constraints::AbstractArray{Constraint}; kwargs...) = Convex.maximize(objective, constraints; kwargs...)
 maximize(objective::Union{Number, AbstractArray}, constraints::Constraint...; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
 maximize(objective::Union{Number, AbstractArray}, constraints::AbstractArray{Constraint}; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
 @doc (@doc Optim.maximize)
@@ -2653,12 +2657,12 @@ push!(overrides, :⊕)
 ⊗(A,B,Cs...) = LinearMaps.⊗(A,B,Cs...)
 @doc (@doc getfield(DoubleFloats, :⊗))
 ⊗(a::AbstractRGB, b::AbstractRGB) = ColorVectorSpace.tensor(a,b)
-⊗(a::AbstractGray, b::AbstractGray) = ColorVectorSpace.tensor(a,b)
 ⊗(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) = ColorVectorSpace.tensor(a,b)
 @doc (@doc getfield(DoubleFloats, :⊗))
 ⊗(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊗(x, y)
 export ⊗
 push!(overrides, :⊗)
+
 ##-Unused overrides
 #=
 ## :order
