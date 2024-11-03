@@ -220,16 +220,27 @@ end
 #  _/ |\\__'_|_|_|\\__'_|_|\\__/  |  
 # |__/                         |
 # """
+# const logo="""
+#                _
+#    _       _ _(_)_  ____ ____     |  "Batteries included" 
+#   (_)     | (_) (_)|_ _ / __ \\    |  
+#    _ _   _| |_  __ _| |/ /  \\_|   |  
+#   | | | | | | |/ _` | | |    _    |  Version $(pkgversion(TechnicalCompute)) 
+#   | | |_| | | | (_| | |\\ \\__/ |   |  running via Julia $(VERSION)
+#  _/ |\\__'_|_|_|\\__'_|_| \\____/    |  
+# |__/                              |
+# """
 const logo="""
-               _
-   _       _ _(_)_  ____ ____     |  "Batteries included" 
-  (_)     | (_) (_)|_ _ / __ \\    |  
-   _ _   _| |_  __ _| |/ /  \\_|   |  
-  | | | | | | |/ _` | | |    _    |  Version $(pkgversion(TechnicalCompute)) 
-  | | |_| | | | (_| | |\\ \\__/ |   |  running via Julia $(VERSION)
- _/ |\\__'_|_|_|\\__'_|_| \\____/    |  
-|__/                              |
-"""
+\x1b[32m_\x1b[0m
+_____         _           \x1b[31m_\x1b[32m(_)\x1b[35m_\x1b[0m       _ _____                             _       
+|_   _|       | |         \x1b[31m(_) \x1b[35m(_)\x1b[0m     | /  __ \\ ...batteries included...  | |      
+| | ___  ___| |__  _ __  _  ___ __ _| | /  \\/ ___  _ __ ___  _ __  _   _| |_ ___ 
+| |/ _ \\/ __| '_ \\| '_ \\| |/ __/ _` | | |    / _ \\| '_ ` _ \\| '_ \\| | | | __/ _ \\
+| |  __/ (__| | | | | | | | (_| (_| | | \\__/\\ (_) | | | | | | |_) | |_| | ||  __/
+|_|\\___|\\___|_| |_|_| |_|_|\\___\\__'_|_|\\____/\\___/|_| |_| |_| '__/ \\__'_|\\__\\___|
+\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[0m| |  Version $(pkgversion(TechnicalCompute))
+\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[0m|_|  on Julia $(VERSION) 
+"""      
 function __init__()
   if isinteractive() && get(ENV, "JULIA_TECHNICALCOMPUTE_SHOW_BANNER", "1") != "0" && _show_banner
     println(logo)
@@ -245,6 +256,7 @@ end
 
 include("overrides.jl")
 include("overrides-custom.jl")
+include("compile.jl")
 
 # this one is bizarre, since Meshes exports a type with the same name as
 # DelaunayTriangulation, we need to get a function from the module to get 
