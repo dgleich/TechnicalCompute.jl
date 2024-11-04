@@ -9,6 +9,8 @@ function _names_in_packages(pkgs)
         continue # this one doesn't really exist! 
       elseif name == :Empty && pkg == ParserCombinator
         continue # this one doesn't really exist!
+      elseif name == :Scaled && pkg == OnlineStats
+        continue # this one doesn't really exist!
       end 
       if haskey(namesused, name)
         push!(namesused[name], pkg)

@@ -33,7 +33,7 @@ push!(overrides, Symbol("@variables"))
 # Optim.AdaMax(α::T, β₁::T, β₂::T, ϵ::T, manifold::Tm) where {T, Tm} @ Optim ~/.julia/packages/Optim/-----/src/multivariate/solvers/first_order/adamax.jl:15
 
 # Flux is the ML package so it gets AdaMax.
-AdaMax = Flux.AdaMax
+const AdaMax = Flux.AdaMax
 export AdaMax
 push!(overrides, :AdaMax)
 
@@ -52,7 +52,7 @@ push!(overrides, :AdaMax)
 # Optim.Adam(α::T, β₁::T, β₂::T, ϵ::T, manifold::Tm) where {T, Tm} @ Optim ~/.julia/packages/Optim/-----/src/multivariate/solvers/first_order/adam.jl:14
 
 # Flux is the ML package so it gets Adam.
-Adam = Flux.Adam
+const Adam = Flux.Adam
 export Adam
 push!(overrides, :Adam)
 
@@ -63,9 +63,9 @@ push!(overrides, :Adam)
 # (::Type{T})(args...; kwargs...) where T<:Block @ Makie ~/.julia/packages/Makie/-----/src/makielayout/blocks.jl:236
 # Makie.Axis(parent::Union{Nothing, Figure, Scene}, layoutobservables::LayoutObservables{GridLayout}, blockscene::Scene) @ Makie ~/.julia/packages/Makie/-----/src/makielayout/blocks.jl:50
 @doc (@doc Makie.Axis) 
-Axis = Makie.Axis
+const Axis = Makie.Axis
 @doc (@doc Images.Axis)
-ArrayAxis = Images.Axis
+const ArrayAxis = Images.Axis
 export Axis, ArrayAxis 
 push!(overrides, :Axis)
 
@@ -114,7 +114,7 @@ push!(overrides, :Bisection)
 # Optim.Brent() @ Optim ~/.julia/packages/Optim/-----/src/univariate/solvers/brent.jl:19
 
 @doc (@doc NonlinearSolve.Brent)
-Brent = NonlinearSolve.Brent
+const Brent = NonlinearSolve.Brent
 export Brent
 push!(overrides, :Brent)
 
@@ -127,9 +127,9 @@ push!(overrides, :Brent)
 # (Distributions.Categorical{P} where P<:Real)(p::AbstractVector{P}; check_args) where P<:Real @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/categorical.jl:34
 # (Distributions.Categorical{P} where P<:Real)(probabilities::Real...; check_args) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/discrete/categorical.jl:42
 @doc (@doc Distributions.Categorical)
-Categorical = Distributions.Categorical
+const Categorical = Distributions.Categorical
 @doc (@doc Makie.Categorical)
-CategoricalColormap = Makie.Categorical
+const CategoricalColormap = Makie.Categorical
 export Categorical, CategoricalColormap
 push!(overrides, :Categorical)
 
@@ -146,7 +146,7 @@ push!(overrides, :Categorical)
 # JuMP.ComplexVariable(info::VariableInfo{S, T, U, V}) where {S, T, U, V} @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:2260
 
 @doc (@doc JuMP.ComplexVariable)
-ComplexVariable = JuMP.ComplexVariable 
+const ComplexVariable = JuMP.ComplexVariable 
 export ComplexVariable
 push!(overrides, :ComplexVariable)
 
@@ -172,6 +172,8 @@ push!(overrides, :EllipticalArc)
 ## :Fill
 # Showing duplicate methods for Fill in packages Module[FillArrays, Images]
 # Methods for FillArrays.Fill in package Core
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllowAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:677
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # FillArrays.Fill(x, sz::Union{Infinities.Infinity, Integer}...) @ InfiniteArrays ~/.julia/packages/InfiniteArrays/-----/src/infarrays.jl:59
 # FillArrays.Fill(x::T, sz::NTuple{N, Any}) where {T, N} @ FillArrays ~/.julia/packages/FillArrays/-----/src/FillArrays.jl:138
 # FillArrays.Fill(x::T, sz::Vararg{Integer, N}) where {T, N} @ FillArrays ~/.julia/packages/FillArrays/-----/src/FillArrays.jl:136
@@ -183,11 +185,13 @@ push!(overrides, :EllipticalArc)
 # ImageFiltering.Fill(value::T, both::NTuple{N, Int64}) where {T, N} @ ImageFiltering ~/.julia/packages/ImageFiltering/-----/src/border.jl:525
 # ImageFiltering.Fill(value::T, inds::NTuple{N, AbstractUnitRange}) where {T, N} @ ImageFiltering ~/.julia/packages/ImageFiltering/-----/src/border.jl:529
 # ImageFiltering.Fill(value::T, lo::NTuple{N, Int64}, hi::NTuple{N, Int64}) where {T, N} @ ImageFiltering ~/.julia/packages/ImageFiltering/-----/src/border.jl:509
+
 @doc (@doc ImageFiltering.Fill)
-FillValue = ImageFiltering.Fill
+Fill(value) = ImageFiltering.Fill(value)
+Fill(value, lo, hi) = ImageFiltering.Fill(value, lo, hi)
 @doc (@doc FillArrays.Fill)
-FillArray = FillArrays.Fill 
-export FillValue, FillArray
+Fill(value, sz) = FillArrays.Fill(value, sz)
+export Fill
 push!(overrides, :Fill)
 
 ## :Filters
@@ -195,7 +199,7 @@ push!(overrides, :Fill)
 # Methods for DSP.Filters in package Core
 # Methods for HDF5.Filters in package Core
 @doc (@doc DSP.Filters)
-Filters = DSP.Filters
+const Filters = DSP.Filters
 export Filters 
 push!(overrides, :Filters)
 
@@ -216,9 +220,9 @@ push!(overrides, :Filters)
 # (::Type{X})(x::Number) where X<:FixedPoint @ FixedPointNumbers ~/.julia/packages/FixedPointNumbers/-----/src/FixedPointNumbers.jl:58
 # (::Type{X})(x::X) where X<:FixedPoint @ FixedPointNumbers ~/.julia/packages/FixedPointNumbers/-----/src/FixedPointNumbers.jl:57
 @doc (@doc FixedPointNumbers.Fixed)
-Fixed = FixedPointNumbers.Fixed
+const Fixed = FixedPointNumbers.Fixed
 @doc (@doc Makie.Fixed)
-FixedSize = Makie.Fixed
+const FixedSize = Makie.Fixed
 export Fixed, FixedSize 
 push!(overrides, :Fixed)
 
@@ -246,7 +250,7 @@ push!(overrides, :Flat)
 # OrdinaryDiffEqFunctionMap.FunctionMap(; scale_by_time) @ OrdinaryDiffEqFunctionMap ~/.julia/packages/OrdinaryDiffEqFunctionMap/-----/src/algorithms.jl:2
 # Methods for LinearMaps.FunctionMap in package Core
 @doc (@doc LinearMaps.FunctionMap)
-FunctionMap = LinearMaps.FunctionMap
+const FunctionMap = LinearMaps.FunctionMap
 export FunctionMap
 push!(overrides, :FunctionMap)
 
@@ -264,13 +268,15 @@ push!(overrides, :FunctionMap)
 # SimpleGraph(g::SimpleDiGraph) @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/simplegraph.jl:150
 # SimpleGraph(g::SimpleGraph) @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/simplegraph.jl:123
 # SimpleGraph(g::SimpleWeightedGraph) @ SimpleWeightedGraphs ~/.julia/packages/SimpleWeightedGraphs/-----/src/simpleweightedgraph.jl:151
+# SimpleGraph(itensors::Vector{ITensor}) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/graphs.jl:4
 # SimpleGraph(n::T) where T<:Integer @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/simplegraph.jl:43
 # SimpleGraph(ne, fadjlist::Array{Vector{T}, 1}) where T @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/simplegraph.jl:18
 # SimpleGraph(nv::T, ne::Integer; rng, seed) where T<:Integer @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/generators/randgraphs.jl:46
 # SimpleGraph(nvg::Integer, neg::Integer, edgestream::Channel) @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/generators/randgraphs.jl:1365
 # SimpleGraph(nvg::Integer, neg::Integer, sbm::StochasticBlockModel; rng, seed) @ Graphs.SimpleGraphs ~/.julia/packages/Graphs/-----/src/SimpleGraphs/generators/randgraphs.jl:1382
+# SimpleGraph(tn::ITensorNetworks.AbstractITensorNetwork) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/abstractitensornetwork.jl:227
 
-Graph = Graphs.Graph 
+const Graph = Graphs.Graph 
 export Graph
 push!(overrides, :Graph)
 
@@ -305,7 +311,7 @@ push!(overrides, :GroupBy)
 # OnlineStats.Hist(edges::R; ...) where R<:(AbstractVector) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/histograms.jl:64
 
 # for Makie, we just use the hist function.
-Hist = OnlineStats.Hist
+const Hist = OnlineStats.Hist
 export Hist
 push!(overrides, :Hist) 
 
@@ -335,7 +341,7 @@ push!(overrides, :Length)
 # you can call Line for GeometryBasics by calling Polytope with two arguments. 
 # I'm not sure this is the right call, but let's go with it. 
 @doc (@doc Interpolations.Line)
-Line = Interpolations.Line 
+const Line = Interpolations.Line 
 export Line 
 push!(overrides, :Line)
 
@@ -344,13 +350,16 @@ push!(overrides, :Line)
 # Methods for MakieCore.Mesh in package Core
 # (Plot{Func})(user_args::Tuple, user_attributes::Dict) where Func @ Makie ~/.julia/packages/Makie/-----/src/interfaces.jl:260
 # Methods for GeometryBasics.Mesh in package Core
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllocateData.UndefInitializer, axes::Tuple) @ NDTensors.AllocateData ~/.julia/packages/NDTensors/-----/src/lib/AllocateData/src/initializers.jl:16
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllowAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:677
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # GeometryBasics.Mesh(elements::AbstractVector{<:Polytope{Dim, T}}) where {Dim, T} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/basic_types.jl:408
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:AbstractFace}) @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/basic_types.jl:412
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:Integer}) @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/basic_types.jl:417
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:Integer}, facetype) @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/basic_types.jl:417
 # GeometryBasics.Mesh(points::AbstractVector{<:AbstractPoint}, faces::AbstractVector{<:Integer}, facetype, skip) @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/basic_types.jl:417
 # GeometryBasics.Mesh(simplices::V) where {Dim, T<:Number, Element<:Polytope{Dim, T}, V<:AbstractVector{Element}} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/basic_types.jl:375
-Mesh = GeometryBasics.Mesh 
+const Mesh = GeometryBasics.Mesh 
 export Mesh
 push!(overrides, :Mesh)
 
@@ -363,7 +372,7 @@ push!(overrides, :Mesh)
 # OnlineStatsBase.Moments(m::Vector{Float64}, weight::W, n::Int64) where W @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:501
 
 # Stats gets Moments... Images needs Images.Moments. 
-Moments = OnlineStats.Moments
+const Moments = OnlineStats.Moments
 export Moments
 push!(overrides, :Moments)
 
@@ -387,9 +396,9 @@ push!(overrides, :Moments)
 # GeometryBasics.Normal() @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/interfaces.jl:100
 # GeometryBasics.Normal(::Type{T}) where T @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/interfaces.jl:99
 @doc (@doc Distributions.Normal)
-Normal = Distributions.Normal
+const Normal = Distributions.Normal
 push!(overrides, :Normal)
-NormalVector = GeometryBasics.Normal
+const NormalVector = GeometryBasics.Normal
 export Normal, NormalVector 
 
 ## :Partition
@@ -407,7 +416,7 @@ export Normal, NormalVector
 # Transducers.Partition(size, step, flush) @ Transducers ~/.julia/packages/Transducers/-----/src/library.jl:820
 # Transducers.Partition(size, step; flush) @ Transducers ~/.julia/packages/Transducers/-----/src/library.jl:827
 # Transducers.Partition(size; step, flush) @ Transducers ~/.julia/packages/Transducers/-----/src/library.jl:828
-Partition = Transducers.Partition
+const Partition = Transducers.Partition
 export Partition
 push!(overrides, :Partition)
 
@@ -421,7 +430,7 @@ push!(overrides, :Partition)
 # OnlineStatsBase.Series(t::OnlineStat...) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:616
 
 # makie Series is just a series plot, via `series`
-Series = OnlineStats.Series
+const Series = OnlineStats.Series
 export Series
 push!(overrides, :Series)
 
@@ -432,9 +441,27 @@ push!(overrides, :Series)
 # Methods for Optim.Sphere in package Core
 # Optim.Sphere() @ Optim ~/.julia/packages/Optim/-----/src/Manifolds.jl:67
 
-Sphere = GeometryBasics.Sphere
+const Sphere = GeometryBasics.Sphere
 export Sphere
 push!(overrides, :Sphere)
+
+## :Sum
+# Showing duplicate methods for Sum in packages Module[ITensorMPS, OnlineStats]
+# Methods for ITensors.LazyApply.Sum in package Core
+# (ITensors.LazyApply.Sum)(a::Vector) @ ITensors.LazyApply ~/.julia/packages/ITensors/-----/src/lib/LazyApply/src/LazyApply.jl:315
+# Methods for OnlineStatsBase.Sum in package Core
+# OnlineStatsBase.Sum() @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:547
+# OnlineStatsBase.Sum(T::Type) @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:547
+# OnlineStatsBase.Sum(sum::T, n::Int64) where T @ OnlineStatsBase ~/.julia/packages/OnlineStatsBase/-----/src/stats.jl:544
+
+@doc (@doc ITensors.LazyApply.Sum)
+Sum(a::Vector) = ITensors.LazyApply.Sum(a)
+@doc (@doc OnlineStats.Sum)
+Sum() = OnlineStats.Sum()
+Sum(T::Type) = OnlineStats.Sum(T)
+Sum(sum::T, n::Int64) where T = OnlineStats.Sum(sum, n)
+export Sum
+push!(overrides, :Sum)
 
 ## :Trace
 # Showing duplicate methods for Trace in packages Module[OnlineStats, ReinforcementLearning]
@@ -443,6 +470,9 @@ push!(overrides, :Sphere)
 # OnlineStats.Trace(o::OnlineStat, b::Int64) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/trace.jl:25
 # OnlineStats.Trace(parts::Array{Pair{Tuple{Int64, Int64}, O}, 1}, b::Int64, n::Int64) where {T, O<:OnlineStat{T}} @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/trace.jl:21
 # Methods for ReinforcementLearningTrajectories.Trace in package Core
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllocateData.UndefInitializer, axes::Tuple) @ NDTensors.AllocateData ~/.julia/packages/NDTensors/-----/src/lib/AllocateData/src/initializers.jl:16
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllowAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:677
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # ReinforcementLearningTrajectories.Trace(x::T) where T<:AbstractArray @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/traces.jl:36
 
 @doc (@doc OnlineStats.Trace)
@@ -453,6 +483,7 @@ Trace(parts::Array{Pair{Tuple{Int64, Int64}, O}, 1}, b::Int64, n::Int64) where {
 Trace(x::T) where T<:AbstractArray = ReinforcementLearning.Trace(x)
 export Trace
 push!(overrides, :Trace)
+
 ## :Variable
 # Showing duplicate methods for Variable in packages Module[Convex, Symbolics]
 # Methods for Convex.Variable in package Core
@@ -490,6 +521,8 @@ push!(overrides, :Variable)
 # (::Type{SA})(x...) where SA<:StaticArray @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/convert.jl:173
 # (::Type{SV})(x::StaticArray{Tuple{N}, T, 1} where {N, T}) where SV<:Vec @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:76
 # (T::Type{<:StaticArray})(a::AbstractArray) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/convert.jl:182
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllocateData.UndefInitializer, axes::Tuple) @ NDTensors.AllocateData ~/.julia/packages/NDTensors/-----/src/lib/AllocateData/src/initializers.jl:16
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # GeometryBasics.Vec(x::NTuple{S, T} where T) where S @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:52
 # GeometryBasics.Vec(x::T) where {S, T<:NTuple{S, Any}} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:53
 # Methods for NTuple{N, Measure} where N in package Core
@@ -499,7 +532,7 @@ push!(overrides, :Variable)
 
 # We are just ignoring the Measures vectors... 
 @doc (@doc GeometryBasics.Vec)
-Vec = GeometryBasics.Vec
+const Vec = GeometryBasics.Vec
 push!(overrides, :Vec)
 export Vec
 
@@ -510,6 +543,8 @@ export Vec
 # (GeometryBasics.Vec{S})(x::AbstractVector{T}) where {S, T} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:36
 # (GeometryBasics.Vec{S})(x::T) where {S, T<:Tuple} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:57
 # (GeometryBasics.Vec{S})(x::T) where {S, T} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:50
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllocateData.UndefInitializer, axes::Tuple) @ NDTensors.AllocateData ~/.julia/packages/NDTensors/-----/src/lib/AllocateData/src/initializers.jl:16
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # Methods for Tuple{Measure, Measure} in package Core
 # (::Type{T})(itr) where T<:Tuple @ Base tuple.jl:455
 # (::Type{T})(nt::NamedTuple) where T<:Tuple @ Base namedtuple.jl:198
@@ -517,7 +552,7 @@ export Vec
 # NTuple{N, T}(v::SIMD.Vec{N}) where {T, N} @ SIMD ~/.julia/packages/SIMD/-----/src/simdvec.jl:68
 
 @doc (@doc GeometryBasics.Vec2)
-Vec2 = GeometryBasics.Vec2
+const Vec2 = GeometryBasics.Vec2
 export Vec2
 push!(overrides, :Vec2)
 
@@ -528,6 +563,8 @@ push!(overrides, :Vec2)
 # (GeometryBasics.Vec{S})(x::AbstractVector{T}) where {S, T} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:36
 # (GeometryBasics.Vec{S})(x::T) where {S, T<:Tuple} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:57
 # (GeometryBasics.Vec{S})(x::T) where {S, T} @ GeometryBasics ~/.julia/packages/GeometryBasics/-----/src/fixed_arrays.jl:50
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllocateData.UndefInitializer, axes::Tuple) @ NDTensors.AllocateData ~/.julia/packages/NDTensors/-----/src/lib/AllocateData/src/initializers.jl:16
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # Methods for Tuple{Measure, Measure, Measure} in package Core
 # (::Type{T})(itr) where T<:Tuple @ Base tuple.jl:455
 # (::Type{T})(nt::NamedTuple) where T<:Tuple @ Base namedtuple.jl:198
@@ -535,13 +572,15 @@ push!(overrides, :Vec2)
 # NTuple{N, T}(v::SIMD.Vec{N}) where {T, N} @ SIMD ~/.julia/packages/SIMD/-----/src/simdvec.jl:68
 
 @doc (@doc GeometryBasics.Vec3)
-Vec3 = GeometryBasics.Vec3
+const Vec3 = GeometryBasics.Vec3
 export Vec3
 push!(overrides, :Vec3)
 
 ## :Zeros
 # Showing duplicate methods for Zeros in packages Module[FillArrays, JuMP]
 # Methods for FillArrays.Zeros in package Core
+# (arraytype::Type{<:AbstractArray})(::NDTensors.AllocateData.UndefInitializer, axes::Tuple) @ NDTensors.AllocateData ~/.julia/packages/NDTensors/-----/src/lib/AllocateData/src/initializers.jl:16
+# (arraytype::Type{<:AbstractArray})(::NDTensors.NeverAlias, A::AbstractArray) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:673
 # FillArrays.Zeros(::Type{T}, m...) where T @ FillArrays ~/.julia/packages/FillArrays/-----/src/FillArrays.jl:317
 # FillArrays.Zeros(A::AbstractArray) @ FillArrays ~/.julia/packages/FillArrays/-----/src/FillArrays.jl:316
 # FillArrays.Zeros(n::Integer) @ FillArrays ~/.julia/packages/FillArrays/-----/src/FillArrays.jl:311
@@ -550,7 +589,7 @@ push!(overrides, :Vec3)
 # Methods for JuMP.Zeros in package Core
 # JuMP.Zeros() @ JuMP ~/.julia/packages/JuMP/-----/src/macros/@constraint.jl:704
 @doc (@doc FillArrays.Zeros)
-Zeros = FillArrays.Zeros
+const Zeros = FillArrays.Zeros
 export Zeros
 push!(overrides, :Zeros)
 
@@ -579,6 +618,10 @@ push!(overrides, :attributes)
 # center(eccentricities::Vector) @ Graphs ~/.julia/packages/Graphs/-----/src/distance.jl:193
 # center(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/-----/src/distance.jl:198
 # center(g::AbstractGraph, distmx::AbstractMatrix) @ Graphs ~/.julia/packages/Graphs/-----/src/distance.jl:198
+# center(graph::DataGraphs.AbstractDataGraph, args...; kwargs...) @ DataGraphs ~/.julia/packages/DataGraphs/-----/src/abstractdatagraph.jl:101
+# center(graph::NamedGraphs.AbstractNamedGraph) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/distance.jl:40
+# center(graph::NamedGraphs.AbstractNamedGraph, distmx) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/distance.jl:40
+# center(graph::NamedGraphs.AbstractNamedGraph, distmx::AbstractMatrix) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/distance.jl:45
 # Methods for center in package ImageTransformations
 # center(img::AbstractArray{T, N}) where {T, N} @ ImageTransformations ~/.julia/packages/ImageTransformations/-----/src/ImageTransformations.jl:80
 
@@ -615,7 +658,7 @@ push!(overrides, :center)
 #centered(R::Type{T}) where T <: Union{HyperRectangle,HyperSphere} = GeometryBasics.centered(R) 
 #centered(::Type{T}) where T<:HyperSphere = GeometryBasics.centered(T)
 #@doc (@doc OffsetArrays.centered)
-centered = OffsetArrays.centered 
+const centered = OffsetArrays.centered 
 # centered(ax::Images.Axis) = OffsetArrays.centered(ax)
 # centered(a::ImageMeta) = OffsetArrays.centered(a)
 # centered(a::AxisArray) = OffsetArrays.centered(a)
@@ -624,6 +667,23 @@ centered = OffsetArrays.centered
 # centered(A::AbstractArray, r) = OffsetArrays.centered(A, r)
 export centered
 push!(overrides, :centered)
+
+## :coefficient
+# Showing duplicate methods for coefficient in packages Module[ITensorMPS, JuMP]
+# Methods for coefficient in package ITensors.LazyApply
+# coefficient(co::ITensors.LazyApply.Applied{typeof(*), Tuple{C, A}, @NamedTuple{}} where A) where C @ ITensors.LazyApply ~/.julia/packages/ITensors/-----/src/lib/LazyApply/src/LazyApply.jl:55
+# Methods for coefficient in package JuMP
+# coefficient(::GenericAffExpr{C, V}, ::V, ::V) where {C, V} @ JuMP ~/.julia/packages/JuMP/-----/src/aff_expr.jl:292
+# coefficient(::GenericVariableRef{T}, ::GenericVariableRef{T}, ::GenericVariableRef{T}) where T @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:428
+# coefficient(a::GenericAffExpr{C, V}, v::V) where {C, V} @ JuMP ~/.julia/packages/JuMP/-----/src/aff_expr.jl:290
+# coefficient(q::GenericQuadExpr{C, V}, v1::V, v2::V) where {C, V} @ JuMP ~/.julia/packages/JuMP/-----/src/quad_expr.jl:220
+# coefficient(q::GenericQuadExpr{C, V}, v::V) where {C, V} @ JuMP ~/.julia/packages/JuMP/-----/src/quad_expr.jl:243
+# coefficient(v1::GenericVariableRef{T}, v2::GenericVariableRef{T}) where T @ JuMP ~/.julia/packages/JuMP/-----/src/variables.jl:417
+
+# marked as internal by ITensors
+const coefficient = JuMP.coefficient
+export coefficient
+push!(overrides, :coefficient)
 
 ## :complement
 # Showing duplicate methods for complement in packages Module[ColorVectorSpace, DataStructures, Graphs, Images]
@@ -664,6 +724,61 @@ constant(x::Convex.ComplexConstant) = Convex.constant(x)
 constant(x::Convex.Constant) = Convex.constant(x) 
 export constant
 push!(overrides, :constant)
+
+## :contract
+# Showing duplicate methods for contract in packages Module[Graphs, ITensorMPS, ITensors]
+# Methods for contract in package Graphs.LinAlg
+# contract(nbt::Nonbacktracking, edgespace::Vector) @ Graphs.LinAlg ~/.julia/packages/Graphs/-----/src/linalg/nonbacktracking.jl:167
+# Methods for contract in package NDTensors
+# contract(::NDTensors.BackendSelection.Algorithm{:densitymatrix}, A::MPO, ψ::MPS; cutoff, maxdim, mindim, normalize, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:692
+# contract(::NDTensors.BackendSelection.Algorithm{:fit}, operator::MPO, input_state::MPS; init, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/contract.jl:20
+# contract(::NDTensors.BackendSelection.Algorithm{:zipup}, A::MPO, B::MPO; cutoff, maxdim, mindim, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:823
+# contract(::Type{NDTensors.CanContract{TensorT1, TensorT2}}, tensor1::TensorT1, labels_tensor1, tensor2::TensorT2, labels_tensor2) where {TensorT1<:Tensor, TensorT2<:Tensor} @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensoroperations/generic_tensor_operations.jl:87
+# contract(::Type{SimpleTraits.Not{NDTensors.CanContract{TensorT1, TensorT2}}}, tensor1::TensorT1, labels_tensor1, tensor2::TensorT2, labels_tensor2) where {TensorT1<:Tensor, TensorT2<:Tensor} @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensoroperations/generic_tensor_operations.jl:94
+# contract(A::ITensor, B::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:64
+# contract(A::ITensorMPS.AbstractSum, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractprojmpo/projmposum.jl:48
+# contract(A::MPO, B::MPO; alg, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:815
+# contract(A::MPO, ψ::MPS; alg, method, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:615
+# contract(As::ITensor...; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:168
+# contract(As::Union{Tuple{Vararg{ITensor}}, Vector{ITensor}}; sequence, kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:154
+# contract(P::ITensorMPS.AbstractProjMPO, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractprojmpo/abstractprojmpo.jl:36
+# contract(P::ITensorNetworks.AbstractProjTTN, v::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/abstractprojttn.jl:77
+# contract(P::ITensorNetworks.ProjOuterProdTTN, x::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/projouterprodttn.jl:115
+# contract(P::ITensorNetworks.ProjTTNSum, v::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/projttnsum.jl:49
+# contract(T1::NDTensors.BlockSparseTensor, labelsT1, T2::NDTensors.DiagBlockSparseTensor, labelsT2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:611
+# contract(T1::NDTensors.BlockSparseTensor, labelsT1, T2::NDTensors.DiagBlockSparseTensor, labelsT2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:611
+# contract(T1::NDTensors.DiagBlockSparseTensor, labelsT1, T2::NDTensors.BlockSparseTensor, labelsT2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:623
+# contract(T1::NDTensors.DiagBlockSparseTensor, labelsT1, T2::NDTensors.BlockSparseTensor, labelsT2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:623
+# contract(a::NDTensors.BackendSelection.Algorithm{:fit}, tn1::ITensorNetworks.AbstractTreeTensorNetwork, tn2::ITensorNetworks.AbstractTreeTensorNetwork; kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/solvers/contract.jl:59
+# contract(alg::NDTensors.BackendSelection.Algorithm{:exact}, tn::ITensorNetworks.AbstractITensorNetwork; contraction_sequence_kwargs, sequence, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/contract.jl:12
+# contract(alg::NDTensors.BackendSelection.Algorithm{:naive}, A::MPO, B::MPO; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:819
+# contract(alg::NDTensors.BackendSelection.Algorithm{:naive}, A::MPO, ψ::MPS; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:811
+# contract(alg::Union{NDTensors.BackendSelection.Algorithm{:density_matrix}, NDTensors.BackendSelection.Algorithm{:ttn_svd}}, tn::ITensorNetworks.AbstractITensorNetwork; output_structure, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/contract.jl:24
+# contract(combiner_tensor::NDTensors.Tensor{ElT, N, StoreT, IndsT} where {ElT, N, IndsT, StoreT<:NDTensors.Combiner}, combiner_tensor_labels, tensor::NDTensors.BlockSparseTensor, tensor_labels) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/combiner.jl:144
+# contract(diag_tensor::NDTensors.DiagTensor, diag_tensor_labels, combiner_tensor::NDTensors.Tensor{ElT, N, StoreT, IndsT} where {ElT, N, IndsT, StoreT<:NDTensors.Combiner}, combiner_tensor_labels) @ NDTensors ~/.julia/packages/NDTensors/-----/src/combiner/contract.jl:94
+# contract(reduced_problem::ITensorMPS.ReducedLinearProblem, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/reducedlinearproblem.jl:59
+# contract(reduced_state::ITensorMPS.ReducedConstantTerm) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/reducedconstantterm.jl:131
+# contract(reduced_state::ITensorMPS.ReducedConstantTerm, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/reducedconstantterm.jl:107
+# contract(tensor1::NDTensors.BlockSparseTensor, labelstensor1, tensor2::NDTensors.BlockSparseTensor, labelstensor2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/contract.jl:3
+# contract(tensor1::NDTensors.BlockSparseTensor, labelstensor1, tensor2::NDTensors.BlockSparseTensor, labelstensor2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/contract.jl:3
+# contract(tensor1::NDTensors.Tensor, labelstensor1, tensor2::NDTensors.Tensor, labelstensor2, labelsoutput_tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensoroperations/generic_tensor_operations.jl:102
+# contract(tensor1::TensorT1, labels_tensor1, tensor2::TensorT2, labels_tensor2) where {TensorT1<:Tensor, TensorT2<:Tensor} @ NDTensors ~/.julia/packages/SimpleTraits/-----/src/SimpleTraits.jl:331
+# contract(tensor::NDTensors.BlockSparseTensor, tensor_labels, combiner_tensor::NDTensors.Tensor{ElT, N, StoreT, IndsT} where {ElT, N, IndsT, StoreT<:NDTensors.Combiner}, combiner_tensor_labels) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/combiner.jl:25
+# contract(tensor::NDTensors.BlockSparseTensor, tensor_labels, combiner_tensor::NDTensors.Tensor{var"#s329", 0, StoreT, IndsT} where {var"#s329", IndsT, StoreT<:NDTensors.Combiner}, combiner_tensor_labels) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/combiner.jl:155
+# contract(tn1::ITensorNetworks.AbstractTreeTensorNetwork, tn2::ITensorNetworks.AbstractTreeTensorNetwork; alg, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/solvers/contract.jl:68
+# contract(tn::AbstractVector; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:139
+# contract(tn::ITensorNetworks.AbstractITensorNetwork, edge::AbstractEdge; merged_vertex) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/abstractitensornetwork.jl:464
+# contract(tn::ITensorNetworks.AbstractITensorNetwork, edge::Pair; kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/abstractitensornetwork.jl:455
+# contract(tn::ITensorNetworks.AbstractITensorNetwork; alg, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/contract.jl:8
+# contract(tn::ITensorNetworks.AbstractTreeTensorNetwork, root_vertex; kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/abstracttreetensornetwork.jl:84
+# contract(tn::ITensorNetworks.AbstractTreeTensorNetwork; ...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/abstracttreetensornetwork.jl:84
+# contract(ψ::AbstractMPS) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:90
+# contract(ψ::MPS, A::MPO; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:679
+
+@doc (@doc Graphs.contract)
+contract(nbt::Nonbacktracking, edgespace::Vector) = Graphs.contract(nbt, edgespace)
+@doc (@doc ITensors.contract) # gosh, let's hope no one else uses this one! 
+contract(args...; kwargs...) = ITensors.contract(args...; kwargs...)
 
 ## :conv
 # Showing duplicate methods for conv in packages Module[Convex, DSP, Flux]
@@ -715,7 +830,7 @@ push!(overrides, :constant)
 # conv(x, w::AbstractArray{T, N}; stride, pad, dilation, flipped, groups) where {T, N} @ NNlib ~/.julia/packages/NNlib/-----/src/conv.jl:50
 # conv(x::AbstractArray{xT, N}, w::AbstractArray{wT, N}, cdims::ConvDims; kwargs...) where {xT, wT, N} @ NNlib ~/.julia/packages/NNlib/-----/src/conv.jl:83
 
-conv = DSP.conv # the ML folks will have to specialize in their modules... 
+const conv = DSP.conv # the ML folks will have to specialize in their modules... 
 export conv
 push!(overrides, :conv)
 
@@ -728,7 +843,7 @@ push!(overrides, :conv)
 # crossentropy(p::AbstractArray{<:Real}, q::AbstractArray{<:Real}) @ StatsBase ~/.julia/packages/StatsBase/-----/src/scalarstats.jl:799
 # crossentropy(p::AbstractArray{<:Real}, q::AbstractArray{<:Real}, b::Real) @ StatsBase ~/.julia/packages/StatsBase/-----/src/scalarstats.jl:818
 
-crossentropy = Flux.crossentropy
+const crossentropy = Flux.crossentropy
 export crossentropy
 push!(overrides, :crossentropy)
 
@@ -801,6 +916,10 @@ push!(overrides, :curvature)
 # degree(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/-----/src/core.jl:137
 # degree(g::AbstractGraph, v::Integer) @ Graphs ~/.julia/packages/Graphs/-----/src/core.jl:130
 # degree(g::AbstractGraph, vs) @ Graphs ~/.julia/packages/Graphs/-----/src/core.jl:137
+# degree(graph::DataGraphs.AbstractDataGraph, args...; kwargs...) @ DataGraphs ~/.julia/packages/DataGraphs/-----/src/abstractdatagraph.jl:101
+# degree(graph::DataGraphs.AbstractDataGraph, vertex::Integer) @ DataGraphs ~/.julia/packages/DataGraphs/-----/src/abstractdatagraph.jl:108
+# degree(graph::NamedGraphs.AbstractNamedGraph, vertex) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/abstractnamedgraph.jl:192
+# degree(graph::NamedGraphs.AbstractNamedGraph, vertex::Integer) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/abstractnamedgraph.jl:197
 # Methods for degree in package Polynomials
 # degree(p::AbstractPolynomial) @ Polynomials ~/.julia/packages/Polynomials/-----/src/common.jl:702
 # degree(p::P) where P<:FactoredPolynomial @ Polynomials ~/.julia/packages/Polynomials/-----/src/polynomials/factored_polynomial.jl:232
@@ -913,8 +1032,70 @@ differentiate(r, s) = TaylorSeries.differentiate(r, s)
 export differentiate
 push!(overrides, :differentiate)
 
+## :dim
+# Showing duplicate methods for dim in packages Module[Distributions, ITensors]
+# Methods for dim in package PDMats
+# dim(A::Cholesky) @ PDMats ~/.julia/packages/PDMats/-----/src/chol.jl:30
+# dim(a::AbstractMatrix) @ PDMats deprecated.jl:103
+# dim(d::InverseWishart) @ Distributions deprecated.jl:103
+# dim(d::LKJ) @ Distributions deprecated.jl:103
+# dim(d::MatrixBeta) @ Distributions deprecated.jl:103
+# dim(d::MatrixFDist) @ Distributions deprecated.jl:103
+# dim(d::Wishart) @ Distributions deprecated.jl:103
+# Methods for dim in package NDTensors
+# dim(::ITensors.OneITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/oneitensor.jl:10
+# dim(::Tuple{}) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:17
+# dim(H::Hermitian{<:Number, <:NDTensors.Tensor}, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/linearalgebra/symmetric.jl:6
+# dim(T::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:792
+# dim(T::ITensor, n::Int64) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:813
+# dim(T::NDTensors.Tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:95
+# dim(T::NDTensors.Tensor, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:96
+# dim(d::Vector{Int64}) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:9
+# dim(ds::NTuple{N, Int64} where N) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:23
+# dim(ds::NTuple{N, Int64} where N, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:25
+# dim(ds::NTuple{N, Vector{Int64}}) where N @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:50
+# dim(ds::NTuple{N, Vector{Int64}}, i::Integer) where N @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:30
+# dim(i::Index) @ ITensors ~/.julia/packages/ITensors/-----/src/index.jl:175
+# dim(i::Index{Vector{Pair{QN, Int64}}}) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnindex.jl:176
+# dim(i::Index{Vector{Pair{QN, Int64}}}, b::Block) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnindex.jl:290
+# dim(i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:58
+# dim(inds::Tuple) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:13
+# dim(is::IndexSetT, ind_dims::Vector) where IndexSetT<:Union{BitSet, Vector{Int64}} @ ITensors.ContractionSequenceOptimization ~/.julia/packages/ITensors/-----/src/lib/ContractionSequenceOptimization/src/utils.jl:64
+# dim(is::Tuple, pos::Integer) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:131
+# dim(is::Unsigned, ind_dims::Vector{DimT}) where DimT @ ITensors.ContractionSequenceOptimization ~/.julia/packages/ITensors/-----/src/lib/ContractionSequenceOptimization/src/utils.jl:72
+# dim(is::Vector{IndexT} where IndexT<:Index) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:111
+# dim(is::Vector{IndexT} where IndexT<:Index, pos::Int64) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:118
+# dim(na::NDTensors.NamedDimsArrays.AbstractNamedDimsArray) @ ITensors.ITensorsNamedDimsArraysExt ~/.julia/packages/ITensors/-----/src/lib/ITensorsNamedDimsArraysExt/src/index.jl:42
+# dim(qnblocks::Vector{Pair{QN, Int64}}) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnindex.jl:27
+# dim(qnv::Pair{QN, Int64}) @ ITensors ~/.julia/packages/ITensors/-----/src/nullspace.jl:115
+
+# marked as deprecated in PDMats
+const dim = ITensors.dim 
+export dim
+push!(overrides, :dim)
+
+## :eigs
+# Showing duplicate methods for eigs in packages Module[Arpack, ITensorMPS, ITensors]
+# Methods for eigs in package Arpack
+# eigs(A, B; kwargs...) @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:74
+# eigs(A::AbstractMatrix, B::AbstractMatrix; kwargs...) @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:60
+# eigs(A::AbstractMatrix{<:Union{Float32, Float64, ComplexF64, ComplexF32}}, ::UniformScaling; kwargs...) @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:51
+# eigs(A::AbstractMatrix{BigFloat}, B::AbstractMatrix...; kwargs...) @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:54
+# eigs(A::AbstractMatrix{BigFloat}, B::UniformScaling; kwargs...) @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:55
+# eigs(A::AbstractMatrix{T}, ::UniformScaling; kwargs...) where T @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:56
+# eigs(A::AbstractMatrix{T}, B::AbstractMatrix{T}; kwargs...) where T<:Union{Float32, Float64, ComplexF64, ComplexF32} @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:53
+# eigs(A; kwargs...) @ Arpack ~/.julia/packages/Arpack/-----/src/Arpack.jl:50
+# Methods for eigs in package NDTensors.RankFactorization
+# eigs(s::Spectrum) @ NDTensors.RankFactorization ~/.julia/packages/NDTensors/-----/src/lib/RankFactorization/src/spectrum.jl:11
+
+const eigs = Arpack.eigs 
+# @doc (@doc ITensors.eigs)
+# marked as internal
+export eigs
+push!(overrides, :eigs)
+
 ## :entropy
-# Showing duplicate methods for entropy in packages Module[Convex, Distributions, Images, StatsBase]
+# Showing duplicate methods for entropy in packages Module[Convex, Distributions, ITensorMPS, ITensors, Images, StatsBase]
 # Methods for entropy in package Convex
 # entropy(x::Convex.AbstractExpr) @ Convex ~/.julia/packages/Convex/-----/src/supported_operations.jl:602
 # Methods for entropy in package StatsBase
@@ -984,6 +1165,8 @@ push!(overrides, :differentiate)
 # entropy(o::NBClassifier) @ OnlineStats ~/.julia/packages/OnlineStats/-----/src/stats/nbclassifier.jl:153
 # entropy(p) @ StatsBase ~/.julia/packages/StatsBase/-----/src/scalarstats.jl:735
 # entropy(p, b::Real) @ StatsBase ~/.julia/packages/StatsBase/-----/src/scalarstats.jl:743
+# Methods for entropy in package NDTensors.RankFactorization
+# entropy(s::Spectrum) @ NDTensors.RankFactorization ~/.julia/packages/NDTensors/-----/src/lib/RankFactorization/src/spectrum.jl:14
 # Methods for entropy in package ImageQualityIndexes
 # entropy(img::AbstractArray; kind, nbins) @ ImageQualityIndexes ~/.julia/packages/ImageQualityIndexes/-----/src/entropy.jl:53
 # entropy(logᵦ::Log, img::AbstractArray{Bool}) where Log<:Function @ ImageQualityIndexes ~/.julia/packages/ImageQualityIndexes/-----/src/entropy.jl:62
@@ -998,6 +1181,7 @@ entropy(logᵦ::Function, img; nbins) = Images.entropy(logᵦ, img; nbins)
 entropy(img::AbstractArray; kind, nbins) = Images.entropy(img; kind, nbins)
 @doc (@doc Convex.entropy)
 entropy(x::Convex.AbstractExpr) = Convex.entropy(x)
+# NDTensors.entropy is marked as deprecated 
 export entropy  
 push!(overrides, :entropy)
 
@@ -1117,6 +1301,23 @@ evaluate(a::TaylorSeries.AbstractSeries, x, y) = TaylorSeries.evaluate(a, x, y)
 evaluate(a::Convex.AbstractExpr) = Convex.evaluate(a) 
 export evaluate
 push!(overrides, :evaluate)
+
+## :expand
+# Showing duplicate methods for expand in packages Module[ITensorMPS, Symbolics]
+# Methods for expand in package ITensorMPS
+# expand(::NDTensors.BackendSelection.Algorithm{:global_krylov}, state::MPS, operator::MPO; krylovdim, cutoff, apply_kwargs) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/expand.jl:146
+# expand(::NDTensors.BackendSelection.Algorithm{:orthogonalize}, state::MPS, references::Vector{MPS}; cutoff) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/expand.jl:74
+# expand(state, reference; alg, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/expand.jl:29
+# Methods for expand in package SymbolicUtils
+# expand(expr) @ SymbolicUtils ~/.julia/packages/SymbolicUtils/-----/src/polyform.jl:248
+# expand(n::Complex{Num}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/Symbolics.jl:179
+# expand(n::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/Symbolics.jl:179
+
+@doc (@doc ITensorMPS.expand)
+expand(state::MPS, reference; alg, kwargs...) = ITensorMPS.expand(state, reference; alg, kwargs...)
+@doc (@doc Symbolics.expand)
+expand(expr) = Symbolics.expand(expr)
+
 
 ## :fit
 # Showing duplicate methods for fit in packages Module[Distributions, MultivariateStats, Polynomials, StatsBase]
@@ -1294,6 +1495,9 @@ push!(overrides, :hamming)
 # has_vertex(g::Graphs.Test.GenericGraph, v) @ Graphs.Test ~/.julia/packages/Graphs/-----/src/Test/Test.jl:75
 # has_vertex(g::MetaGraphs.AbstractMetaGraph, x...) @ MetaGraphs ~/.julia/packages/MetaGraphs/-----/src/MetaGraphs.jl:71
 # has_vertex(g::VertexSafeGraphs.VSafeGraph, v) @ VertexSafeGraphs ~/.julia/packages/VertexSafeGraphs/-----/src/VertexSafeGraphs.jl:32
+# has_vertex(graph::DataGraphs.AbstractDataGraph, args...; kwargs...) @ DataGraphs ~/.julia/packages/DataGraphs/-----/src/abstractdatagraph.jl:101
+# has_vertex(graph::NamedGraphs.AbstractNamedGraph, vertex) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/abstractnamedgraph.jl:105
+# has_vertex(pg::NamedGraphs.PartitionedGraphs.AbstractPartitionedGraph, partitionvertex::NamedGraphs.PartitionedGraphs.AbstractPartitionVertex) @ NamedGraphs.PartitionedGraphs ~/.julia/packages/NamedGraphs/-----/src/lib/PartitionedGraphs/src/abstractpartitionedgraph.jl:75
 # has_vertex(x, v) @ Graphs ~/.julia/packages/Graphs/-----/src/interface.jl:247
 
 @doc (@doc DelaunayTriangulation.has_vertex)
@@ -1386,27 +1590,27 @@ push!(overrides, :integrate)
 ## :islinear
 # Showing duplicate methods for islinear in packages Module[DifferentialEquations, NonlinearSolve, StatsBase]
 # Methods for islinear in package SciMLOperators
-# islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:536
+# islinear(::AffineOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:539
 # islinear(::IdentityOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:33
 # islinear(::MatrixOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:102
-# islinear(::NullOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:126
-# islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4468
+# islinear(::NullOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:127
+# islinear(::SciMLBase.AbstractDiffEqFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4527
 # islinear(::SciMLOperators.AbstractSciMLOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:309
 # islinear(::SciMLOperators.AbstractSciMLScalarOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/scalar.jl:32
-# islinear(::SciMLOperators.BatchedDiagonalOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/batch.jl:98
+# islinear(::SciMLOperators.BatchedDiagonalOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/batch.jl:100
 # islinear(::Union{Number, Factorization, UniformScaling, AbstractMatrix}) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/interface.jl:311
 # islinear(L) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/operators/operators.jl:7
-# islinear(L::FunctionOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/func.jl:579
-# islinear(L::InvertibleOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:343
-# islinear(L::SciMLOperators.AddedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:418
+# islinear(L::FunctionOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/func.jl:590
+# islinear(L::InvertibleOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/matrix.jl:346
+# islinear(L::SciMLOperators.AddedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:471
 # islinear(L::SciMLOperators.AdjointOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/left.jl:77
-# islinear(L::SciMLOperators.ComposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:583
-# islinear(L::SciMLOperators.InvertedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:766
-# islinear(L::SciMLOperators.ScaledOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:250
+# islinear(L::SciMLOperators.ComposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:647
+# islinear(L::SciMLOperators.InvertedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:830
+# islinear(L::SciMLOperators.ScaledOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/basic.jl:259
 # islinear(L::SciMLOperators.TransposedOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/left.jl:78
 # islinear(L::TensorProductOperator) @ SciMLOperators ~/.julia/packages/SciMLOperators/-----/src/tensor.jl:117
-# islinear(f::ODEFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4469
-# islinear(f::SplitFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4470
+# islinear(f::ODEFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4528
+# islinear(f::SplitFunction) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/scimlfunctions.jl:4529
 # islinear(o::SciMLBase.AbstractDiffEqLinearOperator) @ SciMLBase ~/.julia/packages/SciMLBase/-----/src/operators/operators.jl:4
 # Methods for islinear in package StatsAPI
 islinear = DifferentialEquations.islinear
@@ -1694,6 +1898,65 @@ nan(::Type{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64} = DoubleFl
 export nan
 push!(overrides, :nan)
 
+## :nnz
+# Showing duplicate methods for nnz in packages Module[ITensors, SparseArrays]
+# Methods for nnz in package NDTensors
+# nnz(::NDTensors.EmptyStorage) @ NDTensors ~/.julia/packages/NDTensors/-----/src/empty/empty.jl:66
+# nnz(S::NDTensors.TensorStorage) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensorstorage/tensorstorage.jl:101
+# nnz(T::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:855
+# nnz(T::NDTensors.Tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensor/tensor.jl:310
+# nnz(bofs::Dictionaries.Dictionary{Block{N}, Int64} where N, inds) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockoffsets.jl:60
+# Methods for nnz in package SparseArrays
+# nnz(A::SparseArrays.CHOLMOD.Sparse{<:Union{Float32, Float64, ComplexF64, ComplexF32}, Int32}) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:601
+# nnz(A::SparseArrays.CHOLMOD.Sparse{<:Union{Float32, Float64, ComplexF64, ComplexF32}, Int64}) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:601
+# nnz(F::SparseArrays.CHOLMOD.Factor) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/ julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:1268
+# nnz(K::KLU.AbstractKLUFactorization) @ KLU ~/.julia/packages/KLU/-----/src/KLU.jl:187
+# nnz(LDL::LDLFactorizations.LDLFactorization) @ LDLFactorizations ~/.julia/packages/LDLFactorizations/-----/src/LDLFactorizations.jl:883
+# nnz(S::Base.ReshapedArray{<:Any, 1, <:SparseArrays.AbstractSparseMatrixCSC}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:219
+# nnz(S::LowerTriangular{<:Any, <:SparseArrays.AbstractSparseMatrixCSC}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:222
+# nnz(S::SparseArrays.AbstractSparseMatrixCSC) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:218
+# nnz(S::SparseMatrixColorings.SparsityPatternCSC) @ SparseMatrixColorings ~/.julia/packages/SparseMatrixColorings/-----/src/graph.jl:30
+# nnz(S::SubArray{Tv, 2, <:SparseArrays.AbstractSparseMatrixCSC{Tv, Ti}, Tuple{Base.Slice{Base.OneTo{Int64}}, I}} where {Tv, Ti, I<:(AbstractVector{<:Integer})}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:223
+# nnz(S::Union{Adjoint{var"#s15", var"#s14"}, Transpose{var"#s15", var"#s14"}} where {var"#s15", var"#s14"<:SparseArrays.AbstractSparseMatrixCSC}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:220
+# nnz(S::UpperTriangular{<:Any, <:SparseArrays.AbstractSparseMatrixCSC}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:221
+# nnz(a::NDTensors.SparseArrayInterface.AbstractSparseArray) @ NDTensors.SparseArrayInterface ~/.julia/packages/NDTensors/-----/src/lib/SparseArrayInterface/src/abstractsparsearray/SparseArrayInterfaceSparseArraysExt.jl:6
+# nnz(lu::SparseArrays.UMFPACK.UmfpackLU) @ SparseArrays.UMFPACK /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/umfpack.jl:938
+# nnz(x::SparseArrays.AbstractCompressedVector) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:114
+# nnz(x::SubArray{Tv, 1, <:AbstractSparseVector{Tv, Ti}, <:Tuple{AbstractUnitRange}, false} where {Tv, Ti}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:120
+# nnz(x::SubArray{Tv, 1, <:AbstractSparseVector{Tv, Ti}, Tuple{Base.Slice{Base.OneTo{Int64}}}, false} where {Tv, Ti}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:119
+# nnz(x::SubArray{Tv, 1, <:SparseArrays.AbstractSparseMatrixCSC{Tv, Ti}, Tuple{Base.Slice{Base.OneTo{Int64}}, Int64}, false} where {Tv, Ti}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:115
+
+import SparseArrays: nnz
+# explicitly expand the nnz function for ITensors... 
+@doc (@doc NDTensors.nnz)
+nnz(v::NDTensors.EmptyStorage) = NDTensors.nnz(v)
+nnz(v::NDTensors.TensorStorage) = NDTensors.nnz(v)
+nnz(v::ITensor) = ITensors.nnz(v)
+nnz(v::NDTensors.Tensor) = NDTensors.nnz(v)
+nnz(v::NDTensors.Dictionaries.Dictionary{Block{N}, Int64} where N, inds) = NDTensors.nnz(v, inds)
+export nnz
+push!(overrides, :nnz)
+
+
+## :onehot
+# Showing duplicate methods for onehot in packages Module[Flux, ITensors]
+# Methods for onehot in package OneHotArrays
+# onehot(x, labels) @ OneHotArrays ~/.julia/packages/OneHotArrays/-----/src/onehot.jl:31
+# onehot(x, labels, default) @ OneHotArrays ~/.julia/packages/OneHotArrays/-----/src/onehot.jl:37
+# Methods for onehot in package ITensors
+# onehot(datatype::Type{<:AbstractArray}, ivs::Pair{<:Index}...) @ ITensors.ITensorsSiteTypesExt ~/.julia/packages/ITensors/-----/src/lib/ITensorsSiteTypesExt/src/ITensorsSiteTypesExt.jl:74
+# onehot(eltype::Type{<:Number}, ivs::Pair{<:Index}...) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:558
+# onehot(eltype::Type{<:Number}, ivs::Vector{<:Pair{<:Index}}) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:561
+# onehot(ivs::Pair{<:Index}...) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:568
+# onehot(ivs::Vector{<:Pair{<:Index}}) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:571
+## :order
+# Showing duplicate methods for order in packages Module[DataFrames, ITensors, RDatasets]
+# Methods for order in package DataFrames
+# order(col::T; kwargs...) where T<:Union{AbstractString, Signed, Symbol, Unsigned} @ DataFrames ~/.julia/packages/DataFrames/-----/src/abstractdataframe/sort.jl:70
+# Methods for order in package ITensors
+# order(T::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:781
+const order = DataFrames.order 
+
 ## :orthogonal
 # Showing duplicate methods for orthogonal in packages Module[Flux, ReinforcementLearning]
 # Methods for orthogonal in package Flux
@@ -1828,6 +2091,56 @@ params(x::BenchmarkTools.Trial) = BenchmarkTools.params(x)
 export params
 push!(overrides, :params)
 
+## :permute
+# Showing duplicate methods for permute in packages Module[ITensors, SparseArrays]
+# Methods for permute in package ITensors
+# permute(M::AbstractMPS, ::Tuple{typeof(linkind), typeof(siteinds), typeof(linkind)}) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/dmrg.jl:7
+# permute(T::ITensor, new_inds...; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/permutations.jl:38
+# permute(as::NDTensors.AliasStyle, T::ITensor, new_inds) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/permutations.jl:72
+# permute(as::NDTensors.AliasStyle, T::ITensor, new_inds::Index...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/permutations.jl:77
+# permute(is1::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where IndexT<:Index, is2::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where IndexT<:Index) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:654
+# Methods for permute in package SparseArrays
+# permute(A::SparseArrays.AbstractSparseMatrixCSC{Tv, Ti}, p::AbstractVector{<:Integer}, q::AbstractVector{<:Integer}) where {Tv, Ti} @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:1749
+
+import ITensors: permute
+@doc (@doc SparseArrays.permute)
+permute(A::SparseArrays.AbstractSparseMatrix, p::AbstractVector{<:Integer}, q::AbstractVector{<:Integer}) = SparseArrays.permute(A, p, q)
+export permute
+push!(overrides, :permute)
+
+## :pop
+# Showing duplicate methods for pop in packages Module[ITensors, StaticArrays]
+# Methods for pop in package ITensors
+# pop(is::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where IndexT<:Index) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:742
+# Methods for pop in package StaticArrays
+# pop(vec::NDTensors.SmallVectors.AbstractSmallVector) @ NDTensors.SmallVectors ~/.julia/packages/NDTensors/-----/src/lib/SmallVectors/src/abstractsmallvector/deque.jl:57
+# pop(vec::StaticArray{Tuple{N}, T, 1} where {N, T}) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/deque.jl:97
+
+@doc (@doc ITensors.pop)
+pop(is::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where {IndexT <: Index}) = ITensors.pop(is)
+@doc (@doc StaticArrays.pop)
+pop(vec::NDTensors.SmallVectors.AbstractSmallVector) = StaticArrays.pop(vec)
+pop(vec::StaticArray{Tuple{N}, T, 1} where {N, T}) = StaticArrays.pop(vec)
+export pop
+push!(overrides, :pop)
+
+
+## :popfirst
+# Showing duplicate methods for popfirst in packages Module[ITensors, StaticArrays]
+# Methods for popfirst in package ITensors
+# popfirst(is::Vector{IndexT} where IndexT<:Index) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:753
+# Methods for popfirst in package StaticArrays
+# popfirst(vec::NDTensors.SmallVectors.AbstractSmallVector) @ NDTensors.SmallVectors ~/.julia/packages/NDTensors/-----/src/lib/SmallVectors/src/abstractsmallvector/deque.jl:82
+# popfirst(vec::StaticArray{Tuple{N}, T, 1} where {N, T}) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/deque.jl:120
+
+@doc (@doc ITensors.popfirst)
+popfirst(is::Vector{IndexT}) where {IndexT <: Index} = ITensors.popfirst(is)
+@doc (@doc StaticArrays.popfirst)
+popfirst(vec::NDTensors.SmallVectors.AbstractSmallVector) = StaticArrays.popfirst(vec)
+popfirst(vec::StaticArray{Tuple{N}, T, 1} where {N, T}) = StaticArrays.popfirst(vec)
+export popfirst
+push!(overrides, :popfirst)
+
 ## :probs
 # Showing duplicate methods for probs in packages Module[Distributions, OnlineStats]
 # Methods for probs in package Distributions
@@ -1857,6 +2170,40 @@ export probs
 push!(overrides, :probs)
 
 
+## :product
+# Showing duplicate methods for product in packages Module[ITensorMPS, ITensors, IterTools]
+# Methods for product in package ITensors
+# product(A1::MPO, A2::MPO, A3::MPO, As::MPO...; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:897
+# product(A::ITensor, B::ITensor; apply_dag) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:580
+# product(A::ITensorMPS.AbstractSum, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractprojmpo/projmposum.jl:46
+# product(A::MPO, B::MPO; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:892
+# product(A::MPO, ψ::MPS; alg, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:600
+# product(As::Vector{<:ITensor}, B::ITensor; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:629
+# product(As::Vector{ITensor}, ψ::AbstractMPS; move_sites_back_between_gates, move_sites_back, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:2239
+# product(P::ITensorMPS.AbstractProjMPO, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractprojmpo/abstractprojmpo.jl:70
+# product(P::ITensorMPS.ProjMPS, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractprojmpo/projmps.jl:36
+# product(P::ITensorNetworks.AbstractProjTTN, v::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/abstractprojttn.jl:81
+# product(P::ITensorNetworks.ProjTTNSum, v::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/projttnsum.jl:47
+# product(P::ProjMPO_MPS, v::ITensor) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractprojmpo/projmpo_mps.jl:33
+# product(alg::NDTensors.BackendSelection.Algorithm, A::MPO, ψ::MPS; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:604
+# product(o, ψ::ITensorNetworks.AbstractITensorNetwork; envs, normalize, ortho, nfullupdatesweeps, print_fidelity_loss, envisposdef, singular_values!, variational_optimization_only, symmetrize, reduced, apply_kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/apply.jl:184
+# product(o, ψ::ITensorNetworks.VidalITensorNetwork; normalize, apply_kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/apply.jl:318
+# product(o::ITensor, ψ::AbstractMPS, ns; move_sites_back, apply_dag, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:2106
+# product(o::ITensor, ψ::AbstractMPS; ...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:2106
+# product(o::Op, ψ::ITensorNetworks.AbstractITensorNetwork; normalize, ortho, apply_kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/apply.jl:290
+# product(o::Prod{ITensor}, v::ITensor; kwargs...) @ ITensors.ITensorsOpsExt ~/.julia/packages/ITensors/-----/src/lib/ITensorsOpsExt/src/ITensorsOpsExt.jl:68
+# product(o::Prod{ITensor}, ψ::AbstractMPS; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:2272
+# product(o⃗::Prod, ψ::ITensorNetworks.AbstractITensorNetwork; normalize, ortho, apply_kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/apply.jl:280
+# product(o⃗::Scaled, ψ::ITensorNetworks.AbstractITensorNetwork; cutoff, normalize, ortho, apply_kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/apply.jl:268
+# product(o⃗::Vector{ITensor}, ψ::ITensorNetworks.AbstractITensorNetwork; normalize, ortho, apply_kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/apply.jl:254
+# product(tn1::ITensorNetworks.AbstractTreeTensorNetwork, tn2::ITensorNetworks.AbstractTreeTensorNetwork; init, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/solvers/contract.jl:75
+# Methods for product in package IterTools
+# product(xss...) @ IterTools deprecated.jl:103
+
+using ITensors: product
+export product
+push!(overrides, :product)
+
 ## :properties
 # Showing duplicate methods for properties in packages Module[Images, IterTools]
 # Methods for properties in package ImageMetadata
@@ -1870,6 +2217,22 @@ properties(x) = IterTools.properties(x)
 export properties
 push!(overrides, :properties)
 
+## :push
+# Showing duplicate methods for push in packages Module[ITensors, StaticArrays]
+# Methods for push in package ITensors
+# push(is::Vector{IndexT} where IndexT<:Index, i::Index) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:764
+# Methods for push in package StaticArrays
+# push(vec::NDTensors.SmallVectors.AbstractSmallVector, item) @ NDTensors.SmallVectors ~/.julia/packages/NDTensors/-----/src/lib/SmallVectors/src/abstractsmallvector/deque.jl:46
+# push(vec::StaticArray{Tuple{N}, T, 1} where {N, T}, x) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/deque.jl:16
+
+@doc (@doc ITensors.push)
+push(is::Vector{IndexT}, i::IndexT) where {IndexT <: Index} = ITensors.push(is, i)
+@doc (@doc StaticArrays.push)
+push(vec::NDTensors.SmallVectors.AbstractSmallVector, item) = StaticArrays.push(vec, item)
+push(vec::StaticArray{Tuple{N}, T, 1} where {N, T}, x) = StaticArrays.push(vec, x)
+export push
+push!(overrides, :push)
+
 ## :radius
 # Showing duplicate methods for radius in packages Module[GeometryBasics, Graphs]
 # Methods for radius in package GeometryBasics
@@ -1879,6 +2242,10 @@ push!(overrides, :properties)
 # radius(eccentricities::Vector) @ Graphs ~/.julia/packages/Graphs/-----/src/distance.jl:167
 # radius(g::AbstractGraph) @ Graphs ~/.julia/packages/Graphs/-----/src/distance.jl:168
 # radius(g::AbstractGraph, distmx::AbstractMatrix) @ Graphs ~/.julia/packages/Graphs/-----/src/distance.jl:168
+# radius(graph::DataGraphs.AbstractDataGraph, args...; kwargs...) @ DataGraphs ~/.julia/packages/DataGraphs/-----/src/abstractdatagraph.jl:101
+# radius(graph::NamedGraphs.AbstractNamedGraph) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/distance.jl:53
+# radius(graph::NamedGraphs.AbstractNamedGraph, distmx) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/distance.jl:53
+# radius(graph::NamedGraphs.AbstractNamedGraph, distmx::AbstractMatrix) @ NamedGraphs ~/.julia/packages/NamedGraphs/-----/src/distance.jl:58
 @doc (@doc GeometryBasics.radius)
 radius(x::Cylinder) = GeometryBasics.radius(x)
 radius(x::HyperSphere) = GeometryBasics.radius(x)
@@ -1985,6 +2352,97 @@ rotate!(::Type{T}, t::Makie.Transformable, y...) where T = Makie.rotate!(T, t, y
 export rotate!
 push!(overrides, :rotate!)
 
+## :sample
+# Showing duplicate methods for sample in packages Module[Clustering, Distributions, ITensorMPS, StatsBase]
+# Methods for sample in package StatsBase
+# sample(::AbstractRNG, geom::Meshes.Geometry, method::Meshes.RegularSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/regular.jl:26
+# sample(::DummySampler, t) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:23
+# sample(::EpisodesSampler, t::EpisodesBuffer, names) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:286
+# sample(a::AbstractArray) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:472
+# sample(a::AbstractArray, dims::NTuple{N, Int64} where N; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:572
+# sample(a::AbstractArray, n::Integer; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:551
+# sample(a::AbstractArray, wv::AbstractWeights) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:606
+# sample(a::AbstractArray, wv::AbstractWeights, dims::NTuple{N, Int64} where N; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:1019
+# sample(a::AbstractArray, wv::AbstractWeights, n::Integer; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:1012
+# sample(domain::Meshes.Domain, size::Int64, weights; kwargs...) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:80
+# sample(domain::Meshes.Domain, size::Int64; ...) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:80
+# sample(geom::Meshes.Geometry, method::Meshes.FibonacciSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/fibonacci.jl:30
+# sample(m::MultiBatchSampler, t) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:151
+# sample(object, method::Meshes.SamplingMethod) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:19
+# sample(rng::AbstractRNG, a::AbstractArray) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:471
+# sample(rng::AbstractRNG, a::AbstractArray, wv::AbstractWeights) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:605
+# sample(rng::AbstractRNG, a::AbstractArray{T}, dims::NTuple{N, Int64} where N; replace, ordered) where T @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:568
+# sample(rng::AbstractRNG, a::AbstractArray{T}, n::Integer; replace, ordered) where T @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:547
+# sample(rng::AbstractRNG, a::AbstractArray{T}, wv::AbstractWeights, dims::NTuple{N, Int64} where N; replace, ordered) where T @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:1016
+# sample(rng::AbstractRNG, a::AbstractArray{T}, wv::AbstractWeights, n::Integer; replace, ordered) where T @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:1009
+# sample(rng::AbstractRNG, ball::Meshes.Ball, method::Meshes.HomogeneousSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/homogeneous.jl:59
+# sample(rng::AbstractRNG, d::Meshes.Domain, method::Meshes.HomogeneousSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/homogeneous.jl:19
+# sample(rng::AbstractRNG, d::Meshes.Domain, method::Meshes.MinDistanceSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/mindistance.jl:41
+# sample(rng::AbstractRNG, domain::Meshes.Domain, size::Int64, weights; kwargs...) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:82
+# sample(rng::AbstractRNG, domain::Meshes.Domain, size::Int64; ...) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:82
+# sample(rng::AbstractRNG, g::Meshes.Geometry, method::Meshes.ContinuousSamplingMethod) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:59
+# sample(rng::AbstractRNG, geom::Meshes.Geometry, method::Meshes.HomogeneousSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/homogeneous.jl:32
+# sample(rng::AbstractRNG, grid::Meshes.RegularGrid{M, C, N} where {M<:Meshes.𝔼, C<:Union{CoordRefSystems.Cartesian, CoordRefSystems.Projected}, N}, method::Meshes.RegularSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/regular.jl:90
+# sample(rng::AbstractRNG, object, method::Meshes.DiscreteSamplingMethod) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling.jl:30
+# sample(rng::AbstractRNG, tetrahedron::Meshes.Tetrahedron, method::Meshes.HomogeneousSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/homogeneous.jl:55
+# sample(rng::AbstractRNG, triangle::Meshes.Triangle, method::Meshes.HomogeneousSampling) @ Meshes ~/.julia/packages/Meshes/-----/src/sampling/homogeneous.jl:45
+# sample(rng::AbstractRNG, wv::AbstractWeights) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:590
+# sample(s::BatchSampler, e::EpisodesBuffer{<:Any, <:Any, <:CircularPrioritizedTraces}, names) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:73
+# sample(s::BatchSampler, nt::NormalizedTraces, names) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/normalization.jl:194
+# sample(s::BatchSampler, nt::NormalizedTraces, names, weights) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/normalization.jl:194
+# sample(s::BatchSampler, t::CircularPrioritizedTraces, names) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:82
+# sample(s::BatchSampler, t::EpisodesBuffer, names) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:56
+# sample(s::BatchSampler, t::ReinforcementLearningTrajectories.AbstractTraces, names) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:51
+# sample(s::BatchSampler, t::ReinforcementLearningTrajectories.AbstractTraces, names, weights) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:51
+# sample(s::BatchSampler{names}, t::ReinforcementLearningTrajectories.AbstractTraces) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:49
+# sample(s::BatchSampler{nothing}, t::CircularPrioritizedTraces) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:71
+# sample(s::BatchSampler{nothing}, t::ReinforcementLearningTrajectories.AbstractTraces) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:48
+# sample(s::EpisodesSampler{names}, t::EpisodesBuffer) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:279
+# sample(s::EpisodesSampler{nothing}, t::EpisodesBuffer) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:278
+# sample(s::MetaSampler, t) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:115
+# sample(s::MultiStepSampler, t::EpisodesBuffer, ::Val{names}) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:342
+# sample(s::MultiStepSampler{names}, e::EpisodesBuffer{<:Any, <:Any, <:CircularPrioritizedTraces}) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:360
+# sample(s::MultiStepSampler{names}, ts) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:338
+# sample(s::NStepBatchSampler, t::EpisodesBuffer, ::Val{names}) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:213
+# sample(s::NStepBatchSampler{names}, e::EpisodesBuffer{<:Any, <:Any, <:CircularPrioritizedTraces}) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:245
+# sample(s::NStepBatchSampler{names}, ts) where names @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/samplers.jl:209
+# sample(t::Trajectory) @ ReinforcementLearningTrajectories ~/.julia/packages/ReinforcementLearningTrajectories/-----/src/trajectory.jl:123
+# sample(wv::AbstractWeights) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:603
+# Methods for sample in package ITensorMPS
+# sample(M::MPO) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:987
+# sample(m::MPS) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mps.jl:644
+# sample(rng::AbstractRNG, M::MPO) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:991
+# sample(rng::AbstractRNG, m::MPS) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mps.jl:648
+
+@doc (@doc StatsBase.sample)
+sample(args...) = StatsBase.sample(args...)
+@doc (@doc ITensorMPS.sample)
+sample(M::MPO) = ITensorMPS.sample(M)
+sample(m::MPS) = ITensorMPS.sample(m)
+sample(rng::AbstractRNG, M::MPO) = ITensorMPS.sample(rng, M)
+sample(rng::AbstractRNG, m::MPS) = ITensorMPS.sample(rng, m)
+export sample
+push!(overrides, :sample)
+
+## :sample!
+# Showing duplicate methods for sample! in packages Module[Clustering, Distributions, ITensorMPS, StatsBase]
+# Methods for sample! in package StatsBase
+# sample!(a::AbstractArray, wv::AbstractWeights, x::AbstractArray; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:1005
+# sample!(a::AbstractArray, x::AbstractArray; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:530
+# sample!(rng::AbstractRNG, a::AbstractArray, wv::AbstractWeights, x::AbstractArray; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:975
+# sample!(rng::AbstractRNG, a::AbstractArray, x::AbstractArray; replace, ordered) @ StatsBase ~/.julia/packages/StatsBase/-----/src/sampling.jl:492
+# Methods for sample! in package ITensorMPS
+# sample!(m::MPS) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mps.jl:625
+# sample!(rng::AbstractRNG, m::MPS) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mps.jl:629
+
+@doc (@doc StatsBase.sample!)
+sample!(args...) = StatsBase.sample!(args...)
+@doc (@doc ITensorMPS.sample!)
+sample!(m::MPS) = ITensorMPS.sample!(m)
+sample!(rng::AbstractRNG, m::MPS) = ITensorMPS.sample!(rng, m)
+export sample!
+push!(overrides, :sample!)
+
 ## :scale
 # Showing duplicate methods for scale in packages Module[Distributions, Interpolations]
 # Methods for scale in package Distributions
@@ -2032,7 +2490,7 @@ export scale
 push!(overrides, :scale)
 
 ## :scale!
-# Showing duplicate methods for scale! in packages Module[CairoMakie, Distributions]
+# Showing duplicate methods for scale! in packages Module[CairoMakie, Distributions, ITensors]
 # Methods for scale! in package Makie
 # scale!(::Type{T}, l::RectLight, s) where T @ Makie ~/.julia/packages/Makie/-----/src/lighting.jl:201
 # scale!(l::RectLight, x::Real, y::Real) @ Makie ~/.julia/packages/Makie/-----/src/lighting.jl:213
@@ -2041,6 +2499,11 @@ push!(overrides, :scale)
 # scale!(t::MakieCore.Transformable, xyz...) @ Makie ~/.julia/packages/Makie/-----/src/layouting/transformation.jl:94
 # Methods for scale! in package Distributions
 # scale!(::Type{D}, s::Symbol, m::AbstractVector, S::AbstractMatrix, Σ::AbstractMatrix) where D<:AbstractMvLogNormal @ Distributions ~/.julia/packages/Distributions/-----/src/multivariate/mvlognormal.jl:112
+# Methods for scale! in package NDTensors
+# scale!(S::NDTensors.TensorStorage, v::Number) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensorstorage/tensorstorage.jl:83
+# scale!(T::ITensor, α::Number) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:1948
+# scale!(T::NDTensors.Tensor, α::Number) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensor/tensor.jl:246
+
 @doc (@doc Distributions.scale!)
 scale!(::Type{D}, s::Symbol, m::AbstractVector, S::AbstractMatrix, Σ::AbstractMatrix) where D = Distributions.scale!(D, s, m, S, Σ)
 @doc (@doc Makie.scale!)
@@ -2048,6 +2511,10 @@ scale!(x::Makie.Transformable, y...) = Makie.scale!(x, y...)
 scale!(t::RectLight, xy) = Makie.scale!(t, xy)
 scale!(t::RectLight, x, y) = Makie.scale!(t, x, y)
 scale!(::Type{T}, t::RectLight, s) where T = Makie.scale!(T, t, )
+@doc (@doc ITensors.scale!)
+scale!(T::ITensor, α::Number) = ITensors.scale!(T, α)
+scale!(S::NDTensors.TensorStorage, v::Number) = NDTensors.scale!(S, v)
+scale!(T::NDTensors.Tensor, α::Number) = NDTensors.scale!(T, α)
 export scale!
 push!(overrides, :scale!)
 
@@ -2086,11 +2553,12 @@ push!(overrides, :shape)
 # Methods for solve! in package CommonSolve
 # solve!(P::Roots.ZeroProblemIterator; verbose) @ Roots ~/.julia/packages/Roots/-----/src/find_zero.jl:443
 # solve!(P::Roots.ZeroProblemIterator{𝑴, 𝑵, 𝑭, 𝑺, 𝑶, 𝑳}; verbose) where {𝑴<:Bisection, 𝑵, 𝑭, 𝑺, 𝑶<:ExactOptions, 𝑳} @ Roots ~/.julia/packages/Roots/-----/src/Bracketing/bisection.jl:172
-# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqFIRK.FIRKCacheExpand) @ BoundaryValueDiffEq.BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqFIRK/src/firk.jl:303
-# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqFIRK.FIRKCacheNested) @ BoundaryValueDiffEq.BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqFIRK/src/firk.jl:329
-# solve!(cache::BoundaryValueDiffEq.BoundaryValueDiffEqMIRK.MIRKCache) @ BoundaryValueDiffEq.BoundaryValueDiffEqMIRK ~/.julia/packages/BoundaryValueDiffEq/eyGpq/lib/BoundaryValueDiffEqMIRK/src/mirk.jl:134
+# solve!(cache::BoundaryValueDiffEqFIRK.FIRKCacheExpand) @ BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEqFIRK/-----/src/firk.jl:303
+# solve!(cache::BoundaryValueDiffEqFIRK.FIRKCacheNested) @ BoundaryValueDiffEqFIRK ~/.julia/packages/BoundaryValueDiffEqFIRK/-----/src/firk.jl:329
+# solve!(cache::BoundaryValueDiffEqMIRK.MIRKCache) @ BoundaryValueDiffEqMIRK ~/.julia/packages/BoundaryValueDiffEqMIRK/-----/src/mirk.jl:134
+# solve!(cache::LineSearch.BackTrackingCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/backtracking.jl:91
 # solve!(cache::LineSearch.LiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/li_fukushima.jl:96
-# solve!(cache::LineSearch.LineSearchesJLCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/line_searches_ext.jl:128
+# solve!(cache::LineSearch.LineSearchesJLCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/line_searches_ext.jl:98
 # solve!(cache::LineSearch.NoLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/no_search.jl:19
 # solve!(cache::LineSearch.RobustNonMonotoneLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/robust_non_monotone.jl:90
 # solve!(cache::LineSearch.StaticLiFukushimaLineSearchCache, u, du) @ LineSearch ~/.julia/packages/LineSearch/-----/src/li_fukushima.jl:136
@@ -2102,20 +2570,21 @@ push!(overrides, :shape)
 # solve!(cache::LinearSolve.LinearCache, alg::FastQRFactorization{P}; kwargs...) where P @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:1290
 # solve!(cache::LinearSolve.LinearCache, alg::KLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:895
 # solve!(cache::LinearSolve.LinearCache, alg::KrylovJL; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/iterative_wrappers.jl:227
+# solve!(cache::LinearSolve.LinearCache, alg::KrylovKitJL; kwargs...) @ LinearSolveKrylovKitExt ~/.julia/packages/LinearSolve/kvJAY/ext/LinearSolveKrylovKitExt.jl:24
 # solve!(cache::LinearSolve.LinearCache, alg::LUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:79
 # solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.AbstractFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/LinearSolve.jl:151
-# solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.DefaultLinearSolver, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/default.jl:356
+# solve!(cache::LinearSolve.LinearCache, alg::LinearSolve.DefaultLinearSolver, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/default.jl:358
 # solve!(cache::LinearSolve.LinearCache, alg::LinearSolveFunction, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/solve_function.jl:6
 # solve!(cache::LinearSolve.LinearCache, alg::MKLLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/mkl.jl:213
 # solve!(cache::LinearSolve.LinearCache, alg::NormalBunchKaufmanFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:1172
 # solve!(cache::LinearSolve.LinearCache, alg::NormalCholeskyFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:1118
-# solve!(cache::LinearSolve.LinearCache, alg::Nothing, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/default.jl:298
+# solve!(cache::LinearSolve.LinearCache, alg::Nothing, args...; assump, kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/default.jl:300
 # solve!(cache::LinearSolve.LinearCache, alg::RFLUFactorization{P, T}; kwargs...) where {P, T} @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:1031
 # solve!(cache::LinearSolve.LinearCache, alg::SimpleGMRES; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/simplegmres.jl:148
 # solve!(cache::LinearSolve.LinearCache, alg::SimpleLUFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/simplelu.jl:133
 # solve!(cache::LinearSolve.LinearCache, alg::SparspakFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:1373
 # solve!(cache::LinearSolve.LinearCache, alg::UMFPACKFactorization; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/factorization.jl:816
-# solve!(cache::LinearSolve.LinearCache, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/common.jl:273
+# solve!(cache::LinearSolve.LinearCache, args...; kwargs...) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/common.jl:267
 # solve!(cache::LinearSolve.SimpleGMRESCache{false}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/simplegmres.jl:220
 # solve!(cache::LinearSolve.SimpleGMRESCache{true}, lincache::LinearSolve.LinearCache) @ LinearSolve ~/.julia/packages/LinearSolve/-----/src/simplegmres.jl:450
 # solve!(cache::NonlinearSolve.AbstractNonlinearSolveCache) @ NonlinearSolve ~/.julia/packages/NonlinearSolve/-----/src/core/generic.jl:11
@@ -2126,7 +2595,7 @@ push!(overrides, :shape)
 # solve!(integ::DiffEqBase.NullODEIntegrator) @ DiffEqBase ~/.julia/packages/DiffEqBase/-----/src/solve.jl:643
 # solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/-----/src/solve.jl:545
 # solve!(integrator::JumpProcesses.SSAIntegrator) @ JumpProcesses ~/.julia/packages/JumpProcesses/-----/src/SSA_stepper.jl:120
-# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/-----/src/solve.jl:544
+# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/-----/src/solve.jl:547
 # solve!(integrator::StochasticDiffEq.SDEIntegrator) @ StochasticDiffEq ~/.julia/packages/StochasticDiffEq/-----/src/solve.jl:611
 # solve!(integrator::Sundials.AbstractSundialsIntegrator; early_free, calculate_error) @ Sundials ~/.julia/packages/Sundials/-----/src/common_interface/solve.jl:1406
 # solve!(𝐙::Roots.ZeroProblemIterator{𝐌, 𝐍}; verbose) where {𝐌, 𝐍<:AbstractBracketingMethod} @ Roots ~/.julia/packages/Roots/-----/src/hybrid.jl:30
@@ -2232,9 +2701,80 @@ export square
 push!(overrides, :square)
 
 ## :state
-# Showing duplicate methods for state in packages Module[Flux, ReinforcementLearning]
+# Showing duplicate methods for state in packages Module[Flux, ITensorMPS, ReinforcementLearning]
 # Methods for state in package Flux
 # state(x) @ Flux ~/.julia/packages/Flux/-----/src/loading.jl:173
+# Methods for state in package ITensors.SiteTypes
+# state(::StateName, ::SiteType, ::Index; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:559
+# state(::StateName, ::SiteType; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:558
+# state(::StateName{+}, ::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:53
+# state(::StateName{-i}, ::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:56
+# state(::StateName{-}, ::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:54
+# state(::StateName{0}, ::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:51
+# state(::StateName{0}, st::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:73
+# state(::StateName{0}, st::SiteType{Fermion}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/fermion.jl:69
+# state(::StateName{0}, st::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:41
+# state(::StateName{0}, st::SiteType{tJ}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/tj.jl:67
+# state(::StateName{1}, ::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:52
+# state(::StateName{1}, st::SiteType{Fermion}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/fermion.jl:70
+# state(::StateName{Dn}, ::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:71
+# state(::StateName{Dn}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:38
+# state(::StateName{Dn}, ::SiteType{tJ}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/tj.jl:66
+# state(::StateName{Dn}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:58
+# state(::StateName{Emp}, ::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:69
+# state(::StateName{Emp}, ::SiteType{Fermion}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/fermion.jl:67
+# state(::StateName{Emp}, ::SiteType{tJ}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/tj.jl:64
+# state(::StateName{N}, ::SiteType{Qudit}, s::Index) where N @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qudit.jl:31
+# state(::StateName{Occ}, ::SiteType{Fermion}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/fermion.jl:68
+# state(::StateName{Tetra1}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:79
+# state(::StateName{Tetra2}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:80
+# state(::StateName{Tetra3}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:84
+# state(::StateName{Tetra4}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:88
+# state(::StateName{UpDn}, ::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:72
+# state(::StateName{Up}, ::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:70
+# state(::StateName{Up}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:36
+# state(::StateName{Up}, ::SiteType{tJ}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/tj.jl:65
+# state(::StateName{Up}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:57
+# state(::StateName{X+}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:48
+# state(::StateName{X+}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:63
+# state(::StateName{X-}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:50
+# state(::StateName{X-}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:65
+# state(::StateName{X0}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:49
+# state(::StateName{Xm}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:66
+# state(::StateName{Xp}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:64
+# state(::StateName{Y+}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:52
+# state(::StateName{Y+}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:68
+# state(::StateName{Y-}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:54
+# state(::StateName{Y-}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:70
+# state(::StateName{Y0}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:53
+# state(::StateName{Ym}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:71
+# state(::StateName{Yp}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:69
+# state(::StateName{Z+}, st::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:44
+# state(::StateName{Z+}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:73
+# state(::StateName{Z-}, st::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:46
+# state(::StateName{Z-}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:75
+# state(::StateName{Z0}, ::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:37
+# state(::StateName{Zm}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:76
+# state(::StateName{Zp}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:74
+# state(::StateName{i}, ::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:55
+# state(::StateName{↑}, st::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:74
+# state(::StateName{↑}, st::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:40
+# state(::StateName{↑}, st::SiteType{tJ}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/tj.jl:68
+# state(::StateName{↑}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:59
+# state(::StateName{↑↓}, st::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:76
+# state(::StateName{↓}, st::SiteType{Electron}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/electron.jl:75
+# state(::StateName{↓}, st::SiteType{S=1}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:42
+# state(::StateName{↓}, st::SiteType{tJ}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/tj.jl:69
+# state(::StateName{↓}, t::SiteType{Qubit}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/qubit.jl:60
+# state(name::StateName, ::SiteType{S=½}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinhalf.jl:64
+# state(name::StateName, ::SiteType{SpinHalf}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinhalf.jl:52
+# state(name::StateName, st::SiteType{SpinOne}) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinone.jl:136
+# state(s::Index, n::Integer) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:636
+# state(s::Index, name::AbstractString; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:595
+# state(sn::StateName, ::SiteType{S=1/2}; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinhalf.jl:41
+# state(sn::StateName, st::SiteType{Boson}, s::Index; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/boson.jl:19
+# state(sn::String, i::Index; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:563
+# state(sset::Vector{<:Index}, j::Integer, st; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:638
 # Methods for state in package ReinforcementLearningBase
 # state(::RockPaperScissorsEnv, ::Observation, ::AbstractPlayer) @ ReinforcementLearningEnvironments ~/.julia/packages/ReinforcementLearningEnvironments/-----/src/environments/examples/RockPaperScissorsEnv.jl:40
 # state(env::AbstractEnv) @ ReinforcementLearningBase ~/.julia/packages/ReinforcementLearningBase/-----/src/interface.jl:519
@@ -2278,7 +2818,22 @@ push!(overrides, :square)
 # state(env::TinyHanabiEnv, ::InformationSet, player::Player) @ ReinforcementLearningEnvironments ~/.julia/packages/ReinforcementLearningEnvironments/-----/src/environments/examples/TinyHanabiEnv.jl:90
 # state(x::AbstractEnvWrapper, args...; kwargs...) @ ReinforcementLearningEnvironments ~/.julia/packages/ReinforcementLearningEnvironments/-----/src/environments/wrappers/wrappers.jl:17
 
-state = ReinforcementLearning.state # Method for state in package ReinforcementLearningBase
+# TODO: how to unify with tensor state, ugh... 
+# state(s::Index, n::Integer) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:636
+# state(s::Index, name::AbstractString; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:595
+# state(sn::StateName, ::SiteType{S=1/2}; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/spinhalf.jl:41
+# state(sn::StateName, st::SiteType{Boson}, s::Index; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetypes/boson.jl:19
+# state(sn::String, i::Index; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:563
+# state(sset::Vector{<:Index}, j::Integer, st; kwargs...) @ ITensors.SiteTypes ~/.julia/packages/ITensors/-----/src/lib/SiteTypes/src/sitetype.jl:638
+@doc (@doc ITensors.state)
+state(s::StateName, n::SiteType, i::Index; kwargs...) = ITensors.state(s, n, i; kwargs...)
+state(s::StateName, n::SiteType; kwargs...) = ITensors.state(s, n; kwargs...)
+state(s::String, i::Index; kwargs...) = ITensors.state(s, n; kwargs...)
+state(s::Index, n::Integer) = ITensors.state(s, n)
+state(s::Index, name::AbstractString) = ITensors.state(s, name)
+state(sset::Vector{<:Index}, j::Integer, st; kwargs...) = ITensors.state(sset, j, st; kwargs...)
+@doc (@doc ReinforcementLearning.state)
+state(x::AbstractEnvWrapper, args...; kwargs...) = ReinforcementLearning.state(x, args...; kwargs...)
 export state
 push!(overrides, :state)
 
@@ -2397,6 +2952,22 @@ trim!(gl::Makie.GridLayout) = Makie.trim!(gl)
 export trim!
 push!(overrides, :trim!)
 
+## :truncate!
+# Showing duplicate methods for truncate! in packages Module[ITensorMPS, Polynomials]
+# Methods for truncate! in package NDTensors
+# truncate!(::NDTensors.BackendSelection.Algorithm{:frobenius}, M::AbstractMPS; site_range, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:1680
+# truncate!(M::AbstractMPS; alg, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/abstractmps.jl:1676
+# truncate!(P::AbstractVector; mindim, maxdim, cutoff, use_absolute_cutoff, use_relative_cutoff) @ NDTensors ~/.julia/packages/NDTensors/-----/src/truncate.jl:23
+# Methods for truncate! in package Polynomials
+# truncate!(p::AbstractPolynomial; kwargs...) @ Polynomials ~/.julia/packages/Polynomials/-----/src/common.jl:319
+
+@doc (@doc ITensorMPS.truncate!)
+#truncate!(::NDTensors.BackendSelection.Algorithm{:frobenius}, M::AbstractMPS; site_range, kwargs...) = ITensorMPS.truncate!(NDTensors.BackendSelection.Algorithm{:frobenius}(), M; site_range, kwargs...)
+truncate!(M::AbstractMPS; kwargs...) = ITensorMPS.truncate!(M; kwargs...)
+truncate!(P::AbstractVector; kwargs...) = ITensorMPS.truncate!(P; kwargs...)
+@doc (@doc Polynomials.truncate!)
+truncate!(p::AbstractPolynomial; kwargs...) = Polynomials.truncate!(p; kwargs...)
+
 ## :unit
 # Showing duplicate methods for unit in packages Module[GeometryBasics, Unitful]
 # Methods for unit in package GeometryBasics
@@ -2431,7 +3002,8 @@ push!(overrides, :unit)
 # Showing duplicate methods for update! in packages Module[DataStructures, Flux, ProgressMeter, TaylorSeries]
 # Methods for update! in package DataStructures
 # update!(h::MutableBinaryHeap{T}, i::Int64, v) where T @ DataStructures ~/.julia/packages/DataStructures/-----/src/heaps/mutable_binary_heap.jl:255
-# update!(pt::JumpProcesses.PriorityTable, pid, oldpriority, newpriority) @ JumpProcesses ~/.julia/packages/JumpProcesses/-----/src/aggregators/prioritytable.jl:186
+# update!(pt::JumpProcesses.PriorityTable, pid, oldpriority, newpriority) @ JumpProcesses ~/.julia/packages/JumpProcesses/-----/src/aggregators/prioritytable.jl:192
+# update!(ptt::JumpProcesses.PriorityTimeTable{T, F}, pid, oldtime, newtime) where {T, F} @ JumpProcesses ~/.julia/packages/JumpProcesses/-----/src/aggregators/prioritytable.jl:453
 # Methods for update! in package Optimisers
 # update!(opt, model::Chain, grads::Tuple) @ Flux ~/.julia/packages/Flux/-----/src/deprecations.jl:94
 # update!(opt::Flux.Optimise.AbstractOptimiser, ::Zygote.Params, grads::Union{Tuple, NamedTuple}) @ Flux ~/.julia/packages/Flux/-----/src/deprecations.jl:107
@@ -2576,6 +3148,7 @@ push!(overrides, :volume)
 # weights(g::MetaGraphs.AbstractMetaGraph) @ MetaGraphs ~/.julia/packages/MetaGraphs/-----/src/MetaGraphs.jl:236
 # weights(g::SimpleWeightedDiGraph) @ SimpleWeightedGraphs ~/.julia/packages/SimpleWeightedGraphs/-----/src/simpleweighteddigraph.jl:138
 # weights(g::SimpleWeightedGraph) @ SimpleWeightedGraphs ~/.julia/packages/SimpleWeightedGraphs/-----/src/simpleweightedgraph.jl:166
+# weights(graph::ITensorNetworks.AbstractITensorNetwork) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/abstractitensornetwork.jl:59
 # Methods for weights in package StatsAPI
 # weights(f::LinearDiscriminant) @ MultivariateStats ~/.julia/packages/MultivariateStats/-----/src/lda.jl:121
 # weights(lfr::LsqFit.LsqFitResult) @ LsqFit ~/.julia/packages/LsqFit/-----/src/curve_fit.jl:14
@@ -2617,10 +3190,40 @@ write_to_file(p::Convex.Problem, filename::String) = Convex.write_to_file(p, fil
 export write_to_file
 push!(overrides, :write_to_file)
 
+## :δ
+# Showing duplicate methods for δ in packages Module[Graphs, ITensors]
+# Methods for δ in package Graphs
+# δ(g) @ Graphs ~/.julia/packages/Graphs/-----/src/core.jl:178
+# Methods for delta in package ITensors
+# delta(::Type{ElT}, flux::QN, inds::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where IndexT<:Index) where ElT<:Number @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnitensor.jl:518
+# delta(::Type{ElT}, flux::QN, is...) where ElT<:Number @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnitensor.jl:525
+# delta(::Type{ElT}, inds::Union{Tuple{Vararg{Index{Vector{Pair{QN, Int64}}}}}, Vector{Index{Vector{Pair{QN, Int64}}}}}) where ElT<:Number @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnitensor.jl:533
+# delta(eltype::Type{<:Number}, is...) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:550
+# delta(eltype::Type{<:Number}, is::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where IndexT<:Index) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:546
+# delta(flux::QN, inds::Union{Tuple{Vararg{IndexT}}, Vector{IndexT}} where IndexT<:Index) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnitensor.jl:529
+# delta(flux::QN, is...) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnitensor.jl:531
+# delta(inds::Union{Tuple{Vararg{Index{Vector{Pair{QN, Int64}}}}}, Vector{Index{Vector{Pair{QN, Int64}}}}}) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnitensor.jl:537
+# delta(is...) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:554
+
+# This one should go to ITensors. No one uses delta for min degree...
+using ITensors: δ
+export δ
+push!(overrides, :δ)
+
 ## :⊕
-# Showing duplicate methods for ⊕ in packages Module[DoubleFloats, LinearMaps]
+# Showing duplicate methods for ⊕ in packages Module[DoubleFloats, ITensors, LinearMaps]
 # Methods for ⊕ in package DoubleFloats
 # ⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} @ DoubleFloats ~/.julia/packages/DoubleFloats/-----/src/math/ops/arith.jl:47
+# Methods for directsum in package ITensors
+# directsum(A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}, C_and_K::Pair{ITensor}, itensor_and_inds...; tags) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:423
+# directsum(A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:467
+# directsum(i::Index, j::Index, k::Index, inds::Index...; tags) @ ITensors ~/.julia/packages/ITensors/-----/src/index.jl:554
+# directsum(i::Index, j::Index; tags) @ ITensors ~/.julia/packages/ITensors/-----/src/index.jl:553
+# directsum(i::Index{Vector{Pair{QN, Int64}}}, j::Index{Vector{Pair{QN, Int64}}}; tags) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnindex.jl:398
+# directsum(output_inds::Nothing, A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}, C_and_K::Pair{ITensor}, itensor_and_inds...; tags) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:433
+# directsum(output_inds::Nothing, A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:471
+# directsum(output_inds::Union{Tuple{Vararg{IndexT}} where IndexT<:Index, Index, Vector{IndexT} where IndexT<:Index}, A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}, C_and_K::Pair{ITensor}, itensor_and_inds...; tags) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:450
+# directsum(output_inds::Union{Tuple{Vararg{IndexT}} where IndexT<:Index, Index, Vector{IndexT} where IndexT<:Index}, A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}; kwargs...) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:477
 # Methods for ⊕ in package LinearMaps
 # ⊕(a, b, c...) @ LinearMaps ~/.julia/packages/LinearMaps/-----/src/kronecker.jl:420
 # ⊕(k::Integer) @ LinearMaps ~/.julia/packages/LinearMaps/-----/src/kronecker.jl:418
@@ -2628,6 +3231,8 @@ push!(overrides, :write_to_file)
 @doc (@doc getfield(LinearMaps, :⊕))
 ⊕(k::Integer) = LinearMaps.⊕(k)
 ⊕(A,B,Cs...) = LinearMaps.⊕(A,B,Cs...)
+@doc (@doc getfield(ITensors, :⊕))
+
 @doc (@doc getfield(DoubleFloats, :⊕))
 ⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊕(x, y)
 export ⊕
@@ -2663,9 +3268,19 @@ push!(overrides, :⊕)
 export ⊗
 push!(overrides, :⊗)
 
-##-Unused overrides
-#=
-## :order
-order = DataFrames.order 
+## :⊙
+# Showing duplicate methods for ⊙ in packages Module[ColorVectorSpace, ITensors, Images]
+# Methods for hadamard in package TensorCore
+# hadamard(A::AbstractArray, B::AbstractArray) @ TensorCore ~/.julia/packages/TensorCore/-----/src/TensorCore.jl:34
+# hadamard(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) @ ColorVectorSpace ~/.julia/packages/ColorVectorSpace/-----/src/ColorVectorSpace.jl:255
+# hadamard(a::Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}, b::Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) @ ColorVectorSpace ~/.julia/packages/ColorVectorSpace/-----/src/ColorVectorSpace.jl:262
+# Methods for ⊙ in package ITensors
+# ⊙(A::ITensor, B::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:232
 
-=#
+@doc (@doc getfield(ITensors, :⊙))
+⊙(A::ITensor, B::ITensor) = ITensors.⊙(A,B)
+@doc (@doc getfield(ColorVectorSpace, :⊙))
+⊙(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) = ColorVectorSpace.hadamard(a,b)
+⊙(a::AbstractArray, b::AbstractArray) = TensorCore.hadamard(a,b)
+
+##-Unused overrides

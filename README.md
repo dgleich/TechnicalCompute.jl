@@ -34,6 +34,7 @@ Topics (and the packages that support them)
   * Applied Math Functions: [`SpecialFunctions.jl`](https://github.com/JuliaMath/SpecialFunctions.jl)
   * Matrices and Linear Algebra: [`LinearAlgebra.jl`](https://github.com/JuliaLang/julia/tree/master/stdlib/LinearAlgebra), [`Arpack.jl`](https://github.com/JuliaLinearAlgebra/Arpack.jl), [`Krylov.jl`](https://github.com/Jutho/Krylov.jl), [`LinearMaps.jl`](https://github.com/Jutho/LinearMaps.jl), [`MatrixMarket.jl`](https://github.com/JuliaSparse/MatrixMarket.jl), [`SuiteSparseMatrixCollection.jl`](https://github.com/JuliaSmoothOptimizers/SuiteSparseMatrixCollection.jl)
   * High-accuracy: [`DoubleFloats.jl`](https://github.com/JuliaMath/DoubleFloats.jl), [`MultiFloats.jl`](https://github.com/dzhang314/MultiFloats.jl), [`KahanSummation.jl`](https://github.com/JuliaMath/KahanSummation.jl)
+  * Tensor methods: [`ITensors.jl`](https://github.com/ITensor/ITensors.jl), [`ITensorMPS.jl`](https://github.com/ITensor/ITensorMPS.jl) [`ITensorNetworks.jl`](https://github.com/ITensor/ITensorNetworks.jl)
 * Optimization and Operations Research
   * Modeling: [`JuMP.jl`](https://github.com/jump-dev/JuMP.jl) for Linear Programs and Nonlinear Problems 
   * and associated solvers [`Ipopt.jl`](https://github.com/jump-dev/Ipopt.jl), [`HiGHS.jl`](https://github.com/jump-dev/HiGHS.jl), [`GLPK.jl`](https://github.com/jump-dev/GLPK.jl), [`Tulip.jl`](https://github.com/ds4dm/Tulip.jl),  (and [`Clp.jl`](https://github.com/jump-dev/Clp.jl) where supported)

@@ -644,6 +644,45 @@ end
   @test nnz(M) == busmat[1,"nnz"]
 end
 
+@testset "ITensor" begin 
+  i = IT.Index(4,"i")
+  j = IT.Index(4,"j")
+  k = IT.Index(4,"k")
+  l = IT.Index(4,"l")
+  T = IT.random_itensor(i,j,k,l)
+  U,S,V = svd(T,i,k)   # compute SVD with (i,k) as row indices (indices of U)
+  @test hasinds(U,i,k) # = true
+  @test hasinds(V,j,l) # = true
+  @test T ≈ U*S*V      # = true
+end 
+
+@testset "ITensorMPS" begin 
+  @test begin 
+    d = 2
+    N = 5
+    A = randn(d,d,d,d,d)
+    sites = siteinds(d,N)
+    cutoff = 1E-8
+    maxdim = 10
+    M = MPS(A,sites;cutoff=cutoff,maxdim=maxdim)
+    return true
+  end 
+end 
+
+@testset "ITensorNetworks" begin 
+  @test begin 
+    Random.seed!(ITensors.index_id_rng(), 1234);
+    tn = ITensorNetwork(path_graph(4); link_space=2)
+    tn[1]
+    tn[2]
+    neighbors(tn, 1)
+    neighbors(tn, 2)
+    neighbors(tn, 3)
+    neighbors(tn, 4)
+    return true 
+  end 
+end 
+
 @testset "MeshIO" begin 
   @test begin 
     mesh = load(Makie.assetpath("cat.obj"))

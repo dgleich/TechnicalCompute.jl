@@ -142,6 +142,10 @@ packages = [
 "Krylov",
 "MatrixMarket",
 "SuiteSparseMatrixCollection",
+# Tensors
+"ITensors",
+"ITensorMPS",
+"ITensorNetworks",
 # Meshes, MeshIO
 #"Meshes",
 "MeshIO", 
@@ -199,6 +203,10 @@ end
 @reexport import ParserCombinator
 # LineSearches.jl seems to be on the way out, replaced by LineSearch included in NonlinearSolve.jl
 @reexport import LineSearches
+# ITensors is a big ecosystem with a lot of overlapping names
+# @reexport import ITensors
+const IT = ITensors
+export IT 
 
 # these are specialized packages... 
 @reexport import UnicodePlots
@@ -231,16 +239,16 @@ end
 # |__/                              |
 # """
 const logo="""
-\x1b[32m_\x1b[0m
-_____         _           \x1b[31m_\x1b[32m(_)\x1b[35m_\x1b[0m       _ _____                             _       
+                             \x1b[32m_\x1b[0m
+ _____         _           \x1b[31m_\x1b[32m(_)\x1b[35m_\x1b[0m       _ _____                             _       
 |_   _|       | |         \x1b[31m(_) \x1b[35m(_)\x1b[0m     | /  __ \\ ...batteries included...  | |      
-| | ___  ___| |__  _ __  _  ___ __ _| | /  \\/ ___  _ __ ___  _ __  _   _| |_ ___ 
-| |/ _ \\/ __| '_ \\| '_ \\| |/ __/ _` | | |    / _ \\| '_ ` _ \\| '_ \\| | | | __/ _ \\
-| |  __/ (__| | | | | | | | (_| (_| | | \\__/\\ (_) | | | | | | |_) | |_| | ||  __/
-|_|\\___|\\___|_| |_|_| |_|_|\\___\\__'_|_|\\____/\\___/|_| |_| |_| '__/ \\__'_|\\__\\___|
-\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[0m| |  Version $(pkgversion(TechnicalCompute))
-\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[0m|_|  on Julia $(VERSION) 
-"""      
+  | | ___  ___| |__  _ __  _  ___ __ _| | /  \\/ ___  _ __ ___  _ __  _   _| |_ ___ 
+  | |/ _ \\/ __| '_ \\| '_ \\| |/ __/ _` | | |    / _ \\| '_ ` _ \\| '_ \\| | | | __/ _ \\
+  | |  __/ (__| | | | | | | | (_| (_| | | \\__/\\ (_) | | | | | | |_) | |_| | ||  __/
+  |_|\\___|\\___|_| |_|_| |_|_|\\___\\__'_|_|\\____/\\___/|_| |_| |_| '__/ \\__'_|\\__\\___|
+      \x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[0m| |  Version $(pkgversion(TechnicalCompute))
+      \x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[0m|_|  on Julia $(VERSION) 
+"""       
 function __init__()
   if isinteractive() && get(ENV, "JULIA_TECHNICALCOMPUTE_SHOW_BANNER", "1") != "0" && _show_banner
     println(logo)
