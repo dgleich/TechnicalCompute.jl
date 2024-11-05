@@ -1,8 +1,9 @@
 # We don't automatically detect conflicts with Base
 # Aqua.jl will report conflicts with base as undefined exports
 
-Text = Makie.Text
-export Text
+# No point in doing this as Base already exports it... 
+# const Text = Makie.Text
+# export Text
 
 # Julia 1.10 includes tanpi, but many functions haven't added it yet.
 # this is type piracy, but it fixes a broader problem. 

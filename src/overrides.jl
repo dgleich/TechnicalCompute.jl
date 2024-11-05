@@ -1929,11 +1929,11 @@ push!(overrides, :nan)
 import SparseArrays: nnz
 # explicitly expand the nnz function for ITensors... 
 @doc (@doc NDTensors.nnz)
-nnz(v::NDTensors.EmptyStorage) = NDTensors.nnz(v)
-nnz(v::NDTensors.TensorStorage) = NDTensors.nnz(v)
-nnz(v::ITensor) = ITensors.nnz(v)
-nnz(v::NDTensors.Tensor) = NDTensors.nnz(v)
-nnz(v::NDTensors.Dictionaries.Dictionary{Block{N}, Int64} where N, inds) = NDTensors.nnz(v, inds)
+SparseArrays.nnz(v::NDTensors.EmptyStorage) = NDTensors.nnz(v)
+SparseArrays.nnz(v::NDTensors.TensorStorage) = NDTensors.nnz(v)
+SparseArrays.nnz(v::ITensor) = ITensors.nnz(v)
+SparseArrays.nnz(v::NDTensors.Tensor) = NDTensors.nnz(v)
+SparseArrays.nnz(v::NDTensors.Dictionaries.Dictionary{Block{N}, Int64} where N, inds) = NDTensors.nnz(v, inds)
 export nnz
 push!(overrides, :nnz)
 
@@ -2104,7 +2104,7 @@ push!(overrides, :params)
 
 import ITensors: permute
 @doc (@doc SparseArrays.permute)
-permute(A::SparseArrays.AbstractSparseMatrix, p::AbstractVector{<:Integer}, q::AbstractVector{<:Integer}) = SparseArrays.permute(A, p, q)
+ITensors.permute(A::SparseArrays.AbstractSparseMatrix, p::AbstractVector{<:Integer}, q::AbstractVector{<:Integer}) = SparseArrays.permute(A, p, q)
 export permute
 push!(overrides, :permute)
 
@@ -3232,6 +3232,11 @@ push!(overrides, :δ)
 ⊕(k::Integer) = LinearMaps.⊕(k)
 ⊕(A,B,Cs...) = LinearMaps.⊕(A,B,Cs...)
 @doc (@doc getfield(ITensors, :⊕))
+⊕(A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}, C_and_K::Pair{ITensor}, itensor_and_inds...; tags) = ITensors.directsum(A_and_I, B_and_J, C_and_K, itensor_and_inds...; tags)
+⊕(A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}; kwargs...) = ITensors.directsum(A_and_I, B_and_J; kwargs...)
+⊕(i::Index, j::Index, k::Index, inds::Index...; tags) = ITensors.directsum(i, j, k, inds...; tags)
+⊕(i::Index, j::Index; tags) = ITensors.directsum(i, j; tags)
+⊕(i::Index{Vector{Pair{QN, Int64}}}, j::Index{Vector{Pair{QN, Int64}}}; tags) = ITensors.directsum(i, j; tags)
 
 @doc (@doc getfield(DoubleFloats, :⊕))
 ⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊕(x, y)
@@ -3281,6 +3286,6 @@ push!(overrides, :⊗)
 ⊙(A::ITensor, B::ITensor) = ITensors.⊙(A,B)
 @doc (@doc getfield(ColorVectorSpace, :⊙))
 ⊙(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) = ColorVectorSpace.hadamard(a,b)
-⊙(a::AbstractArray, b::AbstractArray) = TensorCore.hadamard(a,b)
+⊙(a::AbstractArray, b::AbstractArray) = ColorVectorSpace.TensorCore.hadamard(a,b)
 
 ##-Unused overrides

@@ -321,9 +321,90 @@ end
 @testset "groupby" begin 
 end 
 
+@testset "delta" begin 
+  @test array(δ(Index(5, "x"))) == ones(5)
+  @test array(δ(Index(5, "x"), Index(5, "y"))) == Matrix(1.0I,5,5)
+end 
+
+@testset "directsum" begin 
+
+  a = rand(3,3)
+  @test Matrix(LinearMap(a)^⊕(2)) == kron(a,Matrix(1.0I,3,3)) + kron(Matrix(1.0I,3,3),a)
+
+  a = rand(3,3)
+  b = rand(4,4)
+  @test Matrix(a ⊕ b) == kron(a,Matrix(1.0I,4,4)) + kron(Matrix(1.0I,3,3),b)
+
+  @test begin 
+    x = Index(1, "x")
+    i1 = Index(2, "i1")
+    j1 = Index(3, "j1")
+    i2 = Index(4, "i2")
+    j2 = Index(5, "j2")
+
+    A1 = random_itensor(x, i1)
+    A2 = random_itensor(x, i2)
+    S, s = directsum(A1 => i1, A2 => i2)
+    return true
+  end
+
+  x = Index(2, "x")
+  i1 = Index(3, "i1")
+  j1 = Index(4, "j1")
+  i2 = Index(5, "i2")
+  j2 = Index(6, "j2")
+
+  A1 = random_itensor(x, i1)
+  A2 = random_itensor(x, i2)
+  S, s = directsum(A1 => i1, A2 => i2)
+
+  @test 5.0 ⊕ 5.0 == 10.0
+end 
+
+@testset "tensor" begin 
+  a = rand(10)
+  b = rand(10)
+  @test vec(Matrix(b ⊗ a)) == vec(a*b')
+
+  @test vec(Matrix(LinearMap(a)^(⊗(2)))) == vec(a*a')
+
+  r = colorant"red"
+  b = colorant"blue"
+  @test typeof(r ⊗ b) <: RGBRGB
+
+  @test 5.0 ⊗ 5.0 == 25.0
+end 
+
+@testset "hadamard" begin 
+  @test begin 
+    i = Index(2, "i")
+    A = random_itensor(i', i)
+    B = random_itensor(i', i)
+    C = A ⊙ B
+    @test array(A) .* array(B) ≈ array(C)
+  end 
+
+  r = colorant"red"
+  b = colorant"blue"
+  @test r ⊙ b == colorant"black"
+
+  A = rand(3,3,3)
+  B = rand(3,3,3)
+  @test A .* B ≈ A ⊙ B
+
+end 
+
+@testset "Text" begin 
+  @test typeof(text(rand(Point2f), text="Hello, World!").plot) <: Makie.Text 
+end 
+
 @testset "tanpi" begin 
   x = DoubleFloat(rand()) 
   y = rand(Float64)
   @test tanpi(x) ≈ tan(pi*x)
   @test tanpi(y) ≈ tan(pi*y)
+end 
+
+@testset "axes" begin 
+  @test axes([1,2,3]) == 1:3
 end 
