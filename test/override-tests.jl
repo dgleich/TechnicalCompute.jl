@@ -329,7 +329,7 @@ end
 @testset "directsum" begin 
 
   a = rand(3,3)
-  @test Matrix(LinearMap(a)^⊕(2)) == kron(a,Matrix(1.0I,3,3)) + kron(Matrix(1.0I,3,3),a)
+  @test Matrix(LinearMap(a)^(⊕(2))) == kron(a,Matrix(1.0I,3,3)) + kron(Matrix(1.0I,3,3),a)
 
   a = rand(3,3)
   b = rand(4,4)
@@ -376,13 +376,11 @@ end
 end 
 
 @testset "hadamard" begin 
-  @test begin 
-    i = Index(2, "i")
-    A = random_itensor(i', i)
-    B = random_itensor(i', i)
-    C = A ⊙ B
-    @test array(A) .* array(B) ≈ array(C)
-  end 
+  i = Index(2, "i")
+  A = random_itensor(i', i)
+  B = random_itensor(i', i)
+  C = A ⊙ B
+  @test array(A) .* array(B) ≈ array(C)
 
   r = colorant"red"
   b = colorant"blue"
@@ -406,5 +404,5 @@ end
 end 
 
 @testset "axes" begin 
-  @test axes([1,2,3]) == 1:3
+  @test axes([1,2,3])[1] == 1:3
 end 

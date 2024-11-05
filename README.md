@@ -1,9 +1,31 @@
 TechnicalCompute.jl
 ===================
 
+[![Build Status](https://github.com/dgleich/TechnicalCompute.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/dgleich/TechnicalCompute.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/dgleich/TechnicalCompute.jl/graph/badge.svg?token=FTFCSVKE1H)](https://codecov.io/gh/dgleich/TechnicalCompute.jl)
+[![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
 This package is a meta-package for a wide variety of commonly used Julia packages. It is
 designed to make it easy to include one package that handles the diversity of technical
 computing requirements for an undergraduate degree.
+
+## Installing and using
+
+`TechnicalCompute.jl` creates an integrated environment by assembling a number of pieces together. This requires careful coordination and so we recommend installing `TechnicalCompute.jl` in a shared environment in Julia rather than your main environment. 
+
+*From the command line*
+    ] activate --shared TC 
+    ] add TechnicalCompute
+
+*As easy REPL cut and paste*
+    import Pkg; Pkg.activate("TC"; shared=true); Pkg.add("TechnicalCompute");
+
+**Then to use it**
+
+*From the REPL*
+    import PKG; Pkg.activate("TC"; shared=true); using TechnicalCompute
+
+    
 
 Topics (and the packages that support them)
 * Data and IO

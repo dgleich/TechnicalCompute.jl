@@ -3228,9 +3228,11 @@ push!(overrides, :δ)
 # ⊕(a, b, c...) @ LinearMaps ~/.julia/packages/LinearMaps/-----/src/kronecker.jl:420
 # ⊕(k::Integer) @ LinearMaps ~/.julia/packages/LinearMaps/-----/src/kronecker.jl:418
 
-@doc (@doc getfield(LinearMaps, :⊕))
-⊕(k::Integer) = LinearMaps.⊕(k)
-⊕(A,B,Cs...) = LinearMaps.⊕(A,B,Cs...)
+const _linearmaps_directsum = getfield(LinearMaps, :⊕)
+@doc (@doc _linearmaps_directsum)
+⊕(k::Integer) = _linearmaps_directsum(k)
+⊕(A,B,Cs...) = _linearmaps_directsum(A,B,Cs...)
+
 @doc (@doc getfield(ITensors, :⊕))
 ⊕(A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}, C_and_K::Pair{ITensor}, itensor_and_inds...; tags) = ITensors.directsum(A_and_I, B_and_J, C_and_K, itensor_and_inds...; tags)
 ⊕(A_and_I::Pair{ITensor}, B_and_J::Pair{ITensor}; kwargs...) = ITensors.directsum(A_and_I, B_and_J; kwargs...)
@@ -3238,8 +3240,9 @@ push!(overrides, :δ)
 ⊕(i::Index, j::Index; tags) = ITensors.directsum(i, j; tags)
 ⊕(i::Index{Vector{Pair{QN, Int64}}}, j::Index{Vector{Pair{QN, Int64}}}; tags) = ITensors.directsum(i, j; tags)
 
-@doc (@doc getfield(DoubleFloats, :⊕))
-⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊕(x, y)
+const _doublefloats_directsum = getfield(DoubleFloats, :⊕)
+@doc (@doc _doublefloats_directsum)
+⊕(x::T, y::T) where T<:Union{Float16, Float32, Float64} = _doublefloats_directsum(x, y)
 export ⊕
 push!(overrides, :⊕)
 
@@ -3262,14 +3265,18 @@ push!(overrides, :⊕)
 # ⊗(k::Integer) @ LinearMaps ~/.julia/packages/LinearMaps/-----/src/kronecker.jl:134
 
 # This ignores images, which also exports it's function under tensor. 
-@doc (@doc getfield(LinearMaps, :⊗))
-⊗(k::Integer) = LinearMaps.⊗(k)
-⊗(A,B,Cs...) = LinearMaps.⊗(A,B,Cs...)
-@doc (@doc getfield(DoubleFloats, :⊗))
+const _linearmaps_tensor = getfield(LinearMaps, :⊗)
+@doc (@doc _linearmaps_tensor)
+⊗(k::Integer) = _linearmaps_tensor(k)
+⊗(A,B,Cs...) = _linearmaps_tensor(A,B,Cs...)
+
+@doc (@doc getfield(ColorVectorSpace, :⊗))
 ⊗(a::AbstractRGB, b::AbstractRGB) = ColorVectorSpace.tensor(a,b)
 ⊗(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) = ColorVectorSpace.tensor(a,b)
-@doc (@doc getfield(DoubleFloats, :⊗))
-⊗(x::T, y::T) where T<:Union{Float16, Float32, Float64} = DoubleFloats.⊗(x, y)
+
+const _doublefloats_tensor = getfield(DoubleFloats, :⊗)
+@doc (@doc _doublefloats_tensor)
+⊗(x::T, y::T) where T<:Union{Float16, Float32, Float64} = _doublefloats_tensor(x, y)
 export ⊗
 push!(overrides, :⊗)
 
@@ -3282,10 +3289,14 @@ push!(overrides, :⊗)
 # Methods for ⊙ in package ITensors
 # ⊙(A::ITensor, B::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/tensor_operations/tensor_algebra.jl:232
 
-@doc (@doc getfield(ITensors, :⊙))
-⊙(A::ITensor, B::ITensor) = ITensors.⊙(A,B)
+const _itensors_hadamard = getfield(ITensors, :⊙)
+@doc (@doc _itensors_hadamard)
+⊙(A::ITensor, B::ITensor) = _itensors_hadamard(A,B)
 @doc (@doc getfield(ColorVectorSpace, :⊙))
 ⊙(a::C, b::C) where C<:(Union{TransparentColor{C, T}, C} where {T, C<:Union{AbstractRGB{T}, AbstractGray{T}}}) = ColorVectorSpace.hadamard(a,b)
 ⊙(a::AbstractArray, b::AbstractArray) = ColorVectorSpace.TensorCore.hadamard(a,b)
+export ⊙
+push!(overrides, :⊙)
+
 
 ##-Unused overrides
