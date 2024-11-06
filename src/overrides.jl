@@ -3033,7 +3033,7 @@ update!(p::Union{ProgressMeter.Progress,ProgressMeter.ProgressUnknown,ProgressMe
 update!(p::Union{ProgressMeter.Progress,ProgressMeter.ProgressUnknown,ProgressMeter.ProgressThresh}; options...) = ProgressMeter.update!(p; options...)
 @doc (@doc Flux.update!)
 update!(opt, model::Chain, grads::Tuple) = Flux.update!(opt, model, grads)
-update!(opt:Flux.Optimise.AbstractOptimiser, model::Chain, grads::Tuple) = Flux.update!(opt, model, grads)
+update!(opt::Flux.Optimise.AbstractOptimiser, model::Chain, grads::Tuple) = Flux.update!(opt, model, grads)
 update!(opt::Flux.Optimise.AbstractOptimiser, args...) = Flux.update!(opt, args...)
 @doc (@doc TaylorSeries.update!)
 update!(a::Union{TaylorSeries.Taylor1,TaylorN}, x0) = TaylorSeries.update!(a, x0)
