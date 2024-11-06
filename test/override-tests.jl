@@ -321,6 +321,230 @@ end
 @testset "groupby" begin 
 end 
 
+@testset "statistics" begin 
+end
+
+@testset "trim" begin 
+  @test collect(trim([1,100,2,3,4];count=1)) == [2,3,4]
+  @test begin 
+    p =  @benchmark rand() samples=1 evals=5 seconds=0.01
+    trim(p)
+    trim(p,0.25)
+    return true 
+  end 
+end 
+
+@testset "trim!" begin 
+
+  @test trim!([1,100,2,3,4];count=1) == [2,3,4]
+  @test begin 
+    f = Figure();
+    trim!(f.layout)
+    return true
+  end 
+end 
+
+@testset "truncate!" begin 
+  p = Polynomial([1, eps(1.0), 3, 4])
+  truncate!(p)
+  @test p == Polynomial([1, 0, 3, 4])
+
+  @test begin 
+    d = 2
+    N = 5
+    A = randn(d,d,d,d,d)
+    sites = siteinds(d,N)
+    cutoff = 1E-8
+    maxdim = 10
+    M = MPS(A,sites;cutoff=cutoff,maxdim=maxdim)
+    truncate!(M)
+    return true 
+  end 
+
+  @test begin 
+    truncate!([1.0])
+    return true 
+  end 
+end 
+
+@testset "update!" begin 
+  @test begin 
+    h = MutableBinaryMinHeap{Int}()
+    i = push!(h, 5)
+    update!(h, i, 1.0)
+    return true
+  end  
+
+  @testset "JumpProcesses" begin 
+    DJ = DifferentialEquations.JumpProcesses
+
+    minpriority = 2.0^exponent(1e-12)
+    maxpriority = 2.0^exponent(1e12)
+    priorities = [1e-13, 0.99 * minpriority, minpriority, 1.01e-4, 1e-4, 5.0, 0.0, 1e10]
+
+    mingid = exponent(minpriority)   # = -40
+    ptog = priority -> DJ.priortogid(priority, mingid)
+    t = DJ.PriorityTable(ptog, priorities, minpriority, maxpriority)
+
+    grpcnt = DJ.numgroups(t)
+    push!(priorities, maxpriority * 0.99)
+    DJ.insert!(t, length(priorities), priorities[end])
+
+    push!(priorities, maxpriority * 0.99999)
+    DJ.insert!(t, length(priorities), priorities[end])
+
+    numsmall = length(t.groups[2].pids)
+    push!(priorities, minpriority * 0.6)
+    DJ.insert!(t, length(priorities), priorities[end])
+
+    push!(priorities, maxpriority)
+    DJ.insert!(t, length(priorities), priorities[end])
+
+    # test updating
+    update!(t, 5, priorities[5], 2 * priorities[5])   # group 29
+    priorities[5] *= 2
+    @test t.groups[29].numpids == 1
+    @test t.groups[30].numpids == 1
+  end
+    
+  @test begin 
+    prog = ProgressUnknown(desc="Total length of characters read:")
+    total_length_characters = 0
+    for val in ["aaa" , "bb", "c", "d"]
+      total_length_characters += length(val)
+      update!(prog, total_length_characters)
+      if val == "c"
+        finish!(prog)
+        break
+      end
+    end
+    return true 
+  end 
+  @test begin 
+    prog = ProgressUnknown(desc="Total length of characters read:")
+    total_length_characters = 0
+    for val in ["aaa" , "bb", "c", "d"]
+      total_length_characters += length(val)
+      update!(prog, total_length_characters)
+      if val == "c"
+        finish!(prog)
+        break
+      end
+    end
+    return true 
+  end 
+  @test begin 
+    # from update! docstring
+    # https://github.com/FluxML/Flux.jl/blob/c86580b34edd979dd57899defd39a39f20e84462/test/train.jl#L91
+    m = Chain(Dense(2=>3, tanh), Dense(3=>1), only)
+    x = rand(Float32, 2)
+    y1 = m(x)  # before
+    gs = Flux.Zygote.gradient(marg -> marg(x), m)
+    s = Flux.setup(Adam(), m)
+    update!(s, m, gs[1])
+    return true 
+
+  end 
+  @test begin 
+    t = Taylor1([1.0, 1.0, 0.5, 0.16666666666666666, 0.041666666666666664, 0.008333333333333333])
+    update!(t, 0.5)
+    return true
+  end 
+end 
+
+@testset "value" begin 
+  @testset "JuMP" begin 
+    model = Model(HiGHS.Optimizer)
+    set_silent(model)
+    @variable(model, x)
+    @variable(model, p in Parameter(1.0))
+    @objective(model, Min, (x - p)^2)
+    optimize!(model)
+    @test value(x) ≈ 1.0 rtol=1e-6
+    @test value(x;result=1) ≈ 1.0 rtol=1e-6
+  end 
+
+  @testset "OnlineStats" begin 
+    o = Series(Mean(), Variance())
+
+    # Update with single data point
+    fit!(o, 1.0)
+    @test value(o)[1] == 1.0
+  end 
+end 
+
+@testset "volume" begin 
+  h = HyperRectangle(Vec(1.0, 2.0), Vec(3.0, 4.0))
+  @test volume(h) == 3.0*4.0
+
+  cube = Rect(Vec3f(-0.5), Vec3f(1))
+  cube_faces = decompose(TriangleFace{Int}, faces(cube))
+  cube_vertices = decompose(Point{3,Float32}, cube)
+  mesh = Mesh(cube_vertices, cube_faces)
+  @test volume(mesh) ≈ 1
+  @test volume(cube) ≈ 1
+
+  tri = Triangle(Point3f(0,0,0), Point3f(1,0,0), Point3f(0,1,0))
+  @test volume(tri) == 0.0
+  
+  r = LinRange(-1, 1, 100)
+  cube = [(x.^2 + y.^2 + z.^2) for x = r, y = r, z = r]
+  cube_with_holes = cube .* (cube .> 1.4)
+  f = volume(cube_with_holes, algorithm = :iso, isorange = 0.05, isovalue = 1.7); 
+  return true 
+
+  @test_throws "Not implemented" volume()
+end 
+
+
+@testset "weights" begin 
+  @test begin
+    a = rand(10)
+    A = rand(5,5)
+    w = weights(a)
+    W = weights(A)
+    return true
+  end 
+
+  A = rand(5,5) |> A -> A + A'
+  g = SimpleWeightedGraph(A)
+  @test weights(g) == A
+end
+
+@testset "width" begin 
+  h = HyperRectangle(Vec(1.0, 2.0), Vec(3.0, 4.0))
+  @test width(h) == 3.0 
+  bbox =  BoundingBox((0mm, 1mm), 1mm, 2mm)
+  @test width(bbox) == 1mm
+end 
+
+@testset "write_to_file" begin 
+  @test begin 
+    m = Model(Tulip.Optimizer)
+    T = 4
+    @expression(m, g[t=0:T], -t+5)
+
+    @variable(m, 0 <= x[0:T] <= 0.8)
+    @variable(m, 0 <= y[0:T] <= 0.9, start=0.0)
+
+    @objective(m, Min, 2*sum(x) + 3*sum(y))
+
+    @constraint(m, [t in 0:(T-1)], y[t+1] == y[t] + (x[t+1] - g[t+1]))
+    write_to_file(m, _filename("test-jump.mps"))
+    return true
+  end
+  @test begin 
+    m = 5;  n = 4
+    A = randn(StableRNG(1), m, n); 
+    xtrue = rand(StableRNG(2), n) 
+    b = A * xtrue + 0.1*rand(StableRNG(3), m)
+
+    x = Convex.Variable(n)
+    problem = minimize(sumsquares(A * x - b), [x >= 0])
+    write_to_file(problem, _filename("test-convex.sdpa"))
+  end 
+end 
+
 @testset "delta" begin 
   @test array(δ(Index(5, "x"))) == ones(5)
   @test array(δ(Index(5, "x"), Index(5, "y"))) == Matrix(1.0I,5,5)
@@ -344,7 +568,7 @@ end
 
     A1 = random_itensor(x, i1)
     A2 = random_itensor(x, i2)
-    S, s = directsum(A1 => i1, A2 => i2)
+    S, s = (A1 => i1) ⊕ (A2 => i2)
     return true
   end
 

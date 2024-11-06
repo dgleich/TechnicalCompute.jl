@@ -3025,17 +3025,18 @@ push!(overrides, :unit)
 # update!(a::TaylorN{T}, vals::Vector{T}) where T<:Number @ TaylorSeries ~/.julia/packages/TaylorSeries/-----/src/other_functions.jl:267
 # update!(a::Union{Taylor1, TaylorN}) @ TaylorSeries ~/.julia/packages/TaylorSeries/-----/src/other_functions.jl:276
 @doc (@doc DataStructures.update!) 
-update!(h::DataStructures.MutableBinaryHeap, i, v) = DataStructures.update!(h, i, v)
+update!(h::DataStructures.MutableBinaryHeap, i::Int64, v) = DataStructures.update!(h, i, v)
 update!(pt::JumpProcesses.PriorityTable, pid, oldpriority, newpriority) = JumpProcesses.update!(pt, pid, oldpriority, newpriority)
 @doc (@doc ProgressMeter.update!) 
-update!(p::ProgressMeter.AbstractProgress, val, color; options...) = ProgressMeter.update!(p, val, color; options...)
+# update!(p::ProgressMeter.AbstractProgress, val, color; options...) = ProgressMeter.update!(p, val, color; options...) # deprecated! 
 update!(p::Union{ProgressMeter.Progress,ProgressMeter.ProgressUnknown,ProgressMeter.ProgressThresh}, val; options...) = ProgressMeter.update!(p, val; options...)
 update!(p::Union{ProgressMeter.Progress,ProgressMeter.ProgressUnknown,ProgressMeter.ProgressThresh}; options...) = ProgressMeter.update!(p; options...)
 @doc (@doc Flux.update!)
+update!(opt, model::Chain, grads::Tuple) = Flux.update!(opt, model, grads)
+update!(opt:Flux.Optimise.AbstractOptimiser, model::Chain, grads::Tuple) = Flux.update!(opt, model, grads)
 update!(opt::Flux.Optimise.AbstractOptimiser, args...) = Flux.update!(opt, args...)
 @doc (@doc TaylorSeries.update!)
-update!(a::TaylorSeries.Taylor1, x0) = TaylorSeries.update!(a, x0)
-update!(a::TaylorSeries.TaylorN, vals::Vector) = TaylorSeries.update!(a, vals)
+update!(a::Union{TaylorSeries.Taylor1,TaylorN}, x0) = TaylorSeries.update!(a, x0)
 export update!
 push!(overrides, :update!)
 
@@ -3113,9 +3114,8 @@ push!(overrides, :update!)
 
 # I hope this one works.. 
 @doc (@doc JuMP.value)
-# need to specialize this one more... 
-value(args...) = JuMP.value(args...)
-value(arg; result) = JuMP.value(arg; result)
+value(args...) = JuMP.value(args...) # need to specialize this one more... ? 
+value(arg; result=1) = JuMP.value(arg; result)
 @doc (@doc OnlineStats.value)
 value(o::OnlineStat, args...) = OnlineStats.value(o, args...)
 export value
@@ -3135,7 +3135,7 @@ volume(mesh::GeometryBasics.Mesh) = GeometryBasics.volume(mesh)
 volume(triangle::GeometryBasics.Triangle) = GeometryBasics.volume(triangle)
 volume(prim::GeometryBasics.HyperRectangle) = GeometryBasics.volume(prim)
 @doc (@doc Makie.volume)
-volume() = Makie.volume()
+volume() = Makie.volume() # this just throws not implemented... TODO remove? 
 volume(args...; kw...) = Makie.volume(args...; kw...)
 
 export volume
@@ -3158,6 +3158,7 @@ push!(overrides, :volume)
 weights(vs::AbstractVector) = StatsBase.weights(vs)
 weights(vs::AbstractArray) = StatsBase.weights(vs)
 weights(f::MultivariateStats.LinearDiscriminant) = MultivariateStats.weights(f)
+weights(lfr::LsqFit.LsqFitResult) = LsqFit.weights(lfr)
 @doc (@doc Graphs.weights)
 weights(g::Graphs.AbstractGraph) = Graphs.weights(g)
 export weights
@@ -3184,7 +3185,7 @@ push!(overrides, :width)
 # write_to_file(model::GenericModel, filename::String; format, kwargs...) @ JuMP ~/.julia/packages/JuMP/-----/src/file_formats.jl:46
 
 @doc (@doc JuMP.write_to_file)
-write_to_file(model::JuMP.GenericModel, filename::String; format, kwargs...) = JuMP.write_to_file(model, filename; format, kwargs...)
+write_to_file(model::JuMP.GenericModel, filename::String; kwargs...) = JuMP.write_to_file(model, filename; kwargs...)
 @doc (@doc Convex.write_to_file)
 write_to_file(p::Convex.Problem, filename::String) = Convex.write_to_file(p, filename)
 export write_to_file
