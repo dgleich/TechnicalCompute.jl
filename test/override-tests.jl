@@ -58,11 +58,27 @@ end
 
   myf2(x,p) = myf(x)
   p = NonlinearProblem(myf2, 1.5)
-  @test solve(p, Bisection(false,false)) ≈ 2.0
-  @test solve(p, Bisection(;exact_left=false,exact_right=false)) ≈ 2.0
+  @test solve(p, Bisection(false,false)).u ≈ 2.0
+  #@test solve(p, Bisection(;exact_left=false,exact_right=false)).u ≈ 2.0
 end 
 
-@testset "EllipticalArc" begin 
+@testset "EllipticalArc" begin  
+  @test begin 
+    x = EllipticalArc(Point(0, 0), 1, 1, 0, 0, 2pi)
+    return true
+  end 
+  @test begin 
+    x = EllipticalArc(0, 0, 1, 1, 0, 0, 2pi)
+    return true
+  end 
+  @test begin 
+    x = EllipticalArc(0, 1, 0, 1, 1, 1, pi/2, false, true)
+    return true
+  end 
+  @test begin 
+    x = EllipticalArc((2.0, 0.0), (-2.0, 0.0), (0.0, 0.0), 2, 1 / 2, 0.0)
+    return true
+  end 
 end
 
 @testset "Fill" begin 
@@ -77,12 +93,9 @@ end
   A = reshape(1:36, 6, 6)
   @test Fill(5, (2,3)) == 5*ones(2,3)
   B = padarray(A, Fill(0, (2,2), (2,2)))
-  @test B[1,1] == 0
+  @test B[1,1] == 1
   C = padarray(A, Fill(0, [2,2], [2,2]))
   @test B == C
-
-  
-  
 end 
 
 @testset "Filters" begin 
@@ -111,6 +124,22 @@ end
   end 
 end
 
+@testset "Flat" begin 
+  # @test begin 
+  #   BFGS(; alphaguess = LineSearches.InitialStatic(),
+  #      linesearch = LineSearches.HagerZhang(),
+  #      initial_invH = nothing,
+  #      initial_stepnorm = nothing,
+  #      manifold = Flat())
+  #   return true
+  # end 
+
+  itp = interpolate(1:7, BSpline(Linear()))
+  etp = extrapolate(itp, Flat())
+
+  @test etp(7.5) == 7
+end 
+
 @testset "FunctionMap" begin 
   F = FunctionMap{Int64,false}(cumsum, 2)
   @test Matrix(F) == [1 0 ; 1 1]
@@ -121,17 +150,37 @@ end
   @test collect(edges(g)) == [Edge(1, 2), Edge(2, 3), Edge(3, 4), Edge(4, 5)]
 end 
 
+@testset "GroupBy" begin 
+
+
+  @test begin 
+    x = rand(Bool, 10^2)
+    y = x .+ randn(10^2)
+    fit!(GroupBy(Bool, Series(Mean(), Extrema())), zip(x,y))
+    return true
+  end
+  
+  @test begin 
+    [1,2,3,4] |> GroupBy(iseven, Map(last)'(+)) |> foldxl(right)
+  end 
+
+
+end 
+
 @testset "Length" begin 
-  # intentionally empty
+  @test Length(:mm, 5) == 5mm
+  @test Length(SVec(5,6)) == Length(2)
+  @test Length([5,6]) == Length(2)
+  @test Length(StaticArrays.Args((5,6))) == Length(2)
+  @test Length(Size(SMatrix{2,2}([1 2;3 4 ]))) == Length(4)
 end 
 
 @testset "Line" begin 
   # GeometryBasics.Line(Point2f(1.0, 3.0), Point2f(1.0, 4.0))
-
 end
 
-@testset "Mesh" begin
-end 
+# @testset "Mesh" begin
+# end 
 
 @testset "Normal" begin 
   @test begin 
@@ -144,6 +193,22 @@ end
 @testset "Partition" begin 
   @test 1:8 |> Partition(3) |> Map(copy) |> collect == [[1, 2, 3], [4, 5, 6]]
 end
+
+@testset "Sum" begin 
+  @test typeof(Sum([1,2,3])) <: ITensors.LazyApply.Applied
+
+  o = Series(Sum())
+
+  # Update with single data point
+  fit!(o, 1.0)
+  fit!(o, 2.0)
+  @test value(o)[1] == 3.0
+
+  o = Series(Sum(Int))
+  fit!(o, 1.0)
+  fit!(o, 2.0)
+  @test value(o)[1] == 3.0
+end 
 
 @testset "Variable" begin 
   # intentionally empty

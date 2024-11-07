@@ -2,7 +2,8 @@ name: CompatHelper
 on:
   schedule:
     # add a line that means it never runs 
-    - cron: 0 0 0 0 0
+    # first day of Jan, May, Sep
+    - cron: 0 0 1 1,5,9
     # - cron: 0 0 * * * # every day at midnight, but turned off for now
   workflow_dispatch:
 jobs:

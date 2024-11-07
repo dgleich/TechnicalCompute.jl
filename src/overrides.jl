@@ -101,8 +101,8 @@ push!(overrides, :BSpline)
 @doc (@doc Roots.Bisection)
 Bisection() = Roots.Bisection()
 @doc (@doc SimpleNonlinearSolve.Bisection)
-Bisection(left,right) = SimpleNonlinearSolve.Bisection(left,right)
-Bisection(;exact_left,exact_right) = SimpleNonlinearSolve.Bisection(;exact_left,exact_right)
+Bisection(left::Bool,right::Bool) = SimpleNonlinearSolve.Bisection(left,right)
+#Bisection(;exact_left,exact_right) = SimpleNonlinearSolve.Bisection(;exact_left,exact_right)
 export Bisection 
 push!(overrides, :Bisection)
 
@@ -162,10 +162,11 @@ push!(overrides, :ComplexVariable)
 # DelaunayTriangulation.EllipticalArc(center::Tuple{Float64, Float64}, horz_radius::Float64, vert_radius::Float64, rotation_scales::Tuple{Float64, Float64}, start_angle::Float64, sector_angle::Float64, first::Tuple{Float64, Float64}, last::Tuple{Float64, Float64}) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/-----/src/data_structures/mesh_refinement/curves/ellipticalarc.jl:26
 # DelaunayTriangulation.EllipticalArc(p, q, c, α, β, θ°; positive) @ DelaunayTriangulation ~/.julia/packages/DelaunayTriangulation/-----/src/data_structures/mesh_refinement/curves/ellipticalarc.jl:47
 @doc (@doc Makie.EllipticalArc)
-EllipticalArc(c::Point{2, Float64}, r1::Float64, r2::Float64, angle::Float64, a1::Float64, a2::Float64)= Makie.EllipticalArc(c, r1, r2, angle, a1, a2)
+EllipticalArc(c::Point, r1::Real, r2::Real, angle::Real, a1::Real, a2::Real)= Makie.EllipticalArc(c, r1, r2, angle, a1, a2)
+EllipticalArc(cx::Real, cy::Real, r1::Real, r2::Real, angle::Real, a1::Real, a2::Real)= Makie.EllipticalArc(cx, cy, r1, r2, angle, a1, a2)
 EllipticalArc(x1, y1, x2, y2, rx, ry, ϕ, largearc::Bool, sweepflag::Bool) = Makie.EllipticalArc(x1, y1, x2, y2, rx, ry, ϕ, largearc, sweepflag)
 @doc (@doc DelaunayTriangulation.EllipticalArc)
-EllipticalArc(p, q, c, α, β, θ°; kwargs...) = DelaunayTriangulation.EllipticalArc(p, q, c, α, β, θ°; kwargs...)
+EllipticalArc(p::Tuple, q::Tuple, c::Tuple, α, β, θ°; kwargs...) = DelaunayTriangulation.EllipticalArc(p, q, c, α, β, θ°; kwargs...)
 export EllipticalArc
 push!(overrides, :EllipticalArc)
 
@@ -190,7 +191,7 @@ push!(overrides, :EllipticalArc)
 Fill(value) = ImageFiltering.Fill(value)
 Fill(value, kernel) = ImageFiltering.Fill(value, kernel)
 Fill(value, lo::NTuple{N, Int64}, hi::NTuple{N, Int64}) where N = ImageFiltering.Fill(value, lo, hi)
-Fill(value, lo::AbstractVector, hi::AbstracteVector) where N = ImageFiltering.Fill(value, lo, hi)
+Fill(value, lo::AbstractVector, hi::AbstractVector) = ImageFiltering.Fill(value, lo, hi)
 @doc (@doc FillArrays.Fill)
 #Fill(value, sz) = FillArrays.Fill(value, sz)
 #Fill(value, sz::Union{Infinities.Infinity, Integer}...) = FillArrays.Fill(value, sz)
@@ -241,12 +242,13 @@ push!(overrides, :Fixed)
 # Methods for Optim.Flat in package Core
 # Optim.Flat() @ Optim ~/.julia/packages/Optim/-----/src/Manifolds.jl:56
 
-@doc (@doc Interpolations.Flat)
-Flat(x::Interpolations.GridType) = Interpolations.Flat(x)
-Flat(x::Nothing) = Interpolations.Flat(x)
-Float(::Type{GT}) where GT <: Interpolations.GridType = Interpolations.Flat(Type{GT})
-@doc (@doc Optim.Flat)
-Flat() = Optim.Flat()
+# @doc (@doc Interpolations.Flat)
+# Flat(x::Interpolations.GridType) = Interpolations.Flat(x)
+# Flat(x::Nothing) = Interpolations.Flat(x)
+# Flat(::Type{GT}) where GT <: Interpolations.GridType = Interpolations.Flat(Type{GT})
+# #@doc (@doc Optim.Flat)
+# # Flat() = Optim.Flat()
+const Flat = Interpolations.Flat
 export Flat
 push!(overrides, :Flat)
 
@@ -302,8 +304,8 @@ push!(overrides, :Graph)
 GroupBy(T::Type, stat::OnlineStat) = OnlineStats.GroupBy(T, stat)
 GroupBy(value::OrderedDict{T, O}, init::OnlineStat, n::Int64) where {T, S, O<:OnlineStat{S}} = OnlineStats.GroupBy(value, init, n)
 @doc (@doc Transducers.GroupBy)
-GroupBy(key, xf::Transducer) = Transducers.GroupBy(key, xf)
-GroupBy(key, xf::Transducer, step) = Transducers.GroupBy(key, xf, step)
+GroupBy(key, xf::Union{Transducer,Transducers.Reduction}) = Transducers.GroupBy(key, xf)
+GroupBy(key, xf::Union{Transducer,Transducers.Reduction}, step) = Transducers.GroupBy(key, xf, step)
 GroupBy(key, xf::Transducer, step, init) = Transducers.GroupBy(key, xf, step, init)
 export GroupBy
 push!(overrides, :GroupBy)
@@ -332,6 +334,15 @@ push!(overrides, :Hist)
 # StaticArrays.Length(a::AbstractArray) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/traits.jl:37
 # StaticArrays.Length(x::StaticArrays.Args) @ StaticArrays ~/.julia/packages/StaticArrays/-----/src/convert.jl:9
 
+@doc (@doc Measures.Length)
+Length(unit::Symbol, x::T) where T = Measures.Length(unit, x)
+@doc (@doc StaticArrays.Length)
+Length(::Size{S}) where S = StaticArrays.Length(Size{S})
+Length(::Type{A}) where A<:AbstractArray = StaticArrays.Length(Type{A})
+Length(L::Int64) = StaticArrays.Length(L)
+Length(a::AbstractArray) = StaticArrays.Length(a)
+Length(x::StaticArrays.Args) = StaticArrays.Length(x)
+export Length
 # Neither of these seems to be the right one to get Length. 
 push!(overrides, :Length)
 
@@ -465,7 +476,7 @@ Sum(a::Vector) = ITensors.LazyApply.Sum(a)
 @doc (@doc OnlineStats.Sum)
 Sum() = OnlineStats.Sum()
 Sum(T::Type) = OnlineStats.Sum(T)
-Sum(sum::T, n::Int64) where T = OnlineStats.Sum(sum, n)
+#Sum(sum::T, n::Int64) where T = OnlineStats.Sum(sum, n)
 export Sum
 push!(overrides, :Sum)
 
