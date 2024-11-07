@@ -16,6 +16,19 @@ if "debug" in ARGS
   ENV["JULIA_DEBUG"] = "TechnicalCompute,Main"
 end
 
+const workdir = joinpath(tempdir(), "TechnicalCompute")
+const tempfiles = String[] 
+_filename(file) = begin; fn = joinpath(workdir, file); push!(tempfiles, fn); fn; end
+try 
+  if isdir(workdir)
+    println("Workdir: $workdir ALREADY EXISTS")
+  else 
+    println("Creating workdir: $workdir")
+    mkdir(workdir)
+  end
+catch 
+end 
+
 if "aqua_first" in ARGS
   include("aqua-and-jet.jl")
 end 
@@ -27,23 +40,26 @@ if test_dups
   end
 end 
 
-workdir = joinpath(tempdir(), "TechnicalCompute")
-tempfiles = [] 
-_filename(file) = joinpath(workdir, file)
-
 @testset "simple tests" begin 
   include("simple-tests.jl")
 end 
+
+include("optimization.jl")
 
 @testset "overrides" begin 
   include("override-tests.jl")
 end 
 
-include("optimization.jl")
+
+@testset "utility tests" begin 
+  include("utility-tests.jl")
+end
 
 
 try 
   if isdir(workdir)
+    println("Cleaning up workdir: $workdir")
+    println("Files: ", tempfiles)
     rm(workdir; force=true, recursive=true)
   end
 catch 
