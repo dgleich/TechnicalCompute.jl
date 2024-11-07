@@ -2,7 +2,7 @@ env:
   # This will skip loading GLMAKIE, which avoids any errors with OpenGL stuff 
   JULIA_TECHNICALCOMPUTE_USE_GLMAKIE: false 
   # This will cause it to run a check on how much we actually override. 
-  JULIA_ACTIONS_RUNTEST_ARGS: test_dups
+  JULIA_ACTIONS_RUNTEST_ARGS: test_dups,compile
   JULIA_PKG_PRECOMPILE_AUTO: 0 
 
 name: CI

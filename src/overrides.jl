@@ -102,7 +102,7 @@ push!(overrides, :BSpline)
 Bisection() = Roots.Bisection()
 @doc (@doc SimpleNonlinearSolve.Bisection)
 Bisection(left,right) = SimpleNonlinearSolve.Bisection(left,right)
-#Bisection(;exact_left,exact_right) = SimpleNonlinearSolve.Bisection(;exact_left,exact_right)
+Bisection(;exact_left,exact_right) = SimpleNonlinearSolve.Bisection(;exact_left,exact_right)
 export Bisection 
 push!(overrides, :Bisection)
 
@@ -188,9 +188,14 @@ push!(overrides, :EllipticalArc)
 
 @doc (@doc ImageFiltering.Fill)
 Fill(value) = ImageFiltering.Fill(value)
+Fill(value, kernel) = ImageFiltering.Fill(value, kernel)
 Fill(value, lo, hi) = ImageFiltering.Fill(value, lo, hi)
 @doc (@doc FillArrays.Fill)
-Fill(value, sz) = FillArrays.Fill(value, sz)
+#Fill(value, sz) = FillArrays.Fill(value, sz)
+#Fill(value, sz::Union{Infinities.Infinity, Integer}...) = FillArrays.Fill(value, sz)
+#Fill(value, sz1::Union{Infinities.Infinity, Integer}, sz2::Union{Infinities.Infinity, Integer}) = FillArrays.Fill(value, sz)
+Fill(value::T, sz::NTuple{N, Any}) where {T, N} = FillArrays.Fill(value, sz)
+Fill(value::T, sz::Vararg{Integer, N}) where {T, N} = FillArrays.Fill(value, sz)
 export Fill
 push!(overrides, :Fill)
 

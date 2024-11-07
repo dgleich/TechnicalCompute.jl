@@ -14,7 +14,7 @@ end
   return true
 end 
 
-if Sys.isunix()
+if Sys.isunix() && "test_compile" in ARGS
   @test begin 
     TechnicalCompute.compile()
   end 

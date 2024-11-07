@@ -19,6 +19,9 @@ end
   itp = interpolate(a, BSpline(Constant()))
   @test itp(5.4) == a[5]
 
+  itp = interpolate(a, BSpline(Constant()))
+  @test itp(5) == a[5]
+
   @test begin 
     curve_XI = [
         [
@@ -50,18 +53,36 @@ end
 end 
 
 @testset "Bisection" begin 
-end 
+  myf(x) = (x-3)*(x-2)
+  @test find_zero(myf, (1.0, 2.5), Bisection()) == 2.0
 
-@testset "Categorical" begin 
+  myf2(x,p) = myf(x)
+  p = NonlinearProblem(myf2, 1.5)
+  @test solve(p, Bisection(false,false)) ≈ 2.0
+  @test solve(p, Bisection(;exact_left=false,exact_right=false)) ≈ 2.0
 end 
-
-@testset "ComplexVariable" begin 
-end
 
 @testset "EllipticalArc" begin 
 end
 
 @testset "Fill" begin 
+  @test Fill(5, (2,3)) == 5*ones(2,3)
+  @test Fill(5, 2, 3) == 5*ones(2,3)
+  f = fill(0, (9,9))
+  f[5,5] = 1
+  w = centered([1 2 3; 4 5 6; 7 8 9])
+  correlation = imfilter(f, w, Fill(0, w))
+  @test correlation[5,5] == 5
+
+  A = reshape(1:36, 6, 6)
+  @test Fill(5, (2,3)) == 5*ones(2,3)
+  B = padarray(A, Fill(0, (2,2), (2,2)))
+  @test B[1,1] == 0
+  C = padarray(A, Fill(0, [2,2], [2,2]))
+  @test B == C
+
+  
+  
 end 
 
 @testset "Filters" begin 

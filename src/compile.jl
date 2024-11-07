@@ -6,7 +6,7 @@ default_compile_dir() = joinpath(homedir(), ".julia", "sysimages")
 
 default_compile_filename() = "sys_technicalcompute.so"
 
-default_compile_path() = joinpath(default_compile_dir(), default_compile_filename())
+#default_compile_path() = joinpath(default_compile_dir(), default_compile_filename())
 
 import PackageCompiler
 """
@@ -15,7 +15,7 @@ import PackageCompiler
 Use PackageCompiler to compile the TechnicalCompute package into a system image. This 
 makes it much faster to use is if you are commonly using this package. 
 """
-function compile(; dir=default_compile_dir(), path=default_compile_path())
+function compile(; dir=default_compile_dir(), filename=default_compile_filename())
   path = joinpath(dir, filename)
   if !isdir(dir)
     println("""The directory "$dir" doesn't exist yet, creating it now.""")

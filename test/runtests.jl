@@ -51,11 +51,6 @@ include("optimization.jl")
 end 
 
 
-@testset "utility tests" begin 
-  include("utility-tests.jl")
-end
-
-
 try 
   if isdir(workdir)
     println("Cleaning up workdir: $workdir")
@@ -68,3 +63,10 @@ end
 if !("aqua_first" in ARGS)
   include("aqua-and-jet.jl")
 end
+
+
+
+@testset "utility tests" begin 
+  include("utility-tests.jl")
+end
+
