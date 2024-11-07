@@ -210,6 +210,26 @@ end
   @test value(o)[1] == 3.0
 end 
 
+@testset "Trace" begin 
+  o = Trace(Mean())
+  fit!(o, 1:100)
+  @test  OnlineStats.snapshots(o)[end].μ == 50.5
+
+  o = Trace(Mean(), 2)
+  fit!(o, 1:10)
+  @test  length(OnlineStats.snapshots(o)) == 3
+
+  @test begin 
+    o = Trace([(1,1) => Mean()], 3, 50)
+    return true
+  end 
+
+  @test begin 
+    Trace(rand(5))
+    return true
+  end
+end 
+
 @testset "Variable" begin 
   # intentionally empty
   # removed the override 
