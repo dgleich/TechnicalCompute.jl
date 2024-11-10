@@ -560,6 +560,18 @@ end
   push!(A, 2)
   @test reset!(A, 1) == 2
 
+  @test begin 
+    rng = StableRNG(123)
+    env = CartPoleEnv(; rng=rng)
+    env′ = StateCachedEnv(env)
+    reset!(env)
+    reset!(env′)
+    return true
+  end
+  @test begin 
+    f = FIRFilter(rand(Float64, rand(16:128)), 1//1)
+    reset!(f) 
+  end 
 end 
 
 @testset "right" begin 

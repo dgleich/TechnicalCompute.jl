@@ -29,17 +29,17 @@ function set_makie_backend(backend)
   if !(backend in ["CairoMakie", "GLMakie"])
     throw(ArgumentError("Backend must be either \"CairoMakie\" or \"GLMakie\", not \"$backend\""))
   end
-  Preferences.@set_preferences!("makie_backend", backend)
+  Preferences.@set_preferences!("makie_backend" => backend)
   @info("Makie backend set to $(backend); restart your Julia session for this change to take effect!")
 end
 
 function set_makie_load_glmakie(value::Bool)
-  Preferences.@set_preferences!("makie_load_glmakie", value)
+  Preferences.@set_preferences!("makie_load_glmakie" => value)
   @info("TechnicalCompute $(value ? "_will_" : "will _not_") load GLMakie; restart your Julia session for this change to take effect!")
 end
 
 function set_show_banner(value::Bool)
-  Preferences.@set_preferences!("show_banner", value)
+  Preferences.@set_preferences!("show_banner" => value)
   @info("TechnicalCompute $(value ? "_will_" : "will _not_") show the banner; restart your Julia session for this change to take effect!")
 end
 

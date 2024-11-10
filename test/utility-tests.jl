@@ -1,7 +1,7 @@
 ## Test utilities like compile and the preferences.
-@test_throws ArgumentError TechnicalCompute.set_make_backend("PyPlot")
+@test_throws ArgumentError TechnicalCompute.set_makie_backend("PyPlot")
 @test begin 
-  set_make_backend("GLMakie")
+  set_makie_backend("GLMakie")
   return true
 end 
 

@@ -2317,7 +2317,9 @@ push!(overrides, :radius)
 reset!(x::Accumulator, y) = DataStructures.reset!(x, y)
 reset!(x::DataStructures.DequeBlock, y) = DataStructures.reset!(x, y)
 @doc (@doc ReinforcementLearning.reset!)
+# TODO, check for other methods
 reset!(x::AbstractEnv) = ReinforcementLearning.reset!(x)
+reset!(x::AbstractEnvWrapper) = ReinforcementLearning.reset!(x)
 @doc (@doc DSP.Filters.reset!)
 reset!(x::Union{FIRFilter, DSP.Filters.FIRKernel, DSP.Filters.FIRArbitrary, DSP.Filters.FIRRational, DSP.Filters.FIRDecimator}) = DSP.reset!(x)
 export reset!
