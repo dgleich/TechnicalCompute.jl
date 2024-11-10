@@ -624,8 +624,7 @@ attributes(p::Union{HDF5.Dataset, HDF5.Datatype, HDF5.File, HDF5.Group}) = HDF5.
 @doc (@doc EzXML.attributes)
 attributes(node::EzXML.Node) = EzXML.attributes(node)
 @doc (@doc Makie.attributes)
-attributes(x::Attributes) = Makie.attributes(x)
-attributes(x::AbstractPlot) = Makie.attributes(x)
+attributes(x::Union{Attributes,AbstractPlot}) = Makie.attributes(x)
 export attributes
 push!(overrides, :attributes)
 
@@ -1307,10 +1306,12 @@ push!(overrides, :entropy)
 evaluate(f::MultivariateStats.LinearDiscriminant, X::AbstractMatrix) = MultivariateStats.evaluate(f, X)
 evaluate(f::MultivariateStats.LinearDiscriminant, x::AbstractVector) = MultivariateStats.evaluate(f, x)
 @doc (@doc Distances.evaluate)
-evalaute(d::Distances.PreMetric, a, b) = Distances.evaluate(d, a, b)
+evaluate(d::Distances.PreMetric, a, b) = Distances.evaluate(d, a, b)
 @doc (@doc TaylorSeries.evaluate)
 evaluate(A::AbstractArray{TaylorN{T}}) where T = TaylorSeries.evaluate(A)
+evaluate(A::AbstractArray{Taylor1{T}}) where T = TaylorSeries.evaluate(A)
 evaluate(A::AbstractArray{TaylorN{T}, N}, δx::Vector{S}) where {T, S, N} = TaylorSeries.evaluate(A, δx)
+evaluate(A::AbstractArray{Taylor1{T}, N}, δx::S) where {T, S, N} = TaylorSeries.evaluate(A, δx)
 evaluate(a::TaylorSeries.AbstractSeries) = TaylorSeries.evaluate(a)
 evaluate(a::TaylorSeries.AbstractSeries, x) = TaylorSeries.evaluate(a, x)
 evaluate(a::TaylorSeries.AbstractSeries, x, y) = TaylorSeries.evaluate(a, x, y)
@@ -1394,7 +1395,7 @@ expand(expr) = Symbolics.expand(expr)
 # fit(x::AbstractVector, y::AbstractVector, deg::Integer; weights, var) @ Polynomials ~/.julia/packages/Polynomials/-----/src/common.jl:134
 # fit(x::AbstractVector, y::AbstractVector; ...) @ Polynomials ~/.julia/packages/Polynomials/-----/src/common.jl:134
 @doc (@doc Distributions.fit)
-fit(::Type{Distributions.UnivariateDistribution}, data::Tuple{Int64, AbstractArray}) = Distributions.fit(Distributions.UnivariateDistribution, data)
+fit(::Type{T}, args...) where T <: Distributions.UnivariateDistribution = Distributions.fit(T, args...)
 @doc (@doc MultivariateStats.fit)
 fit(::Type{T}, args...;kwargs...) where T <: Union{
   AbstractHistogram,
@@ -1966,13 +1967,16 @@ push!(overrides, :nnz)
 # onehot(eltype::Type{<:Number}, ivs::Vector{<:Pair{<:Index}}) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:561
 # onehot(ivs::Pair{<:Index}...) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:568
 # onehot(ivs::Vector{<:Pair{<:Index}}) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:571
+
 ## :order
 # Showing duplicate methods for order in packages Module[DataFrames, ITensors, RDatasets]
 # Methods for order in package DataFrames
 # order(col::T; kwargs...) where T<:Union{AbstractString, Signed, Symbol, Unsigned} @ DataFrames ~/.julia/packages/DataFrames/-----/src/abstractdataframe/sort.jl:70
 # Methods for order in package ITensors
 # order(T::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:781
-const order = DataFrames.order 
+order = DataFrames.order 
+export order 
+push!(overrides, :order)
 
 ## :orthogonal
 # Showing duplicate methods for orthogonal in packages Module[Flux, ReinforcementLearning]
@@ -2363,7 +2367,7 @@ push!(overrides, :rmsd)
 @doc (@doc LinearAlgebra.rotate!)
 rotate!(x::AbstractVector, y::AbstractVector, c, s) = LinearAlgebra.rotate!(x, y, c, s)
 @doc (@doc Makie.rotate!)
-rotate!(x::RectLight, y...) = Makie.rotate!(x, y...)
+# rotate!(x::RectLight, y...) = Makie.rotate!(x, y...) # this seems to be broken 
 rotate!(x::Makie.Transformable, y) = Makie.rotate!(x, y)
 rotate!(::Type{T}, t::Makie.Transformable, y...) where T = Makie.rotate!(T, t, y...)
 export rotate!
@@ -2527,10 +2531,10 @@ scale!(::Type{D}, s::Symbol, m::AbstractVector, S::AbstractMatrix, Σ::AbstractM
 scale!(x::Makie.Transformable, y...) = Makie.scale!(x, y...)
 scale!(t::RectLight, xy) = Makie.scale!(t, xy)
 scale!(t::RectLight, x, y) = Makie.scale!(t, x, y)
-scale!(::Type{T}, t::RectLight, s) where T = Makie.scale!(T, t, )
+scale!(::Type{T}, t::RectLight, s) where T = Makie.scale!(T, t, s)
 @doc (@doc ITensors.scale!)
 scale!(T::ITensor, α::Number) = ITensors.scale!(T, α)
-scale!(S::NDTensors.TensorStorage, v::Number) = NDTensors.scale!(S, v)
+#scale!(S::NDTensors.TensorStorage, v::Number) = NDTensors.scale!(S, v) # sounds like this will be removed...
 scale!(T::NDTensors.Tensor, α::Number) = NDTensors.scale!(T, α)
 export scale!
 push!(overrides, :scale!)
@@ -2556,7 +2560,7 @@ push!(overrides, :scale!)
 # shape(::ScalarConstraint) @ JuMP ~/.julia/packages/JuMP/-----/src/constraints.jl:881
 # shape(con::VectorConstraint) @ JuMP ~/.julia/packages/JuMP/-----/src/constraints.jl:978
 @doc (@doc Distributions.shape)
-shape(x) = Distributions.shape(x) # they get the generic function... 
+shape(x::Distribution) = Distributions.shape(x) # they get the generic function... 
 @doc (@doc JuMP.shape)
 shape(con::VectorConstraint) = JuMP.shape(con)
 shape(x::ScalarConstraint) = JuMP.shape(x)
@@ -2710,7 +2714,7 @@ push!(overrides, :spectrogram)
 # square(x::DoubleFloat{T}) where T<:Union{Float16, Float32, Float64} @ DoubleFloats ~/.julia/packages/DoubleFloats/-----/src/math/ops/arith.jl:8
 
 @doc (@doc DoubleFloats.square)
-square(x::Complex{DoubleFloat}) = DoubleFloats.square(x)
+square(x::Complex{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64}  = DoubleFloats.square(x)
 square(x::DoubleFloat) = DoubleFloats.square(x)
 @doc (@doc Convex.square)
 square(x::Convex.AbstractExpr) = Convex.square(x)
@@ -2845,12 +2849,13 @@ push!(overrides, :square)
 @doc (@doc ITensors.state)
 state(s::StateName, n::SiteType, i::Index; kwargs...) = ITensors.state(s, n, i; kwargs...)
 state(s::StateName, n::SiteType; kwargs...) = ITensors.state(s, n; kwargs...)
-state(s::String, i::Index; kwargs...) = ITensors.state(s, n; kwargs...)
+state(s::String, i::Index; kwargs...) = ITensors.state(s, i; kwargs...)
 state(s::Index, n::Integer) = ITensors.state(s, n)
 state(s::Index, name::AbstractString) = ITensors.state(s, name)
 state(sset::Vector{<:Index}, j::Integer, st; kwargs...) = ITensors.state(sset, j, st; kwargs...)
 @doc (@doc ReinforcementLearning.state)
 state(x::AbstractEnvWrapper, args...; kwargs...) = ReinforcementLearning.state(x, args...; kwargs...)
+state(x::AbstractEnv, args...; kwargs...) = ReinforcementLearning.state(x, args...; kwargs...)
 export state
 push!(overrides, :state)
 

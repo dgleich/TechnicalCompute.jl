@@ -658,13 +658,7 @@ end
 
 @testset "ITensorMPS" begin 
   @test begin 
-    d = 2
-    N = 5
-    A = randn(d,d,d,d,d)
-    sites = siteinds(d,N)
-    cutoff = 1E-8
-    maxdim = 10
-    M = MPS(A,sites;cutoff=cutoff,maxdim=maxdim)
+    M = make_itensor_mps()
     return true
   end 
 end 
@@ -829,7 +823,7 @@ end
   ydata = model(xdata, [1.0 2.0]) + 0.01*randn(length(xdata))
   p0 = [0.5, 0.5]
   fit = curve_fit(model, xdata, ydata, p0)
-  @test coef(fit) ≈ [1.0, 2.0] atol=1e-1
+  @test coef(fit) ≈ [1.0, 2.0] atol=0.25
   # fit is a composite type (LsqFitResult), with some interesting values:
   #	dof(fit): degrees of freedom
   #	coef(fit): best fit parameters

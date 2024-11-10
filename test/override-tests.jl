@@ -169,8 +169,8 @@ end
 
 @testset "Length" begin 
   @test Length(:mm, 5) == 5mm
-  @test Length(SVec(5,6)) == Length(2)
-  @test Length([5,6]) == Length(2)
+  @test Length(SVector(5,6)) == Length(2)
+  @test Length([5,6]) == Length([1,2])
   @test Length(StaticArrays.Args((5,6))) == Length(2)
   @test Length(Size(SMatrix{2,2}([1 2;3 4 ]))) == Length(4)
 end 
@@ -254,7 +254,26 @@ end
 end
 
 @testset "attributes" begin 
-  
+  @test begin 
+    doc = parsexml("""<genus name="Homo">
+            <species name="sapiens">Human</species>
+        </genus>""")
+    n = collect(eachelement(root(doc)))[1]
+    attributes(n)
+    return true 
+  end
+  @test begin 
+    p = lines(rand(10)).plot
+    attributes(p)
+    return true 
+  end 
+  @test begin 
+    h5open("test.h5", "w") do file
+        g = create_group(file, "mygroup") # create a group
+        g["dset1"] = 3.2                  # create a scalar dataset inside the group
+        attributes(g)["Description"] = "This group contains only a single dataset" # an attribute
+    end
+  end 
 end
 
 @testset "center" begin 
@@ -305,6 +324,22 @@ end
 
 end 
 
+@testset "contract" begin 
+  g = complete_graph(10)
+  v = ones(Float64, ne(g))
+  z = zeros(Float64, nv(g))
+  n10 = Nonbacktracking(g)
+  Graphs.contract!(z, n10, v)
+  zprime = contract(n10, v)
+  @test z == zprime
+  
+  @test begin 
+    M = make_itensor_mps()
+    contract(M)
+    return true
+  end
+end 
+
 @testset "conv" begin 
 end 
 
@@ -312,6 +347,17 @@ end
 end 
 
 @testset "curvature" begin 
+  @test begin 
+    x = Convex.Variable(5)
+    p = curvature(x.^2)
+    return true
+  end
+  @test begin 
+    a  = EllipticalArc((2.0, 0.0), (-2.0, 0.0), (0.0, 0.0), 2, 1 / 2, 0.0)
+    curvature(a, 0.5)
+    return true
+  end 
+
 end 
 
 @testset "degree" begin 
@@ -390,6 +436,12 @@ end
   end
 end 
 
+# @testset "dim" begin   
+# end 
+
+# @testset "eigs" begin
+# end 
+
 @testset "entropy" begin 
 
   @test begin 
@@ -410,9 +462,83 @@ end
 end 
 
 @testset "evaluate" begin 
+  @test evaluate(Cityblock(), (1.0,0), (0,1.0)) == 2.0
+  begin 
+    w = [1., 2., 3., 4., 5.]
+    b = 2.5
+    x = [4., 5., 2., 3., 1.]
+
+    f = LinearDiscriminant(w, b)
+    @test length(f) == 5
+    @test dof(f) == 6
+    @test coef(f) == (b, w)
+    @test weights(f) == w
+    @test evaluate(f, x) == 39.5
+    @test evaluate(f, -reshape(x, 5, 1)) == [-34.5]
+  end 
+  begin 
+    m = 5;  n = 4
+    A = randn(StableRNG(1), m, n); 
+    xtrue = rand(StableRNG(2), n) 
+    b = A * xtrue + 0.1*rand(StableRNG(3), m)
+
+    x = Convex.Variable(n)
+    problem = minimize(sumsquares(A * x - b), [x >= 0])
+    solve!(problem, SCS.Optimizer; silent = true)
+    @test evaluate(x) ≈ A\b
+  end
+  @testset "TaylorSeries" begin 
+    t = Taylor1([1.0, 1.0, 0.5, 0.16666666666666666, 0.041666666666666664, 0.008333333333333333])
+    @test evaluate(t, 0.5) ≈ 1.6486979166666667
+    @test evaluate([t], 0.5) ≈ [1.6486979166666667]
+
+    δx, δy = set_variables("δx δy")
+    xx = 1+Taylor1(δx, 5)
+    yy = 1+Taylor1(δy, 5)
+    @test evaluate(xx, 2, δy) == xx
+    @test evaluate(xx, 1, δy) == yy
+
+    @test evaluate([evaluate(xx)]) == [1.0]
+    @test evaluate([evaluate(xx)], [0.5, 0.5]) == [1.5]
+
+    @test begin 
+      evaluate(xx)
+      return true
+    end
+
+
+    @test isnothing(evaluate([t1N, t1N^2], 0.0, v))
+
+  end 
 end 
 
+@testset "expand" begin 
+  @test begin 
+    @variables x y
+    z = expand((x + y)^2)
+    return true
+  end 
+  @test begin 
+    # example from ITensorMPS.jl test set
+    n = 6
+    elt = Float64
+    s = siteinds("S=1/2", n; conserve_qns=true)
+    rng = StableRNG(1234)
+    state = random_mps(rng, elt, s, j -> isodd(j) ? "↑" : "↓"; linkdims=4)
+    reference = random_mps(rng, elt, s, j -> isodd(j) ? "↑" : "↓"; linkdims=2)
+    state_expanded = expand(state, [reference]; alg="orthogonalize")
+    return true
+  end 
+end 
+
+# TODO 
 @testset "fit" begin 
+  @test fit(Cauchy{Float32}, collect(-4:4)) == Cauchy{Float64}(0.0, 2.0)
+  
+  @test begin 
+    fit(Histogram, rand(100))
+    return true 
+  end 
 end 
 
 @testset "geomean" begin 
@@ -427,8 +553,257 @@ end
 @testset "groupby" begin 
 end 
 
+@testset "reset!" begin 
+  A = Accumulator{Int64,Int64}()
+  push!(A, 1)
+  push!(A, 1)
+  push!(A, 2)
+  @test reset!(A, 1) == 2
+
+end 
+
+@testset "right" begin 
+
+  @test right(Rect2((1.0,1.0),(2.0,2.0))) == 3.0
+
+  @test foldl(right, Take(5), 1:10) == 5
+
+end 
+
+# @testset "rmsd" begin
+# end
+
+@testset "rotate!" begin 
+
+  @test rotate!([1.0,1.0],[-1.0,1], 0, 1) == ([-1.0, 1.0], [-1.0,-1.0])
+
+  @test begin 
+    t1 = Transformation()
+    rotate!(t1, 0.5)
+    rotate!(Accum, t1, 0.5)
+    return true 
+  end 
+  # Makie.rotate! for lights seems to be broken 
+  # @test begin
+  #   lights = Makie.AbstractLight[
+  #       RectLight(RGBf(0.5, 0, 0), Point3f(-0.5, -1, 2), Vec3f(3, 0, 0), Vec3f(0, 3, 0)),
+  #       RectLight(RGBf(0, 0.5, 0), Rect2f(-1, 1, 1, 3)),
+  #       RectLight(RGBf(0, 0, 0.5), Point3f( 1,  0.5, 2), Vec3f(3, 0, 0), Vec3f(0, 3, 0)),
+  #       RectLight(RGBf(0.5, 0.5, 0.5), Point3f( 1, -1, 2), Vec3f(3, 0, 0), Vec3f(0, 3, 0), Vec3f(-0.3, 0.3, -1)),
+  #   ]
+  #   # Test transformations
+  #   rotate!(lights[2], Vec3f(3, 0, 0)) # translate to by default
+  #   return true
+  # end
+end 
+
+@testset "sample" begin 
+  @test sample([1,1,1],1) == [1]
+  @testset "ITensorMPS" begin 
+    M = make_itensor_mps()
+    M = normalize!(M)
+    orthogonalize!(M,1)
+    sample(M)
+    sample(StableRNG(1234), M)
+
+    N = 6
+    sites = [Index(2, "Site,n=$n") for n in 1:N]
+    seed = 623
+    rng = StableRNG(seed)
+    K = random_mps(rng, sites)
+    L = outer(K', K)
+    result = sample(rng, L)
+    @test result ≈ [1, 1, 2, 1, 1, 1]
+    sample(L)
+    return true 
+  end
+
+
+
+end 
+
+@testset "sample!" begin 
+  rval = zeros(1)
+  @test sample!([1,1,1], rval)   == [1.0]
+
+  @test begin 
+    M = make_itensor_mps()
+    normalize!(M)
+    sample!(M)
+    sample!(StableRNG(1234), M)
+    return true
+  end 
+
+
+
+end 
+
+@testset "scale" begin 
+  @test scale(Normal()) == 1.0
+
+  xs = 1:0.2:5
+  A = log.(xs)
+  scaled_itp = scale(interpolate(A, BSpline(Linear())), xs)
+end 
+
+@testset "scale!" begin 
+
+  @test begin 
+    t1 = Transformation()
+    scale!(t1, 0.5, 2, 3)
+    return true 
+  end 
+  @test begin
+    lights = Makie.AbstractLight[
+        RectLight(RGBf(0.5, 0, 0), Point3f(-0.5, -1, 2), Vec3f(3, 0, 0), Vec3f(0, 3, 0)),
+        RectLight(RGBf(0, 0.5, 0), Rect2f(-1, 1, 1, 3)),
+        RectLight(RGBf(0, 0, 0.5), Point3f( 1,  0.5, 2), Vec3f(3, 0, 0), Vec3f(0, 3, 0)),
+        RectLight(RGBf(0.5, 0.5, 0.5), Point3f( 1, -1, 2), Vec3f(3, 0, 0), Vec3f(0, 3, 0), Vec3f(-0.3, 0.3, -1)),
+    ]
+    # Test transformations
+    translate!(lights[2], Vec3f(-1, 1, 2)) # translate to by default
+    scale!(lights[2], 3, 1)
+    scale!(lights[2], (3, 1))
+    scale!(Accum, lights[2], (3, 1))
+    return true
+  end
+
+  @test begin 
+    i = Index([QN(0)=>1, QN(1)=>2], "i");
+    A = [1e-9 0.0 0.0;
+    0.0 2.0 3.0;
+    0.0 1e-10 4.0];
+    T = ITensor(A, i', dag(i); tol = 1e-8);
+    scale!(T, 0.5)
+    return true
+  end 
+
+  z = NDTensors.tensor(NDTensors.Diag(rand(elt, 5)), (5, 5))
+  D = Diagonal(z) 
+  scale!(z, 2.0)
+  @test 2*D == Diagonal(z)
+
+
+end 
+
+@testset "shape" begin 
+  d = Gamma()
+  @test shape(d) == 1.0
+
+  # JuMP case 
+  m = Model()
+  @variable(m, x)
+  @variable(m, y)
+  @variable(m, z)
+  @variable(m, w)
+  cref = @constraint(m, [x y; z w] in PSDCone())
+  c = constraint_object(cref)
+  @test shape(c) isa SquareMatrixShape
+
+  cref = @constraint(m, 2x <= 10)
+  c = constraint_object(cref)
+  @test shape(c) isa ScalarShape
+end 
+
+@testset "solve!" begin 
+  @test begin 
+    A = rand(10,10) |> A -> A*A'
+    b = rand(10)
+    s = CgSolver(A,b)
+    solve!(s, A, b)
+    return true
+  end 
+
+  @test begin 
+    m = 5;  n = 4
+    A = randn(StableRNG(1), m, n); 
+    xtrue = rand(StableRNG(2), n) 
+    b = A * xtrue + 0.1*rand(StableRNG(3), m)
+
+    x = Convex.Variable(n)
+    problem = minimize(sumsquares(A * x - b), [x >= 0])
+    solve!(problem, SCS.Optimizer; silent = true)
+    return true 
+  end 
+
+
+  fx = ZeroProblem(sin, 3)
+  problem = init(fx);
+  @test solve!(problem) ≈ π
+
+end 
+
+# @testset "spectrogram" begin
+# end
+
+@testset "square" begin 
+  @test square(Double64(0.5)) == Double64(0.25)
+  @test square(Double64(0.5) + 1im) == -0.75 + 1.0im
+  @test begin 
+    x = Convex.Variable(5)
+    f = square(sum(x))
+    return true
+  end 
+end 
+
+@testset "state" begin 
+  @test begin 
+    s = Index(2, "Site,S=1/2")
+    sup = state(s,"Up")
+    sup2 = state([s,s],1,"Up") # this just accesses the first element of the vector
+    @test sup == sup2 
+    return true 
+  end
+  
+  ITensors.state(::StateName"phase", ::SiteType"Qubit"; θ::Real) = [cos(θ), sin(θ)]
+  s = siteind("Qubit")
+  @test state("phase", s; θ=π / 6) ≈ itensor([cos(π / 6), sin(π / 6)], s)
+
+  @test state(StateName"phase", SiteType"Qubit"; θ=0.0) == [1.0, 0.0]
+
+  @testset "state with old syntax" begin 
+    function ITensors.state(::StateName{N}, ::SiteType"MyQudit2", s::Index) where {N}
+      n = parse(Int, String(N))
+      st = zeros(dim(s))
+      st[n + 1] = 1.0
+      return st
+    end
+
+    s = siteind("Qudit"; dim=5)
+    v0 = state(s, "0")
+    v1 = state(s, "1")
+    v2 = state(s, "2")
+    @test v0 == state("0", s)
+    @test v1 == state("1", s)
+    @test v2 == state("2", s)
+  end 
+  
+  @test begin 
+    rng = StableRNG(123)
+    env = CartPoleEnv(; rng=rng)
+    env′ = StateCachedEnv(env)
+    s1 = state(env)
+    s2 = state(env′)
+    return true
+  end 
+
+end 
+
 @testset "statistics" begin 
+  solver = CgSolver(rand(10,10) |> A -> A*A', rand(10))
+  @test statistics(solver).niter == 0 
+  T = triangulate(rand(Point2f, 25))
+  @test statistics(T).num_vertices >= 25 
 end
+
+# @testset "sfft" begin 
+# end 
+
+# @testset "top" begin 
+# end
+
+# @testset "transform" begin
+# end
 
 @testset "trim" begin 
   @test collect(trim([1,100,2,3,4];count=1)) == [2,3,4]
@@ -456,13 +831,7 @@ end
   @test p == Polynomial([1, 0, 3, 4])
 
   @test begin 
-    d = 2
-    N = 5
-    A = randn(d,d,d,d,d)
-    sites = siteinds(d,N)
-    cutoff = 1E-8
-    maxdim = 10
-    M = MPS(A,sites;cutoff=cutoff,maxdim=maxdim)
+    M = make_itensor_mps()
     truncate!(M)
     return true 
   end 
