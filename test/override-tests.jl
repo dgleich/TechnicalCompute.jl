@@ -553,12 +553,23 @@ end
 @testset "groupby" begin 
 end 
 
+@testset "radius" begin 
+  g = path_graph(4)
+  @test radius(g) == 2
+  @test radius(g,weights(g)) == 2
+
+  @test radius(Cylinder(Point3f(0,0,0), Point3f(0,0,1), 0.5f0)) == 0.5f0
+  @test radius(Circle(Point2f(0,0), 1.5f0)) == 1.5f0
+end 
+
 @testset "reset!" begin 
   A = Accumulator{Int64,Int64}()
   push!(A, 1)
   push!(A, 1)
   push!(A, 2)
   @test reset!(A, 1) == 2
+
+  # TODO, add more reset tests for ReinforcementLearning
 
   @test begin 
     rng = StableRNG(123)
