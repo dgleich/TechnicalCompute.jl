@@ -9,12 +9,14 @@ const overrides = Set{Symbol}()
 
 # Most demos for JuMP use @variable whereas most for Symbolics use @variables, so we'll go with that.
 # This is just a copy-paste of @variables from Symbolics.jl ... need to figure out how to actaully call it... 
-@doc (@doc Symbolics.var"@variables")
-macro variables(expr...)
-  #:(Symbolics.@variables $(esc.(expr...)))
-  esc(Symbolics._parse_vars(:variables, Real, expr))
-  #:(Symbolics.@variables expr...)
-end
+# @doc (@doc Symbolics.var"@variables")
+# macro variables(expr...)
+#   #:(Symbolics.@variables $(esc.(expr...)))
+#   esc(Symbolics._parse_vars(:variables, Real, expr))
+#   #:(Symbolics.@variables expr...)
+# end
+
+import Symbolics: @variables
 export @variables 
 push!(overrides, Symbol("@variables"))
 
@@ -795,6 +797,8 @@ push!(overrides, :constant)
 contract(nbt::Nonbacktracking, edgespace::Vector) = Graphs.contract(nbt, edgespace)
 @doc (@doc ITensors.contract) # gosh, let's hope no one else uses this one! 
 contract(args...; kwargs...) = ITensors.contract(args...; kwargs...)
+export contract
+push!(overrides, :contract)
 
 ## :conv
 # Showing duplicate methods for conv in packages Module[Convex, DSP, Flux]
@@ -1335,7 +1339,8 @@ push!(overrides, :evaluate)
 expand(state::MPS, reference; alg, kwargs...) = ITensorMPS.expand(state, reference; alg, kwargs...)
 @doc (@doc Symbolics.expand)
 expand(expr) = Symbolics.expand(expr)
-
+export expand
+push!(overrides, :expand)
 
 ## :fit
 # Showing duplicate methods for fit in packages Module[Distributions, MultivariateStats, Polynomials, StatsBase]
@@ -1968,6 +1973,18 @@ push!(overrides, :nnz)
 # onehot(ivs::Pair{<:Index}...) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:568
 # onehot(ivs::Vector{<:Pair{<:Index}}) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:571
 
+@doc (@doc Flux.onehot)
+onehot(x, labels) = Flux.onehot(x, labels)
+onehot(x, labels, default) = Flux.onehot(x, labels, default)
+@doc (@doc ITensors.onehot)
+onehot(datatype::Type{<:AbstractArray}, ivs::Pair{<:Index}...) = ITensors.onehot(datatype, ivs...)
+onehot(eltype::Type{<:Number}, ivs::Pair{<:Index}...) = ITensors.onehot(eltype, ivs...)
+onehot(eltype::Type{<:Number}, ivs::Vector{<:Pair{<:Index}}) = ITensors.onehot(eltype, ivs)
+onehot(ivs::Pair{<:Index}...) = ITensors.onehot(ivs...)
+onehot(ivs::Vector{<:Pair{<:Index}}) = ITensors.onehot(ivs)
+export onehot
+push!(overrides, :onehot)
+
 ## :order
 # Showing duplicate methods for order in packages Module[DataFrames, ITensors, RDatasets]
 # Methods for order in package DataFrames
@@ -2181,12 +2198,14 @@ push!(overrides, :popfirst)
 @doc (@doc Distributions.probs)
 probs(x::Distribution) = Distributions.probs(x)
 @doc (@doc OnlineStats.probs)
-probs(x::OnlineStats.CountMap) = OnlineStats.probs(x)
-probs(x::OnlineStats.CountMap, kys) = OnlineStats.probs(x, kys)
-probs(x::OnlineStats.FastNode) = OnlineStats.probs(x)
-probs(x::OnlineStats.NBClassifier) = OnlineStats.probs(x)
-probs(x::OnlineStats.ProbMap) = OnlineStats.probs(x)
-probs(x::OnlineStats.ProbMap,levels) = OnlineStats.probs(x, levels)
+# probs(x::OnlineStats.CountMap) = OnlineStats.probs(x)
+# probs(x::OnlineStats.CountMap, kys) = OnlineStats.probs(x, kys)
+# probs(x::OnlineStats.FastNode) = OnlineStats.probs(x)
+# probs(x::OnlineStats.NBClassifier) = OnlineStats.probs(x)
+# probs(x::OnlineStats.ProbMap) = OnlineStats.probs(x)
+# probs(x::OnlineStats.ProbMap,levels) = OnlineStats.probs(x, levels)
+probs(x::OnlineStat) = OnlineStats.probs(x)
+probs(x::OnlineStat, args...) = OnlineStats.probs(x, args...) 
 export probs
 push!(overrides, :probs)
 
@@ -2991,6 +3010,8 @@ truncate!(M::AbstractMPS; kwargs...) = ITensorMPS.truncate!(M; kwargs...)
 truncate!(P::AbstractVector; kwargs...) = ITensorMPS.truncate!(P; kwargs...)
 @doc (@doc Polynomials.truncate!)
 truncate!(p::AbstractPolynomial; kwargs...) = Polynomials.truncate!(p; kwargs...)
+export truncate!
+push!(overrides, :truncate!)
 
 ## :unit
 # Showing duplicate methods for unit in packages Module[GeometryBasics, Unitful]

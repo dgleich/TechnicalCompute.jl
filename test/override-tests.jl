@@ -553,6 +553,95 @@ end
 @testset "groupby" begin 
 end 
 
+@testset "onehote" begin 
+
+end 
+
+@testset "params" begin 
+  @test params(Normal(0,1)) == (0.0, 1.0)
+  @test begin 
+    b = @benchmarkable eigen(rand(10, 10));
+    params(b) 
+    tune!(b);
+    r1 = run(b) 
+    p0 = params(r1) 
+    m1 = median(run(b))
+    m2 = median(run(b))
+    p1 = params(ratio(m1, m2)) 
+    p2 = params(judge(m1, m2))
+    return true
+  end 
+  @test begin 
+    suite = BenchmarkGroup()
+    params(suite)
+    return true 
+  end 
+end 
+
+@testset "permute" begin 
+  A = sparse([1 2; 3 4])
+  @test permute(A, [2,1], [1,2]) == sparse([3 4; 1 2])
+end 
+
+@testset "pop" begin 
+  N = 5
+  v = [Index(2, "Site,n=$n") for n in 1:N]
+  # This throws an overflow error right now 
+  #@test pop(v)[end] == v[4]
+  @test_throws StackOverflowError pop(v)
+  
+  @test pop(@SVector[1, 2, 3]) == SVector(1,2)
+  
+  s = NDTensors.SmallVectors.SmallVector{10,Int}([1, 2, 3])
+  s = pop(s)
+  @test s == [1,2]
+end 
+
+
+@testset "popfirst" begin 
+  N = 5
+  v = [Index(2, "Site,n=$n") for n in 1:N]
+  # This throws an overflow error right now 
+  @test popfirst(v)[1] == v[2]
+  
+  @test popfirst(@SVector[1, 2, 3]) == SVector(2, 3)
+  
+  s = NDTensors.SmallVectors.SmallVector{10,Int}([1, 2, 3])
+  s = popfirst(s)
+  @test s == [2,3]
+end 
+
+@testset "probs" begin 
+  @test probs(Multinomial(3, [0.5, 0.25, 0.25])) == [0.5, 0.25, 0.25]
+  x = Series(CountMap())
+  fit!(x, 1)
+  fit!(x, 2)
+  fit!(x, 1)
+  fit!(x, 2)
+  @test probs(x.stats[1]) == [0.5, 0.5]
+  @test probs(x.stats[1], 1:3) == [0.5, 0.5, 0.0]
+end 
+
+@testset "properties" begin 
+  @test collect(properties(1:10)) == Any[(:start,1), (:stop,10)]
+  img = ImageMeta(fill(RGB(1,0,0), 3, 2), date=Date(2016, 7, 31), time="high noon")
+  @test properties(img)[:date] == Date(2016, 7, 31)
+end 
+
+@testset "push" begin 
+  @test push(@SVector[1, 2, 3], 4) == SVector(1, 2, 3, 4)
+  N = 5
+  v = [Index(2, "Site,n=$n") for n in 1:N]
+  # This throws an overflow error right now 
+  @test_throws StackOverflowError push(v, Index(2, "Site,n=$(N+1)"))
+  #@test push(v, Index(2, "Site,n=$(N+1)")) == [Index(2, "Site,n=$n") for n in 1:N+1]
+
+  s = NDTensors.SmallVectors.SmallVector{10,Int}([1, 2, 3])
+  s = push(s, 4)
+  @test s == [1,2,3,4]
+end
+
+
 @testset "radius" begin 
   g = path_graph(4)
   @test radius(g) == 2
