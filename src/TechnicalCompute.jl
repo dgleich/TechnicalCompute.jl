@@ -203,6 +203,8 @@ end
 @reexport import ParserCombinator
 # LineSearches.jl seems to be on the way out, replaced by LineSearch included in NonlinearSolve.jl
 @reexport import LineSearches
+# Add Downloads
+@reexport import Downloads
 # ITensors is a big ecosystem with a lot of overlapping names
 # @reexport import ITensors
 const IT = ITensors

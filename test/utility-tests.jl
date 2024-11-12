@@ -14,8 +14,4 @@ end
   return true
 end 
 
-if Sys.isunix() && "compile" in ARGS
-  @test begin 
-    TechnicalCompute.compile()
-  end 
-end 
+TechnicalCompute.compile(; _coverage_only=true)

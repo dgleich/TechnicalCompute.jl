@@ -768,22 +768,23 @@ end
 end 
 
 @testset "Optim" begin 
-  @test begin 
-    f(x) = (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
+  begin 
+    f1(x) = (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
     x0 = [0.0, 0.0]
-    soln = optimize(f, x0)
-    return Optim.minimizer(soln)
-  end ≈ [1.0, 1.0] atol=1e-3
+    soln = optimize(f1, x0)
+    @test Optim.minimizer(soln) ≈ [1.0, 1.0] atol=1e-3
+  end 
 
-  @test begin 
+  begin 
     f(x) = (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
     function g!(G, x)
       G[1] = -2.0 * (1.0 - x[1]) - 400.0 * (x[2] - x[1]^2) * x[1]
       G[2] = 200.0 * (x[2] - x[1]^2)
     end
+    x0 = [0.0, 0.0]
     soln = optimize(f, g!, x0, LBFGS())
-    return Optim.minimizer(soln)
-  end ≈ [1.0, 1.0]
+    @test Optim.minimizer(soln) ≈ [1.0, 1.0]
+  end 
 end
 
 @testset "NonlinearSolve" begin 

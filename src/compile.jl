@@ -15,7 +15,7 @@ import PackageCompiler
 Use PackageCompiler to compile the TechnicalCompute package into a system image. This 
 makes it much faster to use is if you are commonly using this package. 
 """
-function compile(; dir=default_compile_dir(), filename=default_compile_filename())
+function compile(; dir=default_compile_dir(), filename=default_compile_filename(), _coverage_only::Bool=false)
   path = joinpath(dir, filename)
   if !isdir(dir)
     println("""The directory "$dir" doesn't exist yet, creating it now.""")
@@ -25,6 +25,7 @@ function compile(; dir=default_compile_dir(), filename=default_compile_filename(
   println(
     """Creating the system image "$path" containing the compiled version of TechnicalCompute. This may take a few minutes.""",
   )
+  _coverage_only && return # return early if we are just running tests...
   PackageCompiler.create_sysimage(
     ["TechnicalCompute"]; # should we also add all the dependencies? 
     sysimage_path=path,

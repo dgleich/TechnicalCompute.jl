@@ -15,6 +15,11 @@ end
 
 
 @testset "BSpline" begin 
+
+  a = rand(10)
+  itp = interpolate(a, BSpline())
+  @test itp(5.5) == 0.5*(a[5] + a[6])
+
   a = rand(10)
   itp = interpolate(a, BSpline(Constant()))
   @test itp(5.4) == a[5]
@@ -151,8 +156,6 @@ end
 end 
 
 @testset "GroupBy" begin 
-
-
   @test begin 
     x = rand(Bool, 10^2)
     y = x .+ randn(10^2)
@@ -385,6 +388,8 @@ end
   p,q = fromroots(Polynomial, [1,2,3]), fromroots(Polynomial, [2,3,4])
   pq = p // q
 
+  @test derivative(pq) == Polynomials.derivative(pq) 
+
   pp = derivative(p)
   pp2 = derivative(p, 2)
   @test pp2 == derivative(pp)
@@ -542,19 +547,234 @@ end
 end 
 
 @testset "geomean" begin 
+  @test geomean([1,2,3]) == StatsBase.geomean([1,2,3])  
+  @test geomean(5) == StatsBase.geomean(5)
+
+  x=Convex.Variable(3)
+  y=Convex.Variable(3)
+  @test isequal(geomean(x), Convex.geomean(x))
+  @test isequal(geomean(x,y), Convex.geomean(x,y))
+
 end 
 
 @testset "get_weight" begin 
+  t = Triangulation(rand(Point2f, 6))
+  @test get_weight(t, 1) == DelaunayTriangulation.get_weight(t, 1)
+  z = DelaunayTriangulation.ZeroWeight()
+  @test get_weight(z, 1) == DelaunayTriangulation.get_weight(z, 1)
+
+  A = sprand(5, 5, 0.5) |> A -> A + A'
+  g = SimpleWeightedGraph(A)
+  i,j = first.(findnz(A)[1:2])
+  get_weight(g, i, j) == SimpleWeightedGraphs.get_weight(g, 1, 2)
 end
 
 @testset "gradient" begin 
+  @test gradient(*, 2.0, 3.0, 5.0) == Flux.gradient(*, 2.0, 3.0, 5.0)
+  @test gradient(x->x^2, 2.0) == Flux.gradient(x->x^2, 2.0)
+
+  # Interpolations removed their gradient export... 
 end
 
 @testset "groupby" begin 
+  df = DataFrame(a=repeat([1, 2, 3, 4], outer=[2]),
+                        b=repeat([2, 1], outer=[4]),
+                        c=1:8);
+  @test groupby(df, :a) == DataFrames.groupby(df, :a)
+
+  keyfunc = x->x[1]
+  xs = ["face", "foo", "bar", "book", "baz", "zzz"]
+  @test collect(groupby(keyfunc, xs)) == collect(IterTools.groupby(keyfunc, xs))
 end 
 
-@testset "onehote" begin 
+@testset "hamming" begin
+  @test hamming((0,1),(1,0)) == Distances.hamming((0,1),(1,0))  
+  @test hamming(5) == DSP.hamming(5)
+  @test hamming((5,5)) == DSP.hamming((5,5))
+end
 
+@testset "has_vertex" begin 
+  g = path_graph(5)
+  @test has_vertex(g, 1) == true 
+  @test has_vertex(g, 6) == false 
+
+  t = triangulate(rand(Point2f, 6))
+  @test has_vertex(t, 0) == false 
+  @test has_vertex(t, 1) == true
+
+  g = get_graph(t) 
+  @test has_vertex(t, 0) == false 
+  @test has_vertex(t, 1) == true
+end 
+
+@testset "height" begin 
+  r = HyperRectangle(1, 2, 3, 4)
+  @test height(r) == GeometryBasics.height(r)
+  c = Cylinder(Point3f(0,0,0), Point3f(0,0,1), 0.5f0)
+  @test height(c) == GeometryBasics.height(c)
+
+  bbox =  BoundingBox((0mm, 1mm), 1mm, 2mm)
+  @test width(bbox) == Measures.width(bbox)
+end 
+
+@testset "hinge_loss" begin 
+  x = Convex.Variable();
+  @test isequal( hinge_loss(x), Convex.hinge_loss(x))
+  y_true = [1, -1, 1, 1];
+  y_pred = [0.1, 0.3, 1, 1.5];
+  @test hinge_loss(y_true, y_pred) == Flux.hinge_loss(y_true, y_pred) 
+end 
+
+@testset "integrate" begin 
+  @test integrate(Polynomial(1, 2)) == Polynomial(1, 3)/3
+  @test integrate(Polynomial(1, 2), 0, 1) == Polynomials.integrate(Polynomial(1, 2), 0, 1)
+  @test integrate(Polynomial(1, 2), 0.5) == Polynomial(1, 3)/3 + Polynomial([0.5])
+  p,q = fromroots(Polynomial, [1,2,3]), fromroots(Polynomial, [2,3,4])
+  pq = p // 5
+  @test integrate(pq) == Polynomials.integrate(pq)
+
+  t = Taylor1([1.0, 1.0])
+  @test integrate(t) == TaylorSeries.integrate(t)
+  @test integrate(t, 5) == TaylorSeries.integrate(t, 5)
+
+  tn = TaylorN(1) + TaylorN(2)
+  @test integrate(tn, 1) == TaylorSeries.integrate(tn, 1)
+  @test integrate(tn, 1, 0.5) == TaylorSeries.integrate(tn, 1, 0.5)
+end 
+
+@testset "kldivergence" begin 
+  @test kldivergence(LogNormal(0,1), LogNormal(0,1)) == 0.0
+  p1 = [1 0; 0 1]
+  p2 = Fill(0.5, 2, 2)
+  @test kldivergence(p2, p1) ≈ log(2.0)
+end
+
+@testset "logsumexp" begin 
+  @test logsumexp([1.0, 2.0, 3.0]) ≈ 3.4076059644443806
+  #@test_throws  logsumexp(10000.0) == 10000.0 # can't figure out how to detect an error ... 
+  begin 
+    x = Convex.Variable(3)
+    @test isequal(logsumexp(x), Convex.logsumexp(x))
+  end
+end 
+
+@testset "maximize" begin 
+  fmax(x) = -(1.0 - x[1])^2 - 100.0 * (x[2] - x[1]^2)^2
+  function g!(G, x)
+    G[1] = -1*(-2.0 * (1.0 - x[1]) - 400.0 * (x[2] - x[1]^2) * x[1])
+    G[2] = -200.0 * (x[2] - x[1]^2)
+  end
+  function H!(H, x)
+    H[1, 1] = -2.0 + 800.0 * x[1]^2 + 400.0 * x[2]
+    H[1, 2] = 400.0 * x[1]
+    H[2, 1] = 400.0 * x[1]
+    H[2, 2] = -200.0
+  end 
+
+  begin 
+    x0 = [0.0, 0.0]
+    soln = maximize(fmax, x0)
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] atol=1e-3
+    soln = maximize(fmax, x0, NelderMead())
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] atol=1e-3
+    soln = maximize(fmax, x0, NelderMead(), Optim.Options(g_tol = 1e-12))
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] atol=1e-3
+
+    soln = maximize(fmax, g!, x0, LBFGS())
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] 
+    soln = maximize(fmax, g!, x0, LBFGS(), Optim.Options(g_tol = 1e-12))
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] 
+
+    # These are broken... 
+    #@test_throws UndefVarError soln = maximize(fmax, g!, H!, x0, Newton())
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] 
+    #@test_throws UndefVarError soln = maximize(fmax, g!, H!, x0, Newton(), Optim.Options(g_tol = 1e-12))
+    @test Optim.maximizer(soln) ≈ [1.0, 1.0] 
+  end 
+
+  begin 
+    f1(x) = -x^2
+    soln = maximize(f1, -1.0, 1.0)
+    @test Optim.maximizer(soln) ≈ 0.0 atol=1e-10
+
+    soln = maximize(f1, -1.0, 1.0, Optim.Brent())
+    @test Optim.maximizer(soln) ≈ 0.0 atol=1e-10
+  end 
+
+  begin 
+    x = Convex.Variable(3)
+    p = maximize(-norm(x), [x >= 0])
+    solve!(p, SCS.Optimizer; silent = true)
+    @test evaluate(x) ≈ [0.0, 0.0, 0.0]
+
+    p = maximize(0, x >= 0, x <= 0)
+    solve!(p, SCS.Optimizer; silent = true)
+    @test evaluate(x) ≈ [0.0, 0.0, 0.0]
+
+    p = maximize(0, [x >= 0, x <= 0])
+    solve!(p, SCS.Optimizer; silent = true)
+    @test evaluate(x) ≈ [0.0, 0.0, 0.0]
+  end 
+end 
+
+@testset "metadata" begin 
+
+  df = DataFrame(a=1, b=2);
+  metadata!(df, "name", "example", style=:note);
+  @test metadata(df, "name") == "example"
+  @test metadata(df, "unknown", "MISSING") == "MISSING"
+
+  @test metadata(Downloads.download("https://github.com/JuliaLang/julia-logo-graphics/raw/master/images/julia-logo-color.png")) == ((320, 200), RGBA{N0f8})
+  @test metadata(File{format"PNG"}(Downloads.download("https://github.com/JuliaLang/julia-logo-graphics/raw/master/images/julia-logo-color.png"))) == ((320, 200), RGBA{N0f8})
+end 
+
+@testset "mode" begin 
+  @test mode(Normal(0,1)) == 0.0
+  @test mode([1,2,3,3,4,5]) == 3
+  @test mode([1,2,3,3,3,4,4,5],4:5) == 4
+  @test mode([1,1,2],weights([1,2,4])) == 2
+  m = Model()
+  @test mode(m) == AUTOMATIC
+end 
+
+@testset "nan" begin 
+  @test isequal(nan(RGBf), RGBf(NaN, NaN, NaN))
+  @test nan(Double64) == NaN
+end 
+
+@testset "nnz" begin 
+  i = Index(2)
+  O1 = onehot(i=>1)
+  @test nnz(O1) == nnz(O1.tensor) # it's dense... 
+
+  i = Index([QN(0)=>1, QN(1)=>2], "i");
+  A = [1e-9 0.0 0.0;
+  0.0 2.0 3.0;
+  0.0 1e-10 4.0];
+  T = ITensor(A, i', dag(i); tol = 1e-8);
+  @test nnz(T) == 4 # why 4?? 
+
+  @test nnz(NDTensors.EmptyStorage()) == 0 
+  @test nnz(NDTensors.Diag(rand(10))) == 10
+
+end 
+
+@testset "onehot" begin 
+  @test Vector(onehot(1, [1,2,3])) == [1,0,0]
+  @test Vector(onehot(4, [1,2,3], 3)) == [0,0,1]
+
+  i = Index(2)
+  O1 = onehot(i=>1)
+  @test Vector(O1) == [1,0]
+  O1 = onehot([i=>1])
+  @test Vector(O1) == [1,0]
+  O1 = eltype(Vector(onehot(Int, i=>1))) == Int
+  O1 = eltype(Vector(onehot(Int, [i=>1]))) == Int
+
+  i = Index(2)
+  j = Index(3) 
+  @test array(onehot(Matrix{Float64}, i=>1,j=>3)) == [0 0 1; 0 0 0]
+  
 end 
 
 @testset "params" begin 

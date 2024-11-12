@@ -8,14 +8,6 @@ const overrides = Set{Symbol}()
 # var"@variables"(__source__::LineNumberNode, __module__::Module, xs...) @ Symbolics ~/.julia/packages/Symbolics/-----/src/variable.jl:464
 
 # Most demos for JuMP use @variable whereas most for Symbolics use @variables, so we'll go with that.
-# This is just a copy-paste of @variables from Symbolics.jl ... need to figure out how to actaully call it... 
-# @doc (@doc Symbolics.var"@variables")
-# macro variables(expr...)
-#   #:(Symbolics.@variables $(esc.(expr...)))
-#   esc(Symbolics._parse_vars(:variables, Real, expr))
-#   #:(Symbolics.@variables expr...)
-# end
-
 import Symbolics: @variables
 export @variables 
 push!(overrides, Symbol("@variables"))
@@ -530,6 +522,8 @@ push!(overrides, :Trace)
 #@doc (@doc Symbolics.Variable)
 #Variable = Symbolics.Variable 
 #export Variable
+import Symbolics.Variable
+export Variable 
 push!(overrides, :Variable)
 
 ## :Vec
@@ -1426,12 +1420,14 @@ push!(overrides, :fit)
 @doc (@doc StatsBase.geomean)
 geomean(a) = StatsBase.geomean(a)
 @doc (@doc Convex.geomean)
-geomean(a::Convex.AbstractExpr, b) = Convex.geomean(a, b)
-geomean(a::Convex.AbstractExpr, b::Convex.AbstractExpr) = Convex.geomean(a, b) # need this to fix ambiguities 
-geomean(a, b::Convex.AbstractExpr) = Convex.geomean(a, b)
-geomean(a::Convex.AbstractExpr, b::Union{Number, AbstractArray, Convex.AbstractExpr}) = Convex.geomean(a, b)
-geomean(a::Union{Number, AbstractArray, Convex.AbstractExpr}, b::Convex.AbstractExpr) = Convex.geomean(a, b)
-geomean(args::Union{Convex.AbstractExpr, Number, AbstractArray}...) = Convex.geomean(args...)
+geomean(a::Convex.AbstractExpr, args::Union{Convex.AbstractExpr, Number, AbstractArray}...) = Convex.geomean(a, args...)
+geomean(a::Convex.AbstractExpr) = Convex.geomean(a)
+# need all these cases to avoid ambiguities and include at least one Convex.AbstractExpr... 
+# geomean(a::Convex.AbstractExpr, b::Convex.AbstractExpr) = Convex.geomean(a, b) # need this to fix ambiguities 
+# geomean(a, b::Convex.AbstractExpr) = Convex.geomean(a, b)
+# geomean(a::Convex.AbstractExpr, b::Union{Number, AbstractArray, Convex.AbstractExpr}) = Convex.geomean(a, b)
+# geomean(a::UConvex.AbstractExpr}, b::Convex.AbstractExpr) = Convex.geomean(a, b)
+# geomean(args::Union{Convex.AbstractExpr, Number, AbstractArray}...) = Convex.geomean(args...)
 export geomean
 push!(overrides, :geomean)
 
@@ -1469,14 +1465,20 @@ push!(overrides, :get_weight)
 # gradient(itp::Interpolations.MonotonicInterpolation, x::Number) @ Interpolations ~/.julia/packages/Interpolations/-----/src/monotonic/monotonic.jl:213
 # gradient(sitp::ScaledInterpolation{T, N}, xs::Vararg{Number, N}) where {T, N} @ Interpolations ~/.julia/packages/Interpolations/-----/src/scaling/scaling.jl:115
 
-@doc (@doc Flux.gradient)
-gradient(f, args...) = Flux.gradient(f, args...)
-@doc (@doc Interpolations.gradient)
-gradient(itp::Interpolations.AbstractInterpolation, x::Union{Number, CartesianIndex, AbstractVector}...) = Interpolations.gradient(itp, x...)
-gradient(itp::Interpolations.AbstractExtrapolation, x::Vararg{Number, N}) where N = Interpolations.gradient(itp, x)
-gradient(ch::Interpolations.CubicHermite, x::Float64) = Interpolations.gradient(ch, x)
+import Flux.gradient
 export gradient
 push!(overrides, :gradient)
+# In this case, Interpolations.jl exporting gradient and Hessian is an accident. 
+# https://github.com/JuliaMath/Interpolations.jl/issues/605
+
+# @doc (@doc Flux.gradient)
+# gradient(f, args...) = Flux.gradient(f, args...)
+# @doc (@doc Interpolations.gradient)
+# gradient(itp::Interpolations.AbstractInterpolation, x::Union{Number, CartesianIndex, AbstractVector}...) = Interpolations.gradient(itp, x...)
+# gradient(itp::Interpolations.AbstractExtrapolation, x::Vararg{Number, N}) where N = Interpolations.gradient(itp, x)
+# gradient(ch::Interpolations.CubicHermite, x::Float64) = Interpolations.gradient(ch, x)
+# export gradient
+# push!(overrides, :gradient)
 
 ## :groupby
 # Showing duplicate methods for groupby in packages Module[DataFrames, IterTools, RDatasets]
@@ -1485,7 +1487,7 @@ push!(overrides, :gradient)
 # Methods for groupby in package IterTools
 # groupby(keyfunc::F, xs::I) where {F<:Union{Function, Type}, I} @ IterTools ~/.julia/packages/IterTools/-----/src/IterTools.jl:396
 @doc (@doc DataFrames.groupby)
-groupby(df::DataFrames.AbstractDataFrame, cols; sort, skipmissing) = DataFrames.groupby(df, cols; sort, skipmissing)
+groupby(df::DataFrames.AbstractDataFrame, cols; kwargs...) = DataFrames.groupby(df, cols; kwargs...)
 @doc (@doc IterTools.groupby)
 groupby(keyfunc::F, xs::I) where {F <: Union{Function, Type}, I} = IterTools.groupby(keyfunc, xs)
 export groupby
@@ -1501,8 +1503,8 @@ push!(overrides, :groupby)
 @doc (@doc Distances.hamming)
 hamming(a, b) = Distances.hamming(a, b)
 @doc (@doc DSP.Windows.hamming)
-hamming(dims::Tuple; padding, zerophase) = DSP.Windows.hamming(dims; padding, zerophase)
-hamming(n::Integer; padding, zerophase) = DSP.Windows.hamming(n; padding, zerophase)
+hamming(dims::Tuple; kwargs...) = DSP.Windows.hamming(dims; kwargs...)
+hamming(n::Integer; kwargs...) = DSP.Windows.hamming(n; kwargs...)
 export hamming
 push!(overrides, :hamming)
 
@@ -1552,6 +1554,14 @@ push!(overrides, :height)
 # hinge_loss(x::Convex.AbstractExpr) @ Convex ~/.julia/packages/Convex/-----/src/supported_operations.jl:842
 # Methods for hinge_loss in package Flux.Losses
 # hinge_loss(ŷ, y; agg) @ Flux.Losses ~/.julia/packages/Flux/-----/src/losses/functions.jl:449
+
+@doc (@doc Convex.hinge_loss)
+hinge_loss(x::Convex.AbstractExpr) = Convex.hinge_loss(x)
+@doc (@doc Flux.Losses.hinge_loss)
+hinge_loss(ŷ, y; kwargs...) = Flux.Losses.hinge_loss(ŷ, y; kwargs...)
+export hinge_loss
+push!(overrides, :hinge_loss)
+
 ## :imrotate
 # Showing duplicate methods for imrotate in packages Module[Flux, Images]
 # Methods for imrotate in package NNlib
@@ -1699,10 +1709,10 @@ push!(overrides, :kldivergence)
 # logsumexp(x::Number, args...) @ NNlib ~/.julia/packages/NNlib/-----/src/softmax.jl:158
 
 @doc (@doc NNlib.logsumexp)
-logsumexp(x::AbstractArray; dims) = NNlib.logsumexp(x; dims)
+logsumexp(x::AbstractArray; kwargs...) = NNlib.logsumexp(x; kwargs...)
 logsumexp(x::Number, args...) = NNlib.logsumexp(x, args...)
 @doc (@doc Convex.logsumexp)
-logsumexp(x::Convex.AbstractExpr; dims) = Convex.logsumexp(x; dims)
+logsumexp(x::Convex.AbstractExpr; kwargs...) = Convex.logsumexp(x; kwargs...)
 export logsumexp
 push!(overrides, :logsumexp)
 
@@ -1740,10 +1750,15 @@ push!(overrides, :mae)
 # maximize(f, x0::AbstractArray; kwargs...) @ Optim ~/.julia/packages/Optim/-----/src/maximize.jl:24
 
 @doc (@doc Convex.maximize)
-maximize(objective::Convex.AbstractExpr, args::Constraint...; kwargs...) = Convex.maximize(objective, args...; kwargs...)
-maximize(objective::Convex.AbstractExpr, constraints::AbstractArray{Constraint}; kwargs...) = Convex.maximize(objective, constraints; kwargs...)
+maximize(objective::Convex.AbstractExpr; kwargs...) = Convex.maximize(objective; kwargs...)
+maximize(objective::Convex.AbstractExpr, constraints::Constraint...; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
+#maximize(objective::Convex.AbstractExpr, c1::Constraint; kwargs...) = Convex.maximize(objective, c1; kwargs...)
+#maximize(objective::Convex.AbstractExpr, c1::Constraint, c2::Constraint; kwargs...) = Convex.maximize(objective, c1, c2; kwargs...)
+maximize(objective::Convex.AbstractExpr, constraints::AbstractArray; kwargs...) = Convex.maximize(objective, constraints; kwargs...)
+#maximize(objective::Convex.AbstractExpr, constraints::Abstract}; kwargs...) = Convex.maximize(objective, constraints; kwargs...)
 maximize(objective::Union{Number, AbstractArray}, constraints::Constraint...; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
-maximize(objective::Union{Number, AbstractArray}, constraints::AbstractArray{Constraint}; kwargs...) = Convex.maximize(objective, constraints...; kwargs...)
+#maximize(objective::Union{Number, AbstractArray}, constraints::AbstractArray{Constraint}; kwargs...) = Convex.maximize(objective, constraints; kwargs...)
+maximize(objective::Union{Number, AbstractArray}, constraints::AbstractArray{T}; kwargs...) where T <: Constraint = Convex.maximize(objective, constraints; kwargs...)
 @doc (@doc Optim.maximize)
 maximize(f, x0::AbstractArray; kwargs...) = Optim.maximize(f, x0; kwargs...)
 maximize(f, x0::AbstractArray, method::Optim.AbstractOptimizer; kwargs...) = Optim.maximize(f, x0, method; kwargs...)
@@ -1785,10 +1800,11 @@ push!(overrides, :meanad)
 # metadata(file::Formatted, args...; options...) @ FileIO ~/.julia/packages/FileIO/-----/src/loadsave.jl:116
 # Methods for metadata in package SampledSignals
 @doc (@doc DataFrames.metadata)
-#metadata(x; style) = DataFrames.metadata(x; style)
 metadata(df::Union{DataFrame, DataFrames.DataFrameColumns, DataFrames.DataFrameRows, DataFrameRow, SubDataFrame}, key::AbstractString; kwargs...) = DataFrames.metadata(df, key; kwargs...)
-metadata(df::Union{DataFrame, DataFrames.DataFrameColumns, DataFrames.DataFrameRows, DataFrameRow, SubDataFrame}, key::AbstractString, default; style) = DataFrames.metadata(df, key, default; style)
+metadata(df::Union{DataFrame, DataFrames.DataFrameColumns, DataFrames.DataFrameRows, DataFrameRow, SubDataFrame}, key::AbstractString, default; kwargs...) = DataFrames.metadata(df, key, default; kwargs...)
+#metadata(x; style) = DataFrames.metadata(x; style)
 @doc (@doc FileIO.metadata)
+metadata(file, args...; options...) = FileIO.metadata(file, args...; options...)
 metadata(file::FileIO.Formatted, args...; options...) = FileIO.metadata(file, args...; options...)
 export metadata
 push!(overrides, :metadata)
@@ -1915,9 +1931,9 @@ push!(overrides, :mse)
 # Methods for nan in package DoubleFloats
 # nan(::Type{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64} @ DoubleFloats ~/.julia/packages/DoubleFloats/-----/src/type/specialvalues.jl:4
 @doc (@doc Images.nan)
-nan(::Type{C}) where {T<:AbstractFloat, C<:(Colorant{T})} = Images.nan(C)
+nan(::Type{C}) where {T<:AbstractFloat, C<:Colorant{T}} = Images.nan(C)
 @doc (@doc DoubleFloats.nan)
-nan(::Type{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64} = DoubleFloats.nan(T)
+nan(::Type{DoubleFloat{T}}) where T<:Union{Float16, Float32, Float64} = DoubleFloats.nan(DoubleFloat{T})
 export nan
 push!(overrides, :nan)
 
