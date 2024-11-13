@@ -27,32 +27,8 @@ end
   itp = interpolate(a, BSpline(Constant()))
   @test itp(5) == a[5]
 
-  @test begin 
-    curve_XI = [
-        [
-            [1, 2, 3], [EllipticalArc((2.0, 0.0), (-2.0, 0.0), (0.0, 0.0), 2, 1 / 2, 0.0)],
-        ],
-        [
-            [BSpline([(0.0, 0.4), (1.0, 0.2), (0.0, 0.1), (-1.0, 0.2), (0.0, 0.4)])],
-        ],
-        [
-            [4, 5, 6, 7, 4],
-        ],
-        [
-            [BezierCurve(reverse([(-1.0, -3.0), (-1.0, -2.5), (0.0, -2.5), (0.0, -2.0)]))], [CatmullRomSpline(reverse([(0.0, -2.0), (1.0, -3.0), (0.0, -4.0), (-1.0, -3.0)]))],
-        ],
-        [
-            [12, 11, 10, 12],
-        ],
-        [
-            [CircularArc((1.1, -3.0), (1.1, -3.0), (0.0, -3.0), positive=false)],
-        ],
-    ]
-    points_XI = [(-2.0, 0.0), (0.0, 0.0), (2.0, 0.0), (-2.0, -5.0), (2.0, -5.0), (2.0, -1 / 10), (-2.0, -1 / 10), (-1.0, -3.0), (0.0, -4.0), (0.0, -2.3), (-0.5, -3.5), (0.9, -3.0)]
-    points_XI_extra = copy(points_XI)
-    push!(points_XI_extra, (-1.0, -4.0), (-1.0, -2.0), (0.0, -4.1), (1.0, -4.0), (1.0, -2.0), (1.0, 0.4), (0.0, 0.49), (1.99, -2.0), (-1.99, -2.0), (-1.99, -3.71))
-    tri = triangulate(points_XI_extra; boundary_nodes=curve_XI)
-    return true
+  begin 
+    @test BSpline([(0.0, 0.4), (1.0, 0.2), (0.0, 0.1), (-1.0, 0.2), (0.0, 0.4)]) == DelaunayTriangulation.BSpline([(0.0, 0.4), (1.0, 0.2), (0.0, 0.1), (-1.0, 0.2), (0.0, 0.4)])
   end 
 
 end 
@@ -68,20 +44,19 @@ end
 end 
 
 @testset "EllipticalArc" begin  
-  @test begin 
-    x = EllipticalArc(Point(0, 0), 1, 1, 0, 0, 2pi)
+  begin 
+    @test EllipticalArc(Point(0, 0), 1, 1, 0, 0, 2pi) == Makie.EllipticalArc(Point(0, 0), 1, 1, 0, 0, 2pi)
+  end 
+  begin 
+    @test  EllipticalArc(0, 0, 1, 1, 0, 0, 2pi) == Makie.EllipticalArc(0, 0, 1, 1, 0, 0, 2pi)
     return true
   end 
-  @test begin 
-    x = EllipticalArc(0, 0, 1, 1, 0, 0, 2pi)
+  begin 
+    @test EllipticalArc(0, 1, 0, 1, 1, 1, pi/2, false, true) == Makie.EllipticalArc(0, 1, 0, 1, 1, 1, pi/2, false, true)
     return true
   end 
-  @test begin 
-    x = EllipticalArc(0, 1, 0, 1, 1, 1, pi/2, false, true)
-    return true
-  end 
-  @test begin 
-    x = EllipticalArc((2.0, 0.0), (-2.0, 0.0), (0.0, 0.0), 2, 1 / 2, 0.0)
+  begin 
+    @test EllipticalArc((2.0, 0.0), (-2.0, 0.0), (0.0, 0.0), 2, 1 / 2, 0.0) == DelaunayTriangulation.EllipticalArc((2.0, 0.0), (-2.0, 0.0), (0.0, 0.0), 2, 1 / 2, 0.0)  
     return true
   end 
 end
@@ -156,15 +131,16 @@ end
 end 
 
 @testset "GroupBy" begin 
-  @test begin 
+  begin 
     x = rand(Bool, 10^2)
     y = x .+ randn(10^2)
-    fit!(GroupBy(Bool, Series(Mean(), Extrema())), zip(x,y))
+    @test fit!(GroupBy(Bool, Series(Mean(), Extrema())), zip(x,y)) == fit!(OnlineStats.GroupBy(Bool, Series(Mean(), Extrema())), zip(x,y))
     return true
   end
   
-  @test begin 
-    [1,2,3,4] |> GroupBy(iseven, Map(last)'(+)) |> foldxl(right)
+  begin 
+    @test isequal([1,2,3,4] |> GroupBy(iseven, Map(last)'(+)) |> foldxl(right), 
+          [1,2,3,4] |> Transducers.GroupBy(iseven, Map(last)'(+)) |> foldxl(right))
   end 
 
 
@@ -188,6 +164,8 @@ end
 @testset "Normal" begin 
   @test begin 
     x = Normal(0, 1)
+    y = Distributions.Normal(0,1)
+    @test x==y
     rand(x, 10)
     return true
   end 
@@ -215,20 +193,24 @@ end
 
 @testset "Trace" begin 
   o = Trace(Mean())
+  @test o == OnlineStats.Trace(OnlineStats.Mean())
   fit!(o, 1:100)
   @test  OnlineStats.snapshots(o)[end].μ == 50.5
 
   o = Trace(Mean(), 2)
+  @test o == OnlineStats.Trace(OnlineStats.Mean(), 2)
   fit!(o, 1:10)
   @test  length(OnlineStats.snapshots(o)) == 3
 
-  @test begin 
+  begin 
     o = Trace([(1,1) => Mean()], 3, 50)
+    @test o == OnlineStats.Trace([(1,1) => OnlineStats.Mean()], 3, 50)
     return true
   end 
 
-  @test begin 
-    Trace(rand(5))
+  begin 
+    x = rand(5) 
+    @test Trace(x) == ReinforcementLearning.Trace(x)
     return true
   end
 end 
@@ -236,6 +218,7 @@ end
 @testset "Variable" begin 
   # intentionally empty
   # removed the override 
+
 end 
 
 @testset "Vec" begin 
@@ -262,12 +245,12 @@ end
             <species name="sapiens">Human</species>
         </genus>""")
     n = collect(eachelement(root(doc)))[1]
-    attributes(n)
+    @test attributes(n) == EzXML.attributes(n) 
     return true 
   end
   @test begin 
     p = lines(rand(10)).plot
-    attributes(p)
+    @test attributes(p) == Makie.attributes(p) 
     return true 
   end 
   @test begin 
@@ -275,6 +258,8 @@ end
         g = create_group(file, "mygroup") # create a group
         g["dset1"] = 3.2                  # create a scalar dataset inside the group
         attributes(g)["Description"] = "This group contains only a single dataset" # an attribute
+        @test attributes(g) == HDF5.attributes(g) 
+        return true 
     end
   end 
 end
