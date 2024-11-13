@@ -10,6 +10,7 @@ on:
   push:
     branches:
       - main
+      - v1.0.0
     tags: ['*']
   pull_request:
   workflow_dispatch:
