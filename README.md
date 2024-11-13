@@ -26,7 +26,7 @@ computing requirements for an undergraduate degree.
 
 *From the REPL*
 
-    import PKG; Pkg.activate("TC"; shared=true); using TechnicalCompute
+    import Pkg; Pkg.activate("TC"; shared=true); using TechnicalCompute
 
 Topics (and the packages that support them)
 * Data and IO
@@ -96,17 +96,6 @@ Topics (and the packages that support them)
 
 And this also includes a variety of useful utility packages in the base Julia library and beyond to make working with files and output easy. 
 
-## Coming soon
-
-## To consider
-- `Bessels.jl`
-- `TSne.jl`
-- `UMap.jl`
-- `GenericLinearAlgebra.jl`
-
-
 This takes a typical Julia install and provides all the functions needed for almost any undergraduate project. 
 
-Examples
---------
-* Morphing Carl Gustav Jacobi to David Young via an iterative method (from Numerical Methods by Greenbaum and Chartier)
+
