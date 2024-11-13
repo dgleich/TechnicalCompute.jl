@@ -440,13 +440,13 @@ end
   @test size(xs) == (100,2)
 end
 
-# @testset "GraphIO" begin 
-#   @test begin 
-#     testdatadir = joinpath(pkgdir(GraphIO), "test", "testdata")
-#     g = loadgraph(joinpath(testdatadir, "kinship.net"), GraphIO.NET.NETFormat()) 
-#     return true
-#   end 
-# end
+@testset "GraphIO" begin 
+  @test begin 
+    testdatadir = joinpath(pkgdir(GraphIO), "test", "testdata")
+    g = loadgraph(joinpath(testdatadir, "kinship.net"), GraphIO.NET.NETFormat()) 
+    return true
+  end 
+end
 
 @testset "BenchmarkTools" begin 
   @btime sum(rand(1000)); 

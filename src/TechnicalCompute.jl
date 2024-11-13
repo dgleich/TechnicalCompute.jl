@@ -101,7 +101,7 @@ packages = [
 "TranscodingStreams",
 "LibSndFile",
 # Graphs
-# "GraphIO", # removed pending issue with precompiling circular dependencies. 
+"GraphIO", 
 # Extra
 "BenchmarkTools",
 "StableRNGs",
@@ -240,17 +240,24 @@ end
 #  _/ |\\__'_|_|_|\\__'_|_| \\____/    |  
 # |__/                              |
 # """
-const logo="""
-                             \x1b[32m_\x1b[0m
- _____         _           \x1b[31m_\x1b[32m(_)\x1b[35m_\x1b[0m       _ _____                             _       
-|_   _|       | |         \x1b[31m(_) \x1b[35m(_)\x1b[0m     | /  __ \\  ...batteries included... | |      
-  | | ___  ___| |__  _ __  _  ___ __ _| | /  \\/ ___  _ __ ___  _ __  _   _| |_ ___ 
-  | |/ _ \\/ __| '_ \\| '_ \\| |/ __/ _` | | |    / _ \\| '_ ` _ \\| '_ \\| | | | __/ _ \\
-  | |  __/ (__| | | | | | | | (_| (_| | | \\__/\\ (_) | | | | | | |_) | |_| | ||  __/
-  |_|\\___|\\___|_| |_|_| |_|_|\\___\\__'_|_|\\____/\\___/|_| |_| |_| '__/ \\__'_|\\__\\___|
-      \x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[0m| |  Version $(pkgversion(TechnicalCompute))
-      \x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[0m|_|  on Julia $(VERSION) 
-"""       
+# const logo="""
+#                              \x1b[32m_\x1b[0m
+#  _____         _           \x1b[31m_\x1b[32m(_)\x1b[35m_\x1b[0m       _ _____                             _       
+# |_   _|       | |         \x1b[31m(_) \x1b[35m(_)\x1b[0m     | /  __ \\  ...batteries included... | |      
+#   | | ___  ___| |__  _ __  _  ___ __ _| | /  \\/ ___  _ __ ___  _ __  _   _| |_ ___ 
+#   | |/ _ \\/ __| '_ \\| '_ \\| |/ __/ _` | | |    / _ \\| '_ ` _ \\| '_ \\| | | | __/ _ \\
+#   | |  __/ (__| | | | | | | | (_| (_| | | \\__/\\ (_) | | | | | | |_) | |_| | ||  __/
+#   |_|\\___|\\___|_| |_|_| |_|_|\\___\\__'_|_|\\____/\\___/|_| |_| |_| '__/ \\__'_|\\__\\___|
+#       \x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[32m,\x1b[35m|           |\x1b[0m| |  Version $(pkgversion(TechnicalCompute))
+#       \x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[32m'\x1b[35m|___________|\x1b[0m|_|  on Julia $(VERSION) 
+# """       
+const logo="""                 \x1b[32mo\x1b[0m                      
+               \x1b[32m│\x1b[31mo \x1b[35mo\x1b[0m                                   \x1b[90m│\x1b[0m
+ \x1b[32m┌┬┐┌─┐┌─┐┬ ┬┌┐│┬┌─┐┌─┐┬  \x1b[31m┌─┐┌─┐┌┬┐┌─┐┬ ┬┌┬┐┌─┐  ┬┬   \x1b[90m│ version $(pkgversion(TechnicalCompute))\x1b[0m
+ \x1b[32m │ ├┤ │  ├─┤│││││  ├─┤│  \x1b[31m│  │ ││││├─┘│ │ │ ├┤   ││   \x1b[90m│ \x1b[0m
+ \x1b[32m ┴ └─┘└─┘┴ ┴│└┘┴└─┘┴ ┴┴─┘\x1b[31m└─┘└─┘┴ ┴┴  └─┘ ┴ └─┘o└┘┴─┘ \x1b[90m│ on julia $(VERSION)\x1b[0m
+             \x1b[32m│ \x1b[35m... batteries included ...\x1b[0m             \x1b[90m│\x1b[0m         
+"""             
 function __init__()
   if isinteractive() && get(ENV, "JULIA_TECHNICALCOMPUTE_SHOW_BANNER", "1") != "0" && _show_banner
     println(logo)
