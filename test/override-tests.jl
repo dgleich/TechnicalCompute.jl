@@ -254,7 +254,7 @@ end
     return true 
   end 
   @test begin 
-    h5open("test.h5", "w") do file
+    h5open(_filename("test.h5"), "w") do file
         g = create_group(file, "mygroup") # create a group
         g["dset1"] = 3.2                  # create a scalar dataset inside the group
         attributes(g)["Description"] = "This group contains only a single dataset" # an attribute
@@ -626,6 +626,14 @@ end
   @test integrate(tn, 1) == TaylorSeries.integrate(tn, 1)
   @test integrate(tn, 1, 0.5) == TaylorSeries.integrate(tn, 1, 0.5)
 end 
+
+@testset "inverse" begin
+  t = Taylor1([1.0, 1.0])
+  @test inverse(t) == TaylorSeries.inverse(t)
+
+  @test inverse(tanh) == Symbolics.inverse(tanh) 
+  @test inverse(log) == Symbolics.inverse(log)
+end
 
 @testset "kldivergence" begin 
   @test kldivergence(LogNormal(0,1), LogNormal(0,1)) == 0.0

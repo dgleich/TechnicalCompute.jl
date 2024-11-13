@@ -391,14 +391,14 @@ push!(overrides, :Moments)
 # Showing duplicate methods for Normal in packages Module[Distributions, GeometryBasics]
 # Methods for Distributions.Normal in package Core
 # Distributions.Normal() @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:44
-# Distributions.Normal(mu::Num, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::Num, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::Num, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::Real, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::Real, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
-# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/wrapper-types.jl:158
+# Distributions.Normal(mu::Num, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::Num, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::Num, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::Real, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::Real, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::Real) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
+# Distributions.Normal(mu::SymbolicUtils.Symbolic{<:Real}, sigma::SymbolicUtils.Symbolic{<:Real}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/extra_functions.jl:88
 # Distributions.Normal(μ::Integer, σ::Integer; check_args) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:43
 # Distributions.Normal(μ::Real) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:44
 # Distributions.Normal(μ::Real, σ::Real; check_args) @ Distributions ~/.julia/packages/Distributions/-----/src/univariate/continuous/normal.jl:42
@@ -513,8 +513,8 @@ push!(overrides, :Trace)
 # Convex.Variable(size::Tuple{Int64, Int64}, sign::Convex.Sign, vartype::Convex.VarType) @ Convex ~/.julia/packages/Convex/-----/src/variable.jl:228
 # Convex.Variable(size::Tuple{Int64, Int64}, vartype::Convex.VarType) @ Convex ~/.julia/packages/Convex/-----/src/variable.jl:255
 # Convex.Variable(vartype::Convex.VarType) @ Convex ~/.julia/packages/Convex/-----/src/variable.jl:267
-# Methods for Symbolics.Variable in package Core
-# Symbolics.Variable(s, i...) @ Symbolics ~/.julia/packages/Symbolics/-----/src/variable.jl:749
+# Methods for Variable in package Core
+# Variable(s, i...) @ Symbolics ~/.julia/packages/Symbolics/-----/src/variable.jl:775
 
 # we aren't using Variable because it's 
 # deprecated in Symbolics.
@@ -757,10 +757,10 @@ push!(overrides, :constant)
 # contract(P::ITensorNetworks.AbstractProjTTN, v::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/abstractprojttn.jl:77
 # contract(P::ITensorNetworks.ProjOuterProdTTN, x::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/projouterprodttn.jl:115
 # contract(P::ITensorNetworks.ProjTTNSum, v::ITensor) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/treetensornetworks/projttns/projttnsum.jl:49
-# contract(T1::NDTensors.BlockSparseTensor, labelsT1, T2::NDTensors.DiagBlockSparseTensor, labelsT2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:611
-# contract(T1::NDTensors.BlockSparseTensor, labelsT1, T2::NDTensors.DiagBlockSparseTensor, labelsT2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:611
-# contract(T1::NDTensors.DiagBlockSparseTensor, labelsT1, T2::NDTensors.BlockSparseTensor, labelsT2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:623
-# contract(T1::NDTensors.DiagBlockSparseTensor, labelsT1, T2::NDTensors.BlockSparseTensor, labelsT2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:623
+# contract(T1::NDTensors.BlockSparseTensor, labelsT1, T2::NDTensors.DiagBlockSparseTensor, labelsT2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:613
+# contract(T1::NDTensors.BlockSparseTensor, labelsT1, T2::NDTensors.DiagBlockSparseTensor, labelsT2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:613
+# contract(T1::NDTensors.DiagBlockSparseTensor, labelsT1, T2::NDTensors.BlockSparseTensor, labelsT2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:625
+# contract(T1::NDTensors.DiagBlockSparseTensor, labelsT1, T2::NDTensors.BlockSparseTensor, labelsT2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/diagblocksparse.jl:625
 # contract(a::NDTensors.BackendSelection.Algorithm{:fit}, tn1::ITensorNetworks.AbstractTreeTensorNetwork, tn2::ITensorNetworks.AbstractTreeTensorNetwork; kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/solvers/contract.jl:59
 # contract(alg::NDTensors.BackendSelection.Algorithm{:exact}, tn::ITensorNetworks.AbstractITensorNetwork; contraction_sequence_kwargs, sequence, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/contract.jl:12
 # contract(alg::NDTensors.BackendSelection.Algorithm{:naive}, A::MPO, B::MPO; kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/mpo.jl:819
@@ -774,7 +774,7 @@ push!(overrides, :constant)
 # contract(tensor1::NDTensors.BlockSparseTensor, labelstensor1, tensor2::NDTensors.BlockSparseTensor, labelstensor2) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/contract.jl:3
 # contract(tensor1::NDTensors.BlockSparseTensor, labelstensor1, tensor2::NDTensors.BlockSparseTensor, labelstensor2, labelsR) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/contract.jl:3
 # contract(tensor1::NDTensors.Tensor, labelstensor1, tensor2::NDTensors.Tensor, labelstensor2, labelsoutput_tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensoroperations/generic_tensor_operations.jl:102
-# contract(tensor1::TensorT1, labels_tensor1, tensor2::TensorT2, labels_tensor2) where {TensorT1<:Tensor, TensorT2<:Tensor} @ NDTensors ~/.julia/packages/SimpleTraits/-----/src/SimpleTraits.jl:331
+# contract(tensor1::TensorT1, labels_tensor1, tensor2::TensorT2, labels_tensor2) where {TensorT1<:Tensor, TensorT2<:Tensor} @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensoroperations/generic_tensor_operations.jl:87
 # contract(tensor::NDTensors.BlockSparseTensor, tensor_labels, combiner_tensor::NDTensors.Tensor{ElT, N, StoreT, IndsT} where {ElT, N, IndsT, StoreT<:NDTensors.Combiner}, combiner_tensor_labels) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/combiner.jl:25
 # contract(tensor::NDTensors.BlockSparseTensor, tensor_labels, combiner_tensor::NDTensors.Tensor{var"#s329", 0, StoreT, IndsT} where {var"#s329", IndsT, StoreT<:NDTensors.Combiner}, combiner_tensor_labels) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/combiner.jl:155
 # contract(tn1::ITensorNetworks.AbstractTreeTensorNetwork, tn2::ITensorNetworks.AbstractTreeTensorNetwork; alg, kwargs...) @ ITensorNetworks ~/.julia/packages/ITensorNetworks/-----/src/solvers/contract.jl:68
@@ -1058,22 +1058,22 @@ push!(overrides, :differentiate)
 # dim(d::Wishart) @ Distributions deprecated.jl:103
 # Methods for dim in package NDTensors
 # dim(::ITensors.OneITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/oneitensor.jl:10
-# dim(::Tuple{}) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:17
+# dim(::Tuple{}) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:18
 # dim(H::Hermitian{<:Number, <:NDTensors.Tensor}, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/linearalgebra/symmetric.jl:6
 # dim(T::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:792
 # dim(T::ITensor, n::Int64) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:813
-# dim(T::NDTensors.Tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:95
-# dim(T::NDTensors.Tensor, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:96
-# dim(d::Vector{Int64}) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:9
-# dim(ds::NTuple{N, Int64} where N) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:23
-# dim(ds::NTuple{N, Int64} where N, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:25
-# dim(ds::NTuple{N, Vector{Int64}}) where N @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:50
-# dim(ds::NTuple{N, Vector{Int64}}, i::Integer) where N @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:30
+# dim(T::NDTensors.Tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:96
+# dim(T::NDTensors.Tensor, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:97
+# dim(d::Vector{Int64}) @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:11
+# dim(ds::NTuple{N, Int64} where N) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:24
+# dim(ds::NTuple{N, Int64} where N, i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:26
+# dim(ds::NTuple{N, Vector{Int64}}) where N @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:54
+# dim(ds::NTuple{N, Vector{Int64}}, i::Integer) where N @ NDTensors ~/.julia/packages/NDTensors/-----/src/blocksparse/blockdims.jl:34
 # dim(i::Index) @ ITensors ~/.julia/packages/ITensors/-----/src/index.jl:175
 # dim(i::Index{Vector{Pair{QN, Int64}}}) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnindex.jl:176
 # dim(i::Index{Vector{Pair{QN, Int64}}}, b::Block) @ ITensors ~/.julia/packages/ITensors/-----/src/qn/qnindex.jl:290
-# dim(i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:58
-# dim(inds::Tuple) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:13
+# dim(i::Int64) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:59
+# dim(inds::Tuple) @ NDTensors ~/.julia/packages/NDTensors/-----/src/dims.jl:14
 # dim(is::IndexSetT, ind_dims::Vector) where IndexSetT<:Union{BitSet, Vector{Int64}} @ ITensors.ContractionSequenceOptimization ~/.julia/packages/ITensors/-----/src/lib/ContractionSequenceOptimization/src/utils.jl:64
 # dim(is::Tuple, pos::Integer) @ ITensors ~/.julia/packages/ITensors/-----/src/indexset.jl:131
 # dim(is::Unsigned, ind_dims::Vector{DimT}) where DimT @ ITensors.ContractionSequenceOptimization ~/.julia/packages/ITensors/-----/src/lib/ContractionSequenceOptimization/src/utils.jl:72
@@ -1326,8 +1326,8 @@ push!(overrides, :evaluate)
 # expand(state, reference; alg, kwargs...) @ ITensorMPS ~/.julia/packages/ITensorMPS/-----/src/solvers/expand.jl:29
 # Methods for expand in package SymbolicUtils
 # expand(expr) @ SymbolicUtils ~/.julia/packages/SymbolicUtils/-----/src/polyform.jl:248
-# expand(n::Complex{Num}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/Symbolics.jl:179
-# expand(n::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/Symbolics.jl:179
+# expand(n::Complex{Num}) @ Symbolics ~/.julia/packages/Symbolics/-----/src/Symbolics.jl:175
+# expand(n::Num) @ Symbolics ~/.julia/packages/Symbolics/-----/src/Symbolics.jl:175
 
 @doc (@doc ITensorMPS.expand)
 expand(state::MPS, reference; alg, kwargs...) = ITensorMPS.expand(state, reference; alg, kwargs...)
@@ -1619,6 +1619,83 @@ integrate(a::AbstractSeries, r, x0) = TaylorSeries.integrate(a, r, x0)
 
 export integrate
 push!(overrides, :integrate)
+
+## :inverse
+# Showing duplicate methods for inverse in packages Module[Symbolics, TaylorSeries]
+# Methods for inverse in package Symbolics
+# inverse(::typeof(NaNMath.acos)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(NaNMath.acosh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:153
+# inverse(::typeof(NaNMath.asin)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(NaNMath.atanh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:154
+# inverse(::typeof(NaNMath.cos)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(NaNMath.log)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:155
+# inverse(::typeof(NaNMath.log10)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:156
+# inverse(::typeof(NaNMath.log1p)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:157
+# inverse(::typeof(NaNMath.log2)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:158
+# inverse(::typeof(NaNMath.sin)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(NaNMath.tan)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:152
+# inverse(::typeof(Symbolics.acosbypi)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(Symbolics.cube)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acos)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acosd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acosh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acot)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acotd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acoth)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acsc)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acscd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(acsch)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(asec)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(asecd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(asech)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(asin)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(asind)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(asinh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(atan)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(atand)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(atanh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(cbrt)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cos)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cosd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cosh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cospi)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cot)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cotd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(coth)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(csc)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(cscd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(csch)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(deg2rad)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(digamma)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(exp)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(exp10)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(exp2)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(expm1)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(invdigamma)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(log)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(log10)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(log1p)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(log2)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(rad2deg)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:53
+# inverse(::typeof(sec)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(secd)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(sech)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(sin)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(sind)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(sinh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(tan)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(tand)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(::typeof(tanh)) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:52
+# inverse(f::ComposedFunction) @ Symbolics ~/.julia/packages/Symbolics/-----/src/inverse.jl:161
+# Methods for inverse in package TaylorSeries
+# inverse(f::Taylor1{T}) where T<:Number @ TaylorSeries ~/.julia/packages/TaylorSeries/-----/src/functions.jl:1245
+
+@doc (@doc Symbolics.inverse)
+inverse(x) = Symbolics.inverse(x)
+@doc (@doc TaylorSeries.inverse)
+inverse(f::Taylor1) = TaylorSeries.inverse(f)
+export inverse
+push!(overrides, :inverse)
 
 ## :islinear
 # Showing duplicate methods for islinear in packages Module[DifferentialEquations, NonlinearSolve, StatsBase]
@@ -1940,7 +2017,7 @@ push!(overrides, :nan)
 ## :nnz
 # Showing duplicate methods for nnz in packages Module[ITensors, SparseArrays]
 # Methods for nnz in package NDTensors
-# nnz(::NDTensors.EmptyStorage) @ NDTensors ~/.julia/packages/NDTensors/-----/src/empty/empty.jl:66
+# nnz(::NDTensors.EmptyStorage) @ NDTensors ~/.julia/packages/NDTensors/-----/src/empty/empty.jl:69
 # nnz(S::NDTensors.TensorStorage) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensorstorage/tensorstorage.jl:101
 # nnz(T::ITensor) @ ITensors ~/.julia/packages/ITensors/-----/src/itensor.jl:855
 # nnz(T::NDTensors.Tensor) @ NDTensors ~/.julia/packages/NDTensors/-----/src/tensor/tensor.jl:310
@@ -1948,7 +2025,7 @@ push!(overrides, :nan)
 # Methods for nnz in package SparseArrays
 # nnz(A::SparseArrays.CHOLMOD.Sparse{<:Union{Float32, Float64, ComplexF64, ComplexF32}, Int32}) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:601
 # nnz(A::SparseArrays.CHOLMOD.Sparse{<:Union{Float32, Float64, ComplexF64, ComplexF32}, Int64}) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:601
-# nnz(F::SparseArrays.CHOLMOD.Factor) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/ julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:1268
+# nnz(F::SparseArrays.CHOLMOD.Factor) @ SparseArrays.CHOLMOD /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/cholmod.jl:1268
 # nnz(K::KLU.AbstractKLUFactorization) @ KLU ~/.julia/packages/KLU/-----/src/KLU.jl:187
 # nnz(LDL::LDLFactorizations.LDLFactorization) @ LDLFactorizations ~/.julia/packages/LDLFactorizations/-----/src/LDLFactorizations.jl:883
 # nnz(S::Base.ReshapedArray{<:Any, 1, <:SparseArrays.AbstractSparseMatrixCSC}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:219
@@ -1960,6 +2037,11 @@ push!(overrides, :nan)
 # nnz(S::UpperTriangular{<:Any, <:SparseArrays.AbstractSparseMatrixCSC}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsematrix.jl:221
 # nnz(a::NDTensors.SparseArrayInterface.AbstractSparseArray) @ NDTensors.SparseArrayInterface ~/.julia/packages/NDTensors/-----/src/lib/SparseArrayInterface/src/abstractsparsearray/SparseArrayInterfaceSparseArraysExt.jl:6
 # nnz(lu::SparseArrays.UMFPACK.UmfpackLU) @ SparseArrays.UMFPACK /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/solvers/umfpack.jl:938
+# nnz(v::Dictionaries.Dictionary{Block{N}, Int64} where N, inds) @ TechnicalCompute ~/Dropbox/dev/TechnicalCompute/src/overrides.jl:1975
+# nnz(v::ITensor) @ TechnicalCompute ~/Dropbox/dev/TechnicalCompute/src/overrides.jl:1973
+# nnz(v::NDTensors.EmptyStorage) @ TechnicalCompute ~/Dropbox/dev/TechnicalCompute/src/overrides.jl:1971
+# nnz(v::NDTensors.Tensor) @ TechnicalCompute ~/Dropbox/dev/TechnicalCompute/src/overrides.jl:1974
+# nnz(v::NDTensors.TensorStorage) @ TechnicalCompute ~/Dropbox/dev/TechnicalCompute/src/overrides.jl:1972
 # nnz(x::SparseArrays.AbstractCompressedVector) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:114
 # nnz(x::SubArray{Tv, 1, <:AbstractSparseVector{Tv, Ti}, <:Tuple{AbstractUnitRange}, false} where {Tv, Ti}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:120
 # nnz(x::SubArray{Tv, 1, <:AbstractSparseVector{Tv, Ti}, Tuple{Base.Slice{Base.OneTo{Int64}}}, false} where {Tv, Ti}) @ SparseArrays /Applications/Julia-1.11.app/Contents/Resources/julia/share/julia/stdlib/v1.11/SparseArrays/src/sparsevector.jl:119
@@ -2576,6 +2658,24 @@ scale!(T::NDTensors.Tensor, α::Number) = NDTensors.scale!(T, α)
 export scale!
 push!(overrides, :scale!)
 
+## :series
+# Showing duplicate methods for series in packages Module[CairoMakie, Symbolics]
+# Methods for series in package Makie
+# series() @ Makie ~/.julia/packages/MakieCore/-----/src/recipes.jl:432
+# series(args...; kw...) @ Makie ~/.julia/packages/MakieCore/-----/src/recipes.jl:447
+# Methods for series in package Symbolics
+# series(cs::AbstractArray, x::Number) @ Symbolics ~/.julia/packages/Symbolics/-----/src/taylor.jl:32
+# series(cs::AbstractArray, x::Number, ns::AbstractArray) @ Symbolics ~/.julia/packages/Symbolics/-----/src/taylor.jl:32
+# series(cs::AbstractArray, x::Number, x0::Number) @ Symbolics ~/.julia/packages/Symbolics/-----/src/taylor.jl:27
+# series(cs::AbstractArray, x::Number, x0::Number, ns::AbstractArray) @ Symbolics ~/.julia/packages/Symbolics/-----/src/taylor.jl:27
+# series(y::Num, x::Number, ns::AbstractArray) @ Symbolics ~/.julia/packages/Symbolics/-----/src/taylor.jl:39
+# series(y::Num, x::Number, x0::Number, ns::AbstractArray) @ Symbolics ~/.julia/packages/Symbolics/-----/src/taylor.jl:35
+
+# It's easy enough just to type Makie.series... 
+import Symbolics.series
+export series
+push!(overrides, :series)
+
 ## :shape
 # Showing duplicate methods for shape in packages Module[Distributions, JuMP]
 # Methods for shape in package Distributions
@@ -2653,7 +2753,7 @@ push!(overrides, :shape)
 # solve!(integ::DiffEqBase.NullODEIntegrator) @ DiffEqBase ~/.julia/packages/DiffEqBase/-----/src/solve.jl:643
 # solve!(integrator::DelayDiffEq.DDEIntegrator) @ DelayDiffEq ~/.julia/packages/DelayDiffEq/-----/src/solve.jl:545
 # solve!(integrator::JumpProcesses.SSAIntegrator) @ JumpProcesses ~/.julia/packages/JumpProcesses/-----/src/SSA_stepper.jl:120
-# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/-----/src/solve.jl:547
+# solve!(integrator::OrdinaryDiffEqCore.ODEIntegrator) @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/-----/src/solve.jl:549
 # solve!(integrator::StochasticDiffEq.SDEIntegrator) @ StochasticDiffEq ~/.julia/packages/StochasticDiffEq/-----/src/solve.jl:611
 # solve!(integrator::Sundials.AbstractSundialsIntegrator; early_free, calculate_error) @ Sundials ~/.julia/packages/Sundials/-----/src/common_interface/solve.jl:1406
 # solve!(𝐙::Roots.ZeroProblemIterator{𝐌, 𝐍}; verbose) where {𝐌, 𝐍<:AbstractBracketingMethod} @ Roots ~/.julia/packages/Roots/-----/src/hybrid.jl:30
