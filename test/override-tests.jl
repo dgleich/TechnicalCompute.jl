@@ -628,7 +628,7 @@ end
 end 
 
 @testset "inverse" begin
-  t = Taylor1([1.0, 1.0])
+  t = Taylor1([0.0, 1.0])
   @test inverse(t) == TaylorSeries.inverse(t)
 
   @test inverse(tanh) == Symbolics.inverse(tanh) 
