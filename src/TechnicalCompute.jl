@@ -253,10 +253,10 @@ end
 # """       
 const logo="""                 \x1b[32mo\x1b[0m                      
                \x1b[32m│\x1b[31mo \x1b[35mo\x1b[0m                                   \x1b[90m│\x1b[0m
- \x1b[32m┌┬┐┌─┐┌─┐┬ ┬┌┐│┬┌─┐┌─┐┬  \x1b[31m┌─┐┌─┐┌┬┐┌─┐┬ ┬┌┬┐┌─┐  ┬┬   \x1b[90m│ version $(pkgversion(TechnicalCompute))\x1b[0m
- \x1b[32m │ ├┤ │  ├─┤│││││  ├─┤│  \x1b[31m│  │ ││││├─┘│ │ │ ├┤   ││   \x1b[90m│ \x1b[0m
- \x1b[32m ┴ └─┘└─┘┴ ┴│└┘┴└─┘┴ ┴┴─┘\x1b[31m└─┘└─┘┴ ┴┴  └─┘ ┴ └─┘o└┘┴─┘ \x1b[90m│ on julia $(VERSION)\x1b[0m
-             \x1b[32m│ \x1b[35m... batteries included ...\x1b[0m             \x1b[90m│\x1b[0m         
+ \x1b[32m┌┬┐┌─┐┌─┐┬ ┬┌┐│┬┌─┐┌─┐┬  \x1b[35m┌─┐┌─┐┌┬┐┌─┐┬ ┬┌┬┐┌─┐  ┬┬   \x1b[90m│ version $(pkgversion(TechnicalCompute))\x1b[0m
+ \x1b[32m │ ├┤ │  ├─┤│││││  ├─┤│  \x1b[35m│  │ ││││├─┘│ │ │ ├┤   ││   \x1b[90m│ \x1b[0m
+ \x1b[32m ┴ └─┘└─┘┴ ┴│└┘┴└─┘┴ ┴┴─┘\x1b[35m└─┘└─┘┴ ┴┴  └─┘ ┴ └─┘\x1b[32mo\x1b[35m└┘┴─┘ \x1b[90m│ on julia $(VERSION)\x1b[0m
+             \x1b[32m│ \x1b[31m... batteries included ...\x1b[0m             \x1b[90m│\x1b[0m         
 """             
 function __init__()
   if isinteractive() && get(ENV, "JULIA_TECHNICALCOMPUTE_SHOW_BANNER", "1") != "0" && _show_banner
